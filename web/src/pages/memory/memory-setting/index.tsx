@@ -68,7 +68,7 @@ export default function MemoryMessage() {
     onMemoryRenameOk(data);
   };
   return (
-    <section className="h-full flex flex-col">
+    <section className="h-full flex flex-col p-5 overflow-auto">
       <TopTitle
         title={t('knowledgeDetails.configuration')}
         description={t('knowledgeConfiguration.titleDescription')}
@@ -76,7 +76,7 @@ export default function MemoryMessage() {
       <div className="flex gap-14 flex-1 min-h-0">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(() => {})} className="space-y-6 ">
-            <div className="w-[768px] h-[calc(100vh-300px)] pr-1 overflow-y-auto scrollbar-auto pb-4">
+            <div className="w-full max-w-3xl flex-1 min-h-0 pr-1 overflow-y-auto scrollbar-auto pb-4">
               <MainContainer className="text-text-secondary !space-y-10">
                 <div className="text-base font-medium text-text-primary">
                   {t('knowledgeConfiguration.baseInfo')}
@@ -87,7 +87,7 @@ export default function MemoryMessage() {
                 <AdvancedSettingsForm />
               </MainContainer>
             </div>
-            <div className="text-right items-center flex justify-end gap-3 w-[768px]">
+            <div className="text-right items-center flex justify-end gap-3 w-full max-w-3xl">
               <Button
                 type="reset"
                 className="bg-transparent text-color-white hover:bg-transparent border-border-button border"

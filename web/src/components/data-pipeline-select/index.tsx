@@ -21,7 +21,6 @@ export interface IDataPipelineSelectNode {
 }
 
 interface IProps {
-  showToDataPipeline?: boolean;
   formFieldName: string;
   isMult?: boolean;
   setDataList?: (data: IDataPipelineSelectNode[]) => void;
@@ -30,7 +29,6 @@ interface IProps {
 
 export function DataFlowSelect(props: IProps) {
   const {
-    showToDataPipeline,
     formFieldName,
     isMult = false,
     setDataList,

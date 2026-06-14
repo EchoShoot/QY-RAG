@@ -45,14 +45,12 @@ export default function ChunkPage() {
   }, [location.pathname]);
 
   return (
-    <section>
+    <section className="size-full flex flex-col bg-app-page">
       <PageHeader>
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink
-                onClick={() => navigateToDatasetList({})}
-              >
+              <BreadcrumbLink onClick={() => navigateToDatasetList({})}>
                 数据集
               </BreadcrumbLink>
             </BreadcrumbItem>
@@ -89,7 +87,9 @@ export default function ChunkPage() {
           </Button>
         </div>
       </PageHeader>
-      <Outlet />
+      <div className="flex-1 min-h-0 mx-3 mb-3 bg-bg-base rounded-3xl overflow-hidden">
+        <Outlet />
+      </div>
     </section>
   );
 }

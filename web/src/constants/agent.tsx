@@ -19,8 +19,8 @@ export const CodeTemplateStrMap = {
   [ProgrammingLanguage.Javascript]: `const axios = require('axios');
 async function main({}) {
   try {
-    const response = await axios.get('https://github.com/infiniflow/ragflow');
-    return 'Body:' + response.data;
+    const response = await axios.get('');
+    return '';
   } catch (error) {
     return 'Error:' + error.message;
   }

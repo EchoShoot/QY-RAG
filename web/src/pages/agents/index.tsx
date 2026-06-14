@@ -86,8 +86,8 @@ export default function Agents() {
   return (
     <>
       {data?.length || searchString ? (
-        <article className="size-full flex flex-col" data-testid="agents-list">
-          <header className="px-5 pt-8 mb-4">
+        <article className="size-full flex flex-col bg-app-page" data-testid="agents-list">
+          <header className="px-6 pt-6 pb-4">
             <ListFilterBar
               title={t('flow.agents')}
               searchString={searchString}
@@ -134,7 +134,7 @@ export default function Agents() {
 
           {data.length ? (
             <>
-              <CardContainer className="flex-1 overflow-auto px-5">
+              <CardContainer className="flex-1 overflow-auto px-6 py-5">
                 {data.map((x) => {
                   return (
                     <AgentCard
@@ -146,7 +146,7 @@ export default function Agents() {
                 })}
               </CardContainer>
 
-              <footer className="mt-4 px-5 pb-5">
+              <footer className="px-6 py-4">
                 <RAGFlowPagination
                   {...pick(pagination, 'current', 'pageSize')}
                   total={pagination.total}

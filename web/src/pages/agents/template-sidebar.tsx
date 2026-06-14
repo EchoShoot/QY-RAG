@@ -80,7 +80,7 @@ export function SideBar({
   };
 
   return (
-    <aside className="w-[303px] bg-text-title-invert border-r flex flex-col">
+    <aside className="w-[303px] bg-bg-component rounded-3xl flex flex-col shrink-0">
       <div className="flex-1 overflow-auto">
         {menuItems.map((section, idx) => (
           <div key={idx}>
@@ -99,7 +99,7 @@ export function SideBar({
                   key={itemIdx}
                   variant={active ? 'secondary' : 'ghost'}
                   className={cn(
-                    'w-full justify-start gap-4 px-6 py-8 relative rounded-none',
+                    'w-full justify-start gap-4 px-4 py-6 relative rounded-2xl',
                   )}
                   onClick={() => handleMenuClick(item.key)}
                 >

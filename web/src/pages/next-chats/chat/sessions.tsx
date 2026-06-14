@@ -168,59 +168,60 @@ export function Sessions({ handleConversationCardClick }: SessionProps) {
 
   return (
     <aside
-      className="p-5 w-[296px] flex flex-col"
+      className="p-5 w-[296px] flex flex-col bg-bg-component rounded-3xl shrink-0"
       role="complementary"
       data-testid="chat-detail-sessions"
     >
-      <header className="flex items-center text-base justify-between gap-4">
+      <header className="flex items-center justify-between gap-3">
         <div className="flex gap-3 items-center min-w-0">
           <RAGFlowAvatar
             avatar={data.icon}
             name={data.name}
-            className="size-8"
+            className="size-10 rounded-xl"
           />
-
-          <span className="flex-1 truncate">{data.name}</span>
+          <span className="flex-1 truncate text-sm font-semibold">{data.name}</span>
         </div>
 
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              onClick={showEmbedModal}
-              size="icon-xs"
-              data-testid="chat-detail-embed-open"
-            >
-              <LucideSend />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>{t('common.embedIntoSite')}</TooltipContent>
-        </Tooltip>
+        <div className="flex items-center gap-1 shrink-0">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                onClick={showEmbedModal}
+                size="icon-sm"
+                variant="ghost"
+                data-testid="chat-detail-embed-open"
+              >
+                <LucideSend />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>{t('common.embedIntoSite')}</TooltipContent>
+          </Tooltip>
 
-        <EmbedDialog
-          visible={embedVisible}
-          hideModal={hideEmbedModal}
-          token={id!}
-          from={SharedFrom.Chat}
-          beta={beta}
-          isAgent={false}
-        />
+          <EmbedDialog
+            visible={embedVisible}
+            hideModal={hideEmbedModal}
+            token={id!}
+            from={SharedFrom.Chat}
+            beta={beta}
+            isAgent={false}
+          />
 
-        <Button
-          variant="transparent"
-          size="icon-sm"
-          className="border-0 ml-auto"
-          onClick={switchVisible}
-          data-testid="chat-detail-sessions-close"
-        >
-          <LucidePanelLeftClose />
-        </Button>
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            onClick={switchVisible}
+            data-testid="chat-detail-sessions-close"
+          >
+            <LucidePanelLeftClose />
+          </Button>
+        </div>
       </header>
 
-      <div className="flex justify-between items-center mb-4 pt-10">
-        <div className="flex items-center gap-3">
-          <span className="text-base font-bold">{t('chat.conversations')}</span>
+      <div className="flex justify-between items-center mt-6 mb-3">
+        <div className="flex items-center gap-2">
+          <span className="text-sm font-semibold">{t('chat.conversations')}</span>
           <data
-            className="text-text-secondary text-xs"
+            className="text-text-secondary text-xs bg-bg-card px-1.5 py-0.5 rounded-full"
             value={conversationList.length}
           >
             {conversationList.length}
@@ -328,8 +329,9 @@ export function Sessions({ handleConversationCardClick }: SessionProps) {
                 <li
                   key={x.id}
                   className="
-                      group pr-3 flex items-center gap-1 rounded-lg
+                      group pr-2 flex items-center gap-1 rounded-2xl
                       aria-selected:bg-bg-card has-[>button:focus-visible]:bg-bg-card
+                      hover:bg-bg-card transition-colors
                     "
                   aria-selected={conversationId === x.id}
                 >

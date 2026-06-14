@@ -1,5 +1,5 @@
 import Spotlight from '@/components/spotlight';
-import { UserSettingBreadcrumb } from '../components/user-setting-breadcrumb';
+import { UserSettingBreadcrumb, UserSettingPageWrapper } from '../components/user-setting-breadcrumb';
 import { LLMFactory } from '@/constants/llm';
 import {
   useAddInstanceModel,
@@ -343,18 +343,18 @@ const ModelProviders = () => {
   }, []);
 
   return (
-    <>
+    <UserSettingPageWrapper>
       <UserSettingBreadcrumb label="模型" />
-    <div className="flex w-full border-[0.5px] border-border-button rounded-lg relative ">
+      <div className="flex flex-1 min-h-0 mx-3 mb-3 bg-bg-base rounded-3xl relative overflow-hidden">
       <Spotlight />
-      <section className="flex flex-col gap-4 w-3/5 px-5 border-r-[0.5px] border-border-button overflow-auto scrollbar-auto">
+      <section className="flex flex-col gap-4 w-3/5 px-5 bg-bg-base overflow-auto scrollbar-auto">
         <SystemSetting />
         <UsedModel
           handleAddModel={handleAddModel}
           onEditInstance={handleEditInstance}
         />
       </section>
-      <section className="flex flex-col w-2/5 overflow-auto scrollbar-auto">
+      <section className="flex flex-col w-2/5 overflow-auto scrollbar-auto bg-bg-component rounded-r-3xl">
         <AvailableModels handleAddModel={handleAddModel} />
       </section>
 
@@ -381,7 +381,7 @@ const ModelProviders = () => {
         onVerify={(payload) => onBedrockAddingOk(payload, true)}
       ></BedrockModal>
     </div>
-    </>
+    </UserSettingPageWrapper>
   );
 };
 

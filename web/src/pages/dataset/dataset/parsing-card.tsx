@@ -13,7 +13,7 @@ function Dot({ run }: { run: RunningStatus }) {
   const runningStatus = RunningStatusMap[run];
   return (
     <span
-      className={'size-1 inline-block rounded'}
+      className={'size-2.5 inline-block rounded-full'}
       style={{ backgroundColor: runningStatus.color }}
     ></span>
   );

@@ -11,7 +11,7 @@ import { SearchInput } from '@/components/ui/input';
 import { UserPlus } from 'lucide-react';
 import { useState } from 'react';
 import { ProfileSettingWrapperCard } from '../components/user-setting-header';
-import { UserSettingBreadcrumb } from '../components/user-setting-breadcrumb';
+import { UserSettingBreadcrumb, UserSettingPageWrapper } from '../components/user-setting-breadcrumb';
 import AddingUserModal from './add-user-modal';
 import { useAddUser } from './hooks';
 import TenantTable from './tenant-table';
@@ -31,8 +31,9 @@ const UserSettingTeam = () => {
   } = useAddUser();
 
   return (
-    <>
+    <UserSettingPageWrapper>
       <UserSettingBreadcrumb label="团队" />
+            <div className="flex-1 min-h-0 mx-3 mb-3 flex flex-col">
       <ProfileSettingWrapperCard
       header={
         <header>
@@ -98,7 +99,8 @@ const UserSettingTeam = () => {
         ></AddingUserModal>
       )}
     </ProfileSettingWrapperCard>
-    </>
+      </div>
+    </UserSettingPageWrapper>
   );
 };
 

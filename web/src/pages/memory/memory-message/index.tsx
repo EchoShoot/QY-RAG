@@ -17,7 +17,7 @@ export default function MemoryMessage() {
   } = useFetchMemoryMessageList();
   const { filters } = useSelectFilters();
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-4 p-5 h-full overflow-hidden">
       <ListFilterBar
         title={t('header.dataset')}
         onSearchChange={handleInputChange}

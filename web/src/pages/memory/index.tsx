@@ -5,6 +5,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
+import { PageHeader } from '@/components/page-header';
 import { useNavigatePage } from '@/hooks/logic-hooks/navigate-hooks';
 import Spotlight from '@/components/spotlight';
 import { Outlet } from 'react-router';
@@ -16,13 +17,13 @@ export default function MemoryWrapper() {
   const { navigateToMemoryList } = useNavigatePage();
 
   return (
-    <section className="flex h-full flex-col w-full pt-3">
-      <div className="px-5 pb-2">
+    <section className="flex h-full flex-col w-full bg-app-page">
+      <PageHeader>
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
               <span
-                className="cursor-pointer text-sm text-muted-foreground hover:text-foreground"
+                className="cursor-pointer text-sm text-text-secondary hover:text-text-primary"
                 onClick={() => navigateToMemoryList({})}
               >
                 记忆
@@ -34,10 +35,10 @@ export default function MemoryWrapper() {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-      </div>
-      <div className="flex flex-1 min-h-0">
+      </PageHeader>
+      <div className="flex flex-1 min-h-0 gap-3 px-3 pb-3">
         <SideBar></SideBar>
-        <div className="relative flex-1 overflow-auto border-[0.5px] border-border-button p-5 rounded-md mr-5 mb-5">
+        <div className="relative flex-1 overflow-auto bg-bg-base rounded-3xl p-5">
           <Spotlight />
           <Outlet />
         </div>

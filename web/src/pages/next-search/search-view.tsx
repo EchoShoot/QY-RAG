@@ -90,12 +90,7 @@ export default function SearchingView({
           'relative z-10 px-8 pt-8 flex  text-transparent justify-start items-start w-full h-full',
         )}
       >
-        <RAGFlowLogo
-          onClick={() => {
-            setIsSearching?.(false);
-          }}
-          showEmbedIcon={showEmbedLogo}
-        ></RAGFlowLogo>
+        <RAGFlowLogo showEmbedIcon={showEmbedLogo}></RAGFlowLogo>
         <div
           className={cn(
             ' rounded-lg text-primary text-xl sticky flex flex-col justify-center  transform scale-100 ml-16 h-full flex-1 3xl:w-2/3 3xl:flex-none',
@@ -152,8 +147,7 @@ export default function SearchingView({
           </div>
           {/* search body */}
           <div
-            className="w-full mt-5 overflow-auto scrollbar-thin "
-            style={{ height: 'calc(100vh - 250px)' }}
+            className="w-full mt-5 flex-1 min-h-0 overflow-auto scrollbar-thin"
           >
             {searchData.search_config.summary && !isSearchStrEmpty && (
               <>

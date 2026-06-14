@@ -34,40 +34,38 @@ export function SideBar() {
   }, [t]);
 
   return (
-    <aside className="relative p-5 space-y-8">
-      <div className="flex gap-2.5 max-w-[200px] items-center">
+    <aside className="relative p-4 space-y-6 bg-bg-component rounded-3xl w-64 shrink-0">
+      <div className="flex flex-col items-center gap-3 pt-2">
         <RAGFlowAvatar
           avatar={data.avatar}
           name={data.name}
-          className="size-16"
-        ></RAGFlowAvatar>
-        <div className=" text-text-secondary text-xs space-y-1 overflow-hidden">
-          <h3 className="text-lg font-semibold line-clamp-1 text-text-primary text-ellipsis overflow-hidden">
+          className="size-14 rounded-2xl"
+        />
+        <div className="text-center space-y-0.5 overflow-hidden w-full">
+          <h3 className="text-sm font-semibold truncate text-text-primary px-1">
             {data.name}
           </h3>
-          <div className="flex justify-between">
-            <span className="truncate ">{data.description}</span>
-            {/* <span>{formatBytes(data.size)}</span> */}
+          <div className="text-xs text-text-secondary truncate px-1">
+            {data.description}
           </div>
-          <div>
+          <div className="text-xs text-text-secondary">
             {t('knowledgeDetails.created')} {formatPureDate(data.create_time)}
           </div>
         </div>
       </div>
 
-      <div className="w-[200px] flex flex-col gap-5">
+      <div className="flex flex-col gap-1">
         {items.map((item, itemIdx) => {
           const active = '/' + pathName === item.key;
           return (
             <Button
               key={itemIdx}
-              variant={active ? 'secondary' : 'ghost'}
+              variant="ghost"
               className={cn(
-                'w-full justify-start gap-2.5 px-3 relative h-10 text-text-secondary',
-                {
-                  'bg-bg-card': active,
-                  'text-text-primary': active,
-                },
+                'w-full justify-start gap-2.5 px-3 h-9 text-sm font-medium rounded-2xl',
+                active
+                  ? 'bg-accent-primary text-bg-base hover:bg-accent-primary'
+                  : 'text-text-secondary hover:text-text-primary hover:bg-bg-card',
               )}
               onClick={handleMenuClick(item.key)}
             >

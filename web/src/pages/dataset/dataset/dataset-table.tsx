@@ -127,8 +127,8 @@ export function DatasetTable({
   });
 
   return (
-    <div className="w-full">
-      <Table rootClassName="max-h-[calc(100vh-222px)]">
+    <div className="w-full flex flex-col flex-1 min-h-0">
+      <Table rootClassName="flex-1 min-h-0 overflow-auto">
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>

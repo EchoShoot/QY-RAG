@@ -63,13 +63,13 @@ function LoginFormContent({
   const isActiveFace = isLoginPage ? face === 'front' : face === 'back';
 
   return (
-    <div className="flex flex-col items-center justify-center w-full">
-      <div className="text-center mb-8">
+    <div className="w-full">
+      <div className="text-center mb-6">
         <h2 className="text-xl font-semibold text-text-primary">
           {title === 'login' ? t('loginTitle') : t('signUpTitle')}
         </h2>
       </div>
-      <div className=" w-full max-w-[540px] bg-bg-component backdrop-blur-sm rounded-2xl shadow-xl pt-14 pl-10 pr-10 pb-2 border border-border-button ">
+      <div className="w-full bg-bg-base rounded-3xl shadow-xl pt-10 px-10 pb-4">
         {!disablePasswordLogin && (
           <Form {...form}>
             <form
@@ -342,60 +342,29 @@ const Login = () => {
   };
 
   return (
-    <>
-      <Spotlight opcity={0.4} coverage={60} color={'rgb(128, 255, 248)'} />
-      <Spotlight
-        opcity={0.3}
-        coverage={12}
-        X={'10%'}
-        Y={'-10%'}
-        color={'rgb(128, 255, 248)'}
-      />
-      <Spotlight
-        opcity={0.3}
-        coverage={12}
-        X={'90%'}
-        Y={'-10%'}
-        color={'rgb(128, 255, 248)'}
-      />
-      <div className=" h-[inherit] relative overflow-auto">
-        <BgSvg isPaused />
+    <div className="size-full relative overflow-auto bg-app-page flex flex-col items-center justify-center">
+      <Spotlight opcity={0.3} coverage={60} color={'rgb(128, 255, 248)'} />
+      <BgSvg isPaused />
 
-        <div className="z-20 absolute top-3 flex flex-col items-center mb-12 w-full text-text-primary">
-          <div className="flex items-center mb-4 w-full pl-10 pt-10 ">
-            <div className="w-12 h-12 p-2 rounded-lg flex items-center justify-center mr-3">
-              <img
-                src={'/logo.svg'}
-                alt="logo"
-                className="size-8 mr-[12] cursor-pointer"
-              />
-            </div>
-            <div className="text-xl font-bold self-center">RAGFlow</div>
-          </div>
-          <h1 className="text-[36px] font-medium  text-center mb-2">
-            {t('title')}
-          </h1>
-        </div>
-        <div className="relative z-10 flex flex-col items-center justify-center min-h-[1050px] px-4 sm:px-6 lg:px-8">
-          {/* Login Form */}
-          <FlipCard3D isLoginPage={isLoginPage}>
-            <LoginFormContent
-              isLoginPage={isLoginPage}
-              title={title}
-              form={form}
-              loading={loading}
-              onCheck={onCheck}
-              changeTitle={changeTitle}
-              registerEnabled={registerEnabled}
-              channels={channels || []}
-              handleLoginWithChannel={handleLoginWithChannel}
-              t={t}
-              disablePasswordLogin={!!config?.disablePasswordLogin}
-            />
-          </FlipCard3D>
-        </div>
+      <div className="relative z-10 flex flex-col items-center w-full max-w-[480px] px-4 py-12">
+        {/* Form Card */}
+        <FlipCard3D isLoginPage={isLoginPage}>
+          <LoginFormContent
+            isLoginPage={isLoginPage}
+            title={title}
+            form={form}
+            loading={loading}
+            onCheck={onCheck}
+            changeTitle={changeTitle}
+            registerEnabled={registerEnabled}
+            channels={channels || []}
+            handleLoginWithChannel={handleLoginWithChannel}
+            t={t}
+            disablePasswordLogin={!!config?.disablePasswordLogin}
+          />
+        </FlipCard3D>
       </div>
-    </>
+    </div>
   );
 };
 

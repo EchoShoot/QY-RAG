@@ -99,17 +99,17 @@ const buttonVariants = cva(
       size: {
         auto: '',
 
-        xl: 'h-12 rounded-xl px-5 gap-3',
-        lg: 'h-10 rounded-lg px-4',
-        default: 'h-8 rounded px-3',
-        sm: 'h-7 rounded-sm px-2 gap-1',
-        xs: 'h-6 rounded-xs px-1 gap-0.5',
+        xl: 'h-12 rounded-2xl px-5 gap-3',
+        lg: 'h-10 rounded-xl px-4',
+        default: 'h-8 rounded-lg px-3',
+        sm: 'h-7 rounded-lg px-2 gap-1',
+        xs: 'h-6 rounded-md px-1 gap-0.5',
 
-        'icon-xl': 'size-12 rounded-xl',
-        'icon-lg': 'size-10 rounded-lg',
-        icon: 'size-8 rounded',
-        'icon-sm': 'size-7 rounded-sm',
-        'icon-xs': 'size-6 rounded-xs',
+        'icon-xl': 'size-12 rounded-2xl',
+        'icon-lg': 'size-10 rounded-xl',
+        icon: 'size-8 rounded-lg',
+        'icon-sm': 'size-7 rounded-lg',
+        'icon-xs': 'size-6 rounded-md',
       },
     },
     defaultVariants: {

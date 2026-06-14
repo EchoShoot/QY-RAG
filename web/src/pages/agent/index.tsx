@@ -343,8 +343,7 @@ export default function Agent() {
                 <Settings />
                 {t('flow.setting')}
               </AgentDropdownMenuItem>
-              {isPipeline ||
-                (location.hostname !== 'cloud.ragflow.io' && (
+              {isPipeline || (
                   <>
                     <DropdownMenuSeparator />
                     <AgentDropdownMenuItem onClick={showEmbedModal}>
@@ -352,7 +351,7 @@ export default function Agent() {
                       {t('common.embedIntoSite')}
                     </AgentDropdownMenuItem>
                   </>
-                ))}
+                )}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

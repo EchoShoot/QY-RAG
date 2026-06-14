@@ -19,7 +19,7 @@ export function DataflowResultModal({
 }: DataflowResultModalProps) {
   return (
     <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
-      <DialogContent className="max-w-[100vw] w-[100vw] h-[100vh] p-0 overflow-auto">
+      <DialogContent className="max-w-[100vw] w-[100vw] h-[100vh] p-0 overflow-auto rounded-none">
         <DataflowResultParamsContext.Provider value={params}>
           <DataflowResult />
         </DataflowResultParamsContext.Provider>

@@ -8,6 +8,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
+import { PageHeader } from '@/components/page-header';
 import { useNavigatePage } from '@/hooks/logic-hooks/navigate-hooks';
 import { Outlet } from 'react-router';
 import { SideBar } from './sidebar';
@@ -18,13 +19,13 @@ export default function DatasetWrapper() {
 
   return (
     <KnowledgeBaseProvider knowledgeBase={data} loading={loading}>
-      <article className="pt-3 size-full grid grid-cols-[auto_1fr] grid-rows-[auto_1fr]">
-        <div className="col-span-2 px-5 pb-2">
+      <article className="size-full flex flex-col bg-app-page">
+        <PageHeader>
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
                 <span
-                  className="cursor-pointer text-sm text-muted-foreground hover:text-foreground"
+                  className="cursor-pointer text-sm text-text-secondary hover:text-text-primary"
                   onClick={() => navigateToDatasetList({})}
                 >
                   数据集
@@ -36,9 +37,13 @@ export default function DatasetWrapper() {
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
+        </PageHeader>
+        <div className="flex flex-1 min-h-0 gap-3 px-3 pb-3">
+          <SideBar dataset={data} />
+          <div className="flex-1 min-w-0 bg-bg-base rounded-3xl overflow-hidden">
+            <Outlet />
+          </div>
         </div>
-        <SideBar dataset={data} />
-        <Outlet />
       </article>
     </KnowledgeBaseProvider>
   );

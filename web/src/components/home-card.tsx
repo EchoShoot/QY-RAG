@@ -22,7 +22,7 @@ interface IProps {
 }
 
 function Time({ time }: { time: string | number | undefined }) {
-  return <p className="text-sm whitespace-nowrap">{formatDate(time)}</p>;
+  return <span className="text-xs text-text-secondary whitespace-nowrap">{formatDate(time)}</span>;
 }
 export function HomeCard({
   data,
@@ -41,71 +41,52 @@ export function HomeCard({
       as="article"
       data-testid={testId}
       data-agent-name={data.name}
-      onClick={() => {
-        // navigateToSearch(data?.id);
-        onClick?.();
-      }}
+      onClick={() => onClick?.()}
       tabIndex={0}
-      className="px-2.5 py-4 flex gap-2 items-start group h-full w-full hover:shadow-md"
+      className="flex flex-col p-5 gap-4 h-full w-full cursor-pointer hover:shadow-md transition-shadow duration-200 group"
     >
-      <div>
+      {/* 顶部：头像 + 名称 + more 按钮 */}
+      <div className="flex items-center gap-3">
         <RAGFlowAvatar
-          className="w-[32px] h-[32px]"
+          className="size-10 rounded-xl shrink-0"
           avatar={data.avatar}
           name={data.name}
         />
+        <h3
+          className="flex-1 text-[15px] font-semibold leading-tight truncate"
+          data-testid="agent-name"
+        >
+          {data.name}
+          {icon && <span className="ml-1 inline-flex">{icon}</span>}
+        </h3>
+        <div className="shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" onClick={(e) => e.stopPropagation()}>
+          {moreDropdown}
+        </div>
       </div>
 
-      <div className="flex-1 w-0">
-        <CardHeader
-          as="header"
-          className="p-0 flex-1 flex flex-row items-center gap-2 space-y-0"
-        >
-          <CardTitle className="flex-1 inline-flex w-0 me-auto">
-            <h3
-              className="flex-1 truncate text-base font-bold leading-snug"
-              data-testid="agent-name"
-            >
-              {data.name}
-            </h3>
+      {/* 中部：描述 tag */}
+      <div className="flex-1 flex flex-col gap-2">
+        {data.description && (
+          <span className="self-start inline-flex items-center px-2.5 py-1 rounded-full bg-black/5 text-xs text-text-secondary font-medium">
+            {data.description}
+          </span>
+        )}
+        {extra}
+      </div>
 
-            {icon}
-          </CardTitle>
-
-          <div>{moreDropdown}</div>
-        </CardHeader>
-
-        <CardContent className="p-0">
-          <div className="flex flex-col justify-between gap-1 flex-1 h-full w-[calc(100%-50px)]">
-            <section className="flex justify-between"></section>
-
-            <section className="flex flex-col gap-1 mt-1">
-              <div className="whitespace-nowrap overflow-hidden text-ellipsis">
-                {data.description}
-              </div>
-              {extra}
-              <div className="flex justify-between items-center">
-                {showReleaseTime ? (
-                  <section className="text-sm text-text-secondary space-y-1">
-                    <div className="flex items-center gap-2">
-                      {`${t('flow.lastSavedAt')}:`}
-                      <Time time={data.update_time}></Time>
-                    </div>
-                    {data.release_time && (
-                      <div className="flex items-center gap-2">
-                        {`${t('flow.publishedAt')}:`}
-                        <Time time={data.release_time}></Time>
-                      </div>
-                    )}
-                  </section>
-                ) : (
-                  <Time time={data.update_time}></Time>
-                )}
-                {sharedBadge}
-              </div>
-            </section>
+      {/* 底部：时间 + shared badge */}
+      <div className="flex items-center justify-between">
+        {showReleaseTime ? (
+          <div className="text-xs text-text-secondary space-y-0.5">
+            <div>{`${t('flow.lastSavedAt')}: `}<Time time={data.update_time} /></div>
+            {data.release_time && (
+              <div>{`${t('flow.publishedAt')}: `}<Time time={data.release_time} /></div>
+            )}
           </div>
-        </CardContent>
+        ) : (
+          <Time time={data.update_time} />
+        )}
+        {sharedBadge}
       </div>
     </Card>
   );

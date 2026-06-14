@@ -276,7 +276,7 @@ export default function DatasetSettings() {
   return (
     <div className="pr-5 pb-5">
       <Card className="p-0 h-full flex flex-col bg-transparent shadow-none">
-        <CardHeader className="p-5 border-b-0.5 border-border-button">
+        <CardHeader className="p-5">
           <header>
             <CardTitle as="h1">{t('knowledgeDetails.configuration')}</CardTitle>
 
@@ -321,7 +321,6 @@ export default function DatasetSettings() {
                     {parseType === ParseType.Pipeline && (
                       <DataFlowSelect
                         isMult={false}
-                        showToDataPipeline={true}
                         formFieldName="pipeline_id"
                         layout={FormLayout.Horizontal}
                       />

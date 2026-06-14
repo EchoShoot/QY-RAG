@@ -368,12 +368,12 @@ const SkillDetail: React.FC<SkillDetailProps> = ({
         </div>
       </header>
 
-      {/* Main Content Area with Border */}
-      <div className="flex-1 mx-6 mb-4 border-0.5 border-border-button rounded-lg overflow-hidden bg-bg-base">
-        <div className="flex h-full">
+      {/* Main Content Area */}
+      <div className="flex-1 mx-6 mb-4 rounded-3xl overflow-hidden bg-bg-base flex">
+        <div className="flex h-full w-full">
           {/* Sidebar - File Tree */}
-          <div className="w-80 border-r border-r-0.5 border-border-button flex flex-col bg-bg-base">
-            <div className="p-4 border-b border-b-0.5 border-border-button bg-bg-base">
+          <div className="w-80 flex flex-col bg-bg-component shrink-0">
+            <div className="p-4 bg-bg-component">
               <h2 className="font-semibold text-lg truncate">{skill.name}</h2>
               {skill.metadata?.description && (
                 <p className="text-text-secondary text-xs mt-2">
@@ -391,7 +391,7 @@ const SkillDetail: React.FC<SkillDetailProps> = ({
 
             {/* Version History Section */}
             {hasVersions && (
-              <div className="border-b border-b-0.5 border-border-button bg-bg-secondary/30">
+              <div className="bg-bg-component">
                 <div className="px-4 py-2 flex items-center gap-2 text-xs font-medium text-text-secondary">
                   <GitBranch className="size-3.5" />
                   <span>{t('skills.versionHistory')}</span>

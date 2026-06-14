@@ -38,11 +38,9 @@ const DialogContent = React.forwardRef<
     <DialogPrimitive.Content
       ref={ref}
       className={cn(
-        'outline-none outline-0 fixed left-[50%] top-[50%] rounded-lg z-50 grid w-full max-w-xl translate-x-[-50%] translate-y-[-50%]',
-        // TODO: to keep scrollbar perfectly aligned to header bottom and/or footer top,
-        //       'gap-4' should be removed, then bring your own body container with padding-y instead.
+        'outline-none outline-0 fixed left-[50%] top-[50%] rounded-3xl z-50 grid w-full max-w-xl translate-x-[-50%] translate-y-[-50%]',
         'gap-4',
-        'border-0.5 border-border-button bg-bg-base p-6 shadow-lg duration-200 sm:rounded-lg',
+        'border-0 bg-bg-base p-6 shadow-xl duration-200',
         'data-[state=open]:animate-in data-[state=closed]:animate-out',
         'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
         'data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',

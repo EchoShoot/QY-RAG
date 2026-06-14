@@ -73,16 +73,15 @@ const ChunkCard = ({
     <Card
       as="article"
       className={classNames(
-        'relative flex-none p-3 pt-6 shadow-none transition-colors',
-        selected && 'bg-text-primary/15',
+        'relative flex-none p-3 pt-6 transition-colors bg-app-page hover:bg-black/[0.03]',
+        selected && 'ring-2 ring-accent-primary bg-accent-primary/5',
       )}
     >
       <span
         className="
         absolute top-0 right-0 px-4 py-1
-        leading-none text-xs text-text-disabled
-        bg-bg-card rounded-bl-2xl rounded-tr-lg
-        border-l-0.5 border-b-0.5 border-border-button"
+        leading-none text-xs text-text-secondary
+        bg-bg-card rounded-bl-2xl rounded-tr-3xl"
       >
         {t(`chunk.docType.${chunkType}`)}
       </span>

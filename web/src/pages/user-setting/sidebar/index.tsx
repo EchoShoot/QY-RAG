@@ -77,21 +77,24 @@ export function SideBar() {
   const { logout } = useLogout();
 
   return (
-    <aside className="w-[303px] bg-bg-base flex flex-col">
-      <header>
-        <h1 className="px-6 flex gap-2.5 items-center font-normal">
+    <aside className="w-[303px] bg-bg-base rounded-3xl shadow-none flex flex-col overflow-hidden">
+      <header className="px-6 pt-5 pb-4">
+        <div className="flex gap-3 items-center">
           <RAGFlowAvatar
             avatar={userInfo?.avatar}
             name={userInfo?.nickname}
             isPerson
+            className="size-9"
           />
-
-          <p className="text-sm text-text-primary">{userInfo?.email}</p>
-        </h1>
+          <div className="flex flex-col min-w-0">
+            <p className="text-sm font-medium text-text-primary truncate">{userInfo?.nickname}</p>
+            <p className="text-xs text-text-secondary truncate">{userInfo?.email}</p>
+          </div>
+        </div>
       </header>
 
-      <nav className="flex-1 overflow-auto mt-4 py-1">
-        <ul className="px-6 flex flex-col gap-5">
+      <nav className="flex-1 overflow-auto p-3">
+        <ul className="flex flex-col gap-1">
           {menuItems(t).map((item) => {
             const { key, icon, label, ...rest } = item;
 
@@ -102,23 +105,15 @@ export function SideBar() {
                   block
                   variant="ghost"
                   className={cn(
-                    'justify-start gap-2.5 px-3 relative h-10 text-base',
-                    activeItemKey === key && 'bg-bg-card text-text-primary',
+                    'justify-start gap-3 px-3 relative h-9 text-sm font-medium rounded-lg',
+                    activeItemKey === key
+                      ? 'bg-accent-primary text-bg-base hover:bg-accent-primary'
+                      : 'text-text-secondary hover:text-text-primary hover:bg-bg-card',
                   )}
                   onClick={handleMenuClick(key)}
                 >
-                  <section className="flex items-center gap-2.5">
-                    {icon}
-                    <span>{label}</span>
-                  </section>
-                  {/* {item.key === Routes.System && (
-                    <div className="mr-2 px-2 bg-accent-primary-5 text-accent-primary rounded-md">
-                      {version}
-                    </div>
-                  )} */}
-                  {/* {active && (
-                    <div className="absolute right-0 w-[5px] h-[66px] bg-primary rounded-l-xl shadow-[0_0_5.94px_#7561ff,0_0_11.88px_#7561ff,0_0_41.58px_#7561ff,0_0_83.16px_#7561ff,0_0_142.56px_#7561ff,0_0_249.48px_#7561ff]" />
-                  )} */}
+                  {icon}
+                  <span>{label}</span>
                 </Button>
               </li>
             );
@@ -126,14 +121,13 @@ export function SideBar() {
         </ul>
       </nav>
 
-      <footer className="p-6 mt-auto">
-        <div className="flex items-center gap-2 mb-6 justify-between">
-          <span className="text-xs text-accent-primary">{version}</span>
-
+      <footer className="px-3 pb-3 pt-2">
+        <div className="flex items-center gap-2 mb-2 px-3 justify-between">
+          <span className="text-xs text-text-secondary">{version}</span>
           <ThemeSwitch />
         </div>
 
-        <Button block size="lg" variant="transparent" onClick={() => logout()}>
+        <Button block size="sm" variant="ghost" className="text-text-secondary hover:text-text-primary" onClick={() => logout()}>
           {t('setting.logout')}
         </Button>
       </footer>

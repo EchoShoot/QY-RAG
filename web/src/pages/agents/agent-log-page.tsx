@@ -236,7 +236,7 @@ const AgentLogPage: React.FC = () => {
   };
 
   return (
-    <div className=" text-white">
+    <div className="size-full flex flex-col bg-app-page">
       <PageHeader>
         <Breadcrumb>
           <BreadcrumbList>
@@ -256,26 +256,24 @@ const AgentLogPage: React.FC = () => {
           </BreadcrumbList>
         </Breadcrumb>
       </PageHeader>
-      <div className="p-4">
-        <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold mb-4">Log</h1>
+      <div className="flex-1 min-h-0 flex flex-col mx-3 mb-3 bg-bg-base rounded-3xl overflow-hidden">
+        <div className="flex justify-between items-center px-5 py-3">
+          <h1 className="text-base font-semibold text-text-primary">Log</h1>
 
-          <div className="flex justify-end space-x-2 mb-4 text-foreground">
-            <div className="flex items-center space-x-2">
+          <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2">
               <Button onClick={onExportClick} loading={exportLoading}>
                 {t('flow.export')}
               </Button>
-              <span>ID/Title</span>
+              <span className="text-sm text-text-secondary">ID/Title</span>
               <SearchInput
                 value={keywords}
-                onChange={(e) => {
-                  setKeywords(e.target.value);
-                }}
+                onChange={(e) => setKeywords(e.target.value)}
                 className="w-32"
-              ></SearchInput>
+              />
             </div>
-            <div className="flex items-center space-x-2">
-              <span className="whitespace-nowrap">Latest Date</span>
+            <div className="flex items-center gap-2">
+              <span className="whitespace-nowrap text-sm text-text-secondary">Latest Date</span>
               <DatePickerWithRange
                 required
                 selected={currentDate}
@@ -283,51 +281,27 @@ const AgentLogPage: React.FC = () => {
                   range.from &&
                   handleDateRangeChange({ from: range.from, to: range.to })
                 }
-              ></DatePickerWithRange>
+              />
             </div>
-            <button
-              type="button"
-              className="bg-foreground  text-text-title-invert  px-4 py-1 rounded"
-              onClick={() => {
-                handleClickSearch();
-              }}
-            >
-              Search
-            </button>
-            <button
-              type="button"
-              className="bg-transparent text-foreground px-4 py-1 rounded border"
-              onClick={() => handleReset()}
-            >
-              Reset
-            </button>
+            <Button onClick={handleClickSearch}>Search</Button>
+            <Button variant="outline" onClick={handleReset}>Reset</Button>
           </div>
         </div>
-        <div className="border rounded-md overflow-auto">
-          {/* <div className="max-h-[500px] overflow-y-auto w-full"> */}
-          <Table rootClassName="max-h-[calc(100vh-200px)]">
-            <TableHeader className="sticky top-0 bg-background z-10 shadow-sm">
+        <div className="flex-1 min-h-0 overflow-auto px-5">
+          <Table rootClassName="w-full">
+            <TableHeader className="sticky top-0 bg-bg-base z-10">
               <TableRow>
                 {columns.map((column) => (
                   <TableHead
                     key={column.dataIndex}
-                    onClick={
-                      column.sortable
-                        ? () => handleSort(column.dataIndex)
-                        : undefined
-                    }
-                    className={
-                      column.sortable ? 'cursor-pointer hover:bg-muted/50' : ''
-                    }
+                    onClick={column.sortable ? () => handleSort(column.dataIndex) : undefined}
+                    className={column.sortable ? 'cursor-pointer' : ''}
                   >
                     <div className="flex items-center">
                       {column.title}
-                      {column.sortable &&
-                        sortConfig?.orderby === column.dataIndex && (
-                          <span className="ml-1">
-                            {sortConfig.desc ? '↓' : '↑'}
-                          </span>
-                        )}
+                      {column.sortable && sortConfig?.orderby === column.dataIndex && (
+                        <span className="ml-1">{sortConfig.desc ? '↓' : '↑'}</span>
+                      )}
                     </div>
                   </TableHead>
                 ))}
@@ -336,18 +310,12 @@ const AgentLogPage: React.FC = () => {
             <TableBody>
               {loading && (
                 <TableRow>
-                  <TableCell
-                    colSpan={columns.length}
-                    className="h-24 text-center"
-                  >
-                    <Spin size="large">
-                      <span className="sr-only">Loading...</span>
-                    </Spin>
+                  <TableCell colSpan={columns.length} className="h-24 text-center">
+                    <Spin size="large"><span className="sr-only">Loading...</span></Spin>
                   </TableCell>
                 </TableRow>
               )}
-              {!loading &&
-                data?.map((item) => (
+              {!loading && data?.map((item) => (
                   <TableRow
                     key={item.id}
                     onClick={() => {
@@ -370,28 +338,20 @@ const AgentLogPage: React.FC = () => {
                 ))}
               {!loading && (!data || data.length === 0) && (
                 <TableRow>
-                  <TableCell
-                    colSpan={columns.length}
-                    className="h-24 text-center"
-                  >
+                  <TableCell colSpan={columns.length} className="h-24 text-center text-text-secondary">
                     No data
                   </TableCell>
                 </TableRow>
               )}
             </TableBody>
           </Table>
-          {/* </div> */}
         </div>
-        <div className="flex justify-end mt-4 w-full">
-          <div className="space-x-2">
-            <RAGFlowPagination
-              {...pagination}
-              total={pagination.total}
-              onChange={(page, pageSize) => {
-                handlePageChange(page, pageSize);
-              }}
-            ></RAGFlowPagination>
-          </div>
+        <div className="flex justify-end px-5 py-3">
+          <RAGFlowPagination
+            {...pagination}
+            total={pagination.total}
+            onChange={(page, pageSize) => handlePageChange(page, pageSize)}
+          />
         </div>
       </div>
       <AgentLogDetailModal

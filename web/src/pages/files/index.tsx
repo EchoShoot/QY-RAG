@@ -96,8 +96,8 @@ export default function Files() {
   );
 
   return (
-    <article className="size-full flex flex-col" data-testid="files-list">
-      <header className="px-5 pt-8 mb-4">
+    <article className="size-full flex flex-col bg-app-page" data-testid="files-list">
+      <header className="px-6 pt-4 pb-4">
         <ListFilterBar
           leftPanel={leftPanel}
           searchString={searchString}
@@ -129,7 +129,7 @@ export default function Files() {
         )}
       </header>
 
-      <div className="flex-1 px-5 flex flex-col overflow-hidden">
+      <div className="flex-1 mx-3 mb-3 flex flex-col overflow-hidden bg-bg-base rounded-3xl px-5 pt-2">
         <FilesTable
           files={files}
           total={total}

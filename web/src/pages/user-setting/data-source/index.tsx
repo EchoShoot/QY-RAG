@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 
 import { Button } from '@/components/ui/button';
-import { UserSettingBreadcrumb } from '../components/user-setting-breadcrumb';
+import { UserSettingBreadcrumb, UserSettingPageWrapper } from '../components/user-setting-breadcrumb';
 import { Plus } from 'lucide-react';
 import { ProfileSettingWrapperCard } from '../components/user-setting-header';
 import AddDataSourceModal from './add-datasource-modal';
@@ -83,8 +83,9 @@ const DataSource = () => {
   } = useAddDataSource({});
 
   return (
-    <>
+    <UserSettingPageWrapper>
       <UserSettingBreadcrumb label="数据源" />
+            <div className="flex-1 min-h-0 mx-3 mb-3 flex flex-col">
       <ProfileSettingWrapperCard
         header={
           <header>
@@ -147,7 +148,8 @@ const DataSource = () => {
         />
       )}
     </ProfileSettingWrapperCard>
-    </>
+      </div>
+    </UserSettingPageWrapper>
   );
 };
 

@@ -22,7 +22,7 @@ import { Loader2Icon, PenLine } from 'lucide-react';
 import { FC, useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { UserSettingBreadcrumb } from '../components/user-setting-breadcrumb';
+import { UserSettingBreadcrumb, UserSettingPageWrapper } from '../components/user-setting-breadcrumb';
 import { ProfileSettingWrapperCard } from '../components/user-setting-header';
 import { EditType, modalTitle, useProfile } from './hooks/use-profile';
 
@@ -129,8 +129,9 @@ const ProfilePage: FC = () => {
   }, [profile.timeZone]);
 
   return (
-    <>
+    <UserSettingPageWrapper>
       <UserSettingBreadcrumb label="个人资料" />
+            <div className="flex-1 min-h-0 mx-3 mb-3 flex flex-col">
       <ProfileSettingWrapperCard
       header={
         <header>
@@ -153,7 +154,7 @@ const ProfilePage: FC = () => {
             {t('username')}
           </label>
           <div className="flex-1 flex items-center gap-4 min-w-60">
-            <div className="text-sm text-text-primary border border-border-button flex-1 rounded-md py-1.5 px-2">
+            <div className="text-sm text-text-primary bg-bg-card flex-1 rounded-xl py-1.5 px-3">
               {profile.userName}
             </div>
 
@@ -185,7 +186,7 @@ const ProfilePage: FC = () => {
             {t('timezone')}
           </label>
           <div className="flex-1 flex items-center gap-4">
-            <div className="text-sm text-text-primary border border-border-button flex-1 rounded-md py-1.5 px-2 empty:before:content-['_'] empty:before:whitespace-pre">
+            <div className="text-sm text-text-primary bg-bg-card flex-1 rounded-xl py-1.5 px-3 empty:before:content-['_'] empty:before:whitespace-pre">
               {timezone}
             </div>
             <Button
@@ -217,7 +218,7 @@ const ProfilePage: FC = () => {
             {t('password')}
           </label>
           <div className="flex-1 flex items-center gap-4">
-            <div className="text-sm text-text-primary border border-border-button flex-1 rounded-md py-1.5 px-2">
+            <div className="text-sm text-text-primary bg-bg-card flex-1 rounded-xl py-1.5 px-3">
               <span className="inline-block translate-y-0.5">********</span>
             </div>
             <Button
@@ -410,8 +411,8 @@ const ProfilePage: FC = () => {
         </Modal>
       )}
     </ProfileSettingWrapperCard>
-    // </div>
-    </>
+      </div>
+    </UserSettingPageWrapper>
   );
 };
 

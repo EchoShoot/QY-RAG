@@ -308,7 +308,7 @@ const SearchSetting: React.FC<SearchSettingProps> = ({
   return (
     <div
       className={cn(
-        'text-text-primary border-l-0.5 p-4 pb-12',
+        'text-text-primary bg-bg-component rounded-3xl p-4 pb-12',
         {
           'animate-fade-in-right': open,
           'animate-fade-out-right': !open,
@@ -558,7 +558,7 @@ const SearchSetting: React.FC<SearchSettingProps> = ({
             />
             {/* Submit Button */}
             <div className="flex justify-end"></div>
-            <div className="flex justify-end gap-2 absolute bottom-1 right-3 bg-bg-base w-[calc(100%-1em)] py-2">
+            <div className="flex justify-end gap-2 absolute bottom-1 right-3 bg-bg-component w-[calc(100%-1em)] py-2">
               <Button
                 type="reset"
                 variant={'transparent'}

@@ -88,50 +88,37 @@
 
     --metallic: #46464a;
 
-    --bg-title: #f6f6f7;
-    /* design colors */
+    --bg-title: #f0f4f9;
+    /* design colors — Gemini Light */
 
+    /* Surface L0: page background */
+    --app-page: #E8EDF5;
+    /* Surface L1: card / input */
     --bg-base: #ffffff;
-    /* card color , dividing line */
-    --bg-card: rgba(0, 0, 0, 0.05);
+    --bg-card: rgba(0, 0, 0, 0.04);
     --bg-component: #ffffff;
-    --bg-input: rgba(255, 255, 255, 0);
-    --bg-canvas: 246 246 247;
-    --bg-list: 246 246 247;
-    /* Button ,Body text, Input completed text */
+    --bg-input: rgba(255, 255, 255, 0.9);
+    --bg-canvas: 240 244 249;
+    --bg-list: 240 244 249;
 
-    /* #161618 */
-    --text-primary: 22 22 24;
-    --text-secondary: 117 120 122;
-    --text-disabled: #b2b5b7;
-    /* input placeholder color */
-    --text-input-tip: #b2b5b7;
-    /* Input  default color */
-    --border-default: rgba(0, 0, 0, 0.2);
-    /* Input accent color */
-    --border-accent: #000000;
-    --border-button: rgba(0, 0, 0, 0.1);
-    /* Regulators, parsing, switches, variables */
-    --accent-primary: 0 190 180;
-    /* Output Variables Box */
-    --bg-accent: rgba(76, 164, 231, 0.05);
+    /* Text */
+    --text-primary: 31 31 31;
+    --text-secondary: 95 99 103;
+    --text-disabled: #bdc1c6;
+    --text-input-tip: #bdc1c6;
 
-    /* --state-success: #3ba05c; */
-    --state-success: 59 160 92;
-    /* --state-warning: #767573; */
-    --state-warning: 250 173 20;
-    --state-error: 216 73 75;
+    /* Border */
+    --border-default: rgba(0, 0, 0, 0.12);
+    --border-accent: #1A73E8;
+    --border-button: rgba(0, 0, 0, 0.08);
 
-    --team-group: #5ab77e;
-    --team-member: #5c96c8;
-    --team-department: #8866d3;
-    --bg-group: rgba(90, 183, 126, 0.1);
-    --bg-member: rgba(92, 150, 200, 0.1);
-    --bg-department: rgba(136, 102, 211, 0.1);
+    /* Gemini brand: blue-600 as accent */
+    --accent-primary: 26 115 232;
 
-    /* --*-inverse: colors in dark mode */
-    --text-primary-inverse: 246 246 247;
-    --text-secondary-inverse: 178 181 183;
+    --bg-accent: rgba(26, 115, 232, 0.06);
+
+    --text-primary-inverse: 227 227 227;
+    --text-secondary-inverse: 196 199 197;
   }
 
   .dark {
@@ -228,28 +215,38 @@
 
     --metallic: #fafafa;
 
-    --bg-title: #38383a;
-    /* design colors */
+    --bg-title: #1E1F20;
+    /* design colors — Gemini Dark */
 
-    --bg-base: #161618;
-    --bg-card: rgba(255, 255, 255, 0.05);
-    --bg-component: #202025;
-    --bg-input: rgba(255, 255, 255, 0.05);
-    --bg-canvas: 0 0 0;
-    --bg-list: 56 56 58;
+    /* Surface L0: #131314 全局大背景 */
+    --app-page: #131314;
+    /* Surface L1: #1E1F20 卡片/对话框 */
+    --bg-base: #1E1F20;
+    --bg-card: rgba(255, 255, 255, 0.06);
+    /* Surface L2: #1A1A1C 侧边栏 */
+    --bg-component: #1A1A1C;
+    --bg-input: #1E1F20;
+    --bg-canvas: 19 19 20;
+    --bg-list: 30 31 32;
 
-    /* #f6f6f7 */
-    --text-primary: 246 246 247;
-    --text-secondary: 178 181 183;
-    --text-disabled: #75787a;
-    --text-input-tip: #75787a;
-    --border-default: rgba(255, 255, 255, 0.2);
-    --border-accent: #ffffff;
-    --border-button: rgba(255, 255, 255, 0.1);
+    /* Text — Gemini Dark */
+    --text-primary: 227 227 227;
+    --text-secondary: 196 199 197;
+    --text-disabled: #5f6368;
+    --text-input-tip: #5f6368;
 
-    /* *-inverse: colors in light mode */
-    --text-primary-inverse: 22 22 24;
-    --text-secondary-inverse: 117 120 122;
+    /* Border */
+    --border-default: rgba(255, 255, 255, 0.12);
+    --border-accent: #8AB4F8;
+    --border-button: rgba(255, 255, 255, 0.08);
+
+    /* Gemini brand accent in dark: lighter blue */
+    --accent-primary: 138 180 248;
+
+    --bg-accent: rgba(138, 180, 248, 0.08);
+
+    --text-primary-inverse: 31 31 31;
+    --text-secondary-inverse: 95 99 103;
   }
 }
 
@@ -258,7 +255,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-bg-base text-text-primary;
+    @apply bg-app-page text-text-primary;
     font-feature-settings:
       'rlig' 1,
       'calt' 1;

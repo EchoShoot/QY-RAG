@@ -390,7 +390,7 @@ export function FilesTable({
         </Table>
       </div>
 
-      <footer className="flex items-center justify-end pb-5 mt-4">
+      <footer className="flex items-center justify-end py-4 mt-2">
         <RAGFlowPagination
           {...pick(pagination, 'current', 'pageSize')}
           total={total}

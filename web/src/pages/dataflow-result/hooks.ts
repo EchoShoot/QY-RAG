@@ -32,8 +32,9 @@ export const useFetchPipelineFileLogDetail = ({
   isAgent: boolean;
 }) => {
   const { id } = useParams();
+  const ctxParams = useDataflowResultParamsContext();
   const [searchParams] = useSearchParams();
-  const logId = searchParams.get('id') || id;
+  const logId = ctxParams?.id || searchParams.get('id') || id;
 
   let queryKey: (string | number)[] = [];
   if (typeof refreshCount === 'number') {
@@ -308,8 +309,9 @@ export const useGetPipelineResultSearchParams = () => {
 export function useFetchPipelineResult({
   agentId,
 }: Pick<ReturnType<typeof useGetPipelineResultSearchParams>, 'agentId'>) {
+  const ctxParams = useDataflowResultParamsContext();
   const [searchParams] = useSearchParams();
-  const messageId = searchParams.get('id');
+  const messageId = ctxParams?.id || searchParams.get('id');
 
   const { data, setMessageId, setISStopFetchTrace } =
     useFetchMessageTrace(agentId);

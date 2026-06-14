@@ -329,8 +329,8 @@ export function MemoryTable({
   });
 
   return (
-    <div className="w-full">
-      <Table rootClassName="max-h-[calc(100vh-292px)]">
+    <div className="w-full flex flex-col flex-1 min-h-0 gap-3">
+      <Table rootClassName="flex-1 min-h-0">
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
@@ -366,8 +366,10 @@ export function MemoryTable({
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                <Empty type={EmptyType.Data} />
+              <TableCell colSpan={columns.length} className="h-full text-center align-middle">
+                <div className="flex items-center justify-center h-64">
+                  <Empty type={EmptyType.Data} />
+                </div>
               </TableCell>
             </TableRow>
           )}
@@ -465,7 +467,7 @@ export function MemoryTable({
         />
       )}
 
-      <div className="flex items-center justify-end  absolute bottom-3 right-3">
+      <div className="flex items-center justify-end py-2">
         <RAGFlowPagination
           {...pick(pagination, 'current', 'pageSize')}
           total={total}

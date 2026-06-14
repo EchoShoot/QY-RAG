@@ -163,8 +163,8 @@ const DataflowResult = () => {
         </div>
       )}
       <div className={styles.chunkPage}>
-        <div className="flex flex-none gap-8 border border-border mt-[26px] p-3 rounded-lg h-[calc(100vh-100px)]">
-          <div className="w-2/5">
+        <div className="flex flex-none gap-3 mt-4 p-3 rounded-3xl bg-bg-base flex-1 min-h-0">
+          <div className="w-2/5 flex flex-col min-h-0">
             <div className="h-[50px] flex flex-col justify-end pb-[5px]">
               <DocumentHeader {...documentInfo} />
             </div>
@@ -178,7 +178,7 @@ const DataflowResult = () => {
               ></DocumentPreview>
             </section>
           </div>
-          <div className="h-[calc(100vh-100px)] border-r -mt-3"></div>
+          <div className="self-stretch w-px bg-border-button -mt-3"></div>
           <div className="w-3/5 h-full">
             {/* {currentTimeNode?.type === TimelineNodeType.splitter && (
               <ChunkerContainer

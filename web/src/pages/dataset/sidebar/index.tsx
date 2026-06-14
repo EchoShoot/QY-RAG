@@ -69,46 +69,29 @@ export function SideBar({ dataset: data }: PropType) {
   }, [t, routerData]);
 
   return (
-    <aside className="flex flex-col w-64 relative">
-      <header
-        className="px-5 pb-4 grid grid-cols-[auto_1fr] grid-rows-[auto_auto] gap-x-3"
-        style={{
-          gridTemplateAreas: '"avatar title" "avatar stats"',
-        }}
-      >
+    <aside className="flex flex-col w-64 bg-bg-component rounded-3xl shrink-0">
+      <header className="px-4 pt-4 pb-3 flex flex-col items-center gap-3">
         <RAGFlowAvatar
           avatar={data.avatar}
           name={data.name}
-          className="size-16"
-          style={{ gridArea: 'avatar' }}
+          className="size-14 rounded-2xl"
         />
-
-        <h3
-          className="text-lg font-semibold line-clamp-1 text-text-primary text-ellipsis overflow-hidden"
-          style={{ gridArea: 'title' }}
-        >
-          {data.name}
-        </h3>
-
-        <div
-          className="self-end text-text-secondary text-xs overflow-hidden"
-          style={{ gridArea: 'stats' }}
-        >
-          <div className="flex justify-between">
-            <span>
-              {data.document_count} {t('knowledgeDetails.files')}
-            </span>
-            <span>{data.size ? formatBytes(data.size) : ''}</span>
-          </div>
-
-          <div className="mt-0.5">
-            {t('knowledgeDetails.created')} {formatPureDate(data.create_time)}
+        <div className="text-center space-y-0.5 w-full overflow-hidden">
+          <h3 className="text-sm font-semibold truncate text-text-primary px-1">
+            {data.name}
+          </h3>
+          <div className="text-xs text-text-secondary overflow-hidden px-1">
+            <div className="flex justify-center gap-2">
+              <span>{data.document_count} {t('knowledgeDetails.files')}</span>
+              <span>{data.size ? formatBytes(data.size) : ''}</span>
+            </div>
+            <div>{t('knowledgeDetails.created')} {formatPureDate(data.create_time)}</div>
           </div>
         </div>
       </header>
 
-      <nav className="px-5 pt-1 pb-5 overflow-y-auto">
-        <ul className="space-y-5">
+      <nav className="px-3 pt-1 pb-3 overflow-y-auto">
+        <ul className="space-y-1">
           {items.map((item) => {
             const active = '/' + pathName === item.key;
 
@@ -119,8 +102,10 @@ export function SideBar({ dataset: data }: PropType) {
                   block
                   variant="ghost"
                   className={cn(
-                    'justify-start gap-2.5 px-3 relative h-10 text-base',
-                    active && 'bg-bg-card text-text-primary',
+                    'justify-start gap-2.5 px-3 relative h-9 text-sm font-medium rounded-2xl',
+                    active
+                      ? 'bg-accent-primary text-bg-base hover:bg-accent-primary'
+                      : 'text-text-secondary hover:text-text-primary hover:bg-bg-card',
                   )}
                   to={`${Routes.DatasetBase}${item.key}/${id}`}
                 >

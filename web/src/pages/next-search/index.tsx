@@ -45,7 +45,7 @@ export default function SearchPage() {
 
   return (
     <section
-      className="size-full flex-1 relative px-5 pb-5 flex flex-col pt-4"
+      className="size-full flex-1 relative flex flex-col bg-app-page"
       data-testid="search-detail"
     >
       <PageHeader>
@@ -60,9 +60,16 @@ export default function SearchPage() {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          onClick={() => setOpenSetting(!openSetting)}
+        >
+          <Settings className="text-text-secondary" />
+        </Button>
       </PageHeader>
-      <div className="flex gap-3 flex-1 min-h-0 bg-bg-base border-0.5 border-border-button">
-        <div className="flex-1 min-w-0">
+      <div className="flex gap-3 flex-1 min-h-0 px-3 pb-3">
+        <div className="flex-1 min-w-0 bg-bg-base rounded-3xl overflow-hidden">
           {!isSearching && (
             <div className="animate-fade-in-down">
               <SearchHome
@@ -94,14 +101,6 @@ export default function SearchPage() {
           />
         )}
       </div>
-
-      <Button
-        variant="transparent"
-        className="bg-bg-card ml-5 self-start mt-2"
-        onClick={() => setOpenSetting(!openSetting)}
-      >
-        <Settings className="text-text-secondary" />
-      </Button>
     </section>
   );
 }

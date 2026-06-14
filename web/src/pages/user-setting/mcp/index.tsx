@@ -3,7 +3,7 @@ import {
   ConfirmDeleteDialog,
   ConfirmDeleteDialogNode,
 } from '@/components/confirm-delete-dialog';
-import { UserSettingBreadcrumb } from '../components/user-setting-breadcrumb';
+import { UserSettingBreadcrumb, UserSettingPageWrapper } from '../components/user-setting-breadcrumb';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { SearchInput } from '@/components/ui/input';
@@ -59,8 +59,9 @@ export default function McpServer() {
   }, []);
 
   return (
-    <>
+    <UserSettingPageWrapper>
       <UserSettingBreadcrumb label="MCP" />
+            <div className="flex-1 min-h-0 mx-3 mb-3 flex flex-col">
       <ProfileSettingWrapperCard
         header={
           <header className="flex flex-row gap-1.5 justify-between items-end">
@@ -191,6 +192,7 @@ export default function McpServer() {
         ></ImportMcpDialog>
       )}
     </ProfileSettingWrapperCard>
-    </>
+      </div>
+    </UserSettingPageWrapper>
   );
 }

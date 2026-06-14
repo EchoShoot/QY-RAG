@@ -118,6 +118,8 @@ module.exports = {
         'bg-group': 'var(--bg-group)',
         'bg-member': 'var(--bg-member)',
         'bg-department': 'var(--bg-department)',
+        'app-page': 'var(--app-page)',
+        'app-page': '#F0F4F9',
 
         primary: {
           DEFAULT: 'hsl(var(--primary))',

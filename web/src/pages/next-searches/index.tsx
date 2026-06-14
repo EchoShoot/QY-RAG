@@ -67,8 +67,8 @@ export default function SearchList() {
   return (
     <>
       {list?.data?.search_apps?.length || searchString ? (
-        <article className="size-full flex flex-col" data-testid="search-list">
-          <header className="px-5 pt-8 mb-4">
+        <article className="size-full flex flex-col bg-app-page" data-testid="search-list">
+          <header className="px-6 pt-6 pb-4">
             <ListFilterBar
               icon="searches"
               title={t('searchApps')}
@@ -88,7 +88,7 @@ export default function SearchList() {
 
           {list?.data?.search_apps?.length ? (
             <>
-              <CardContainer className="flex-1 overflow-auto px-5">
+              <CardContainer className="flex-1 overflow-auto px-6 py-5">
                 {list?.data.search_apps.map((x) => {
                   return (
                     <SearchCard
@@ -102,7 +102,7 @@ export default function SearchList() {
                 })}
               </CardContainer>
 
-              <footer className="mt-4 px-5 pb-5">
+              <footer className="px-6 py-4">
                 <RAGFlowPagination
                   {...pick(pagination, 'current', 'pageSize')}
                   total={list?.data.total}

@@ -27,26 +27,35 @@ body,
   height: 100%;
 }
 
-/* Scroll bar stylings */
+/* Scroll bar — Gemini style: thin, hidden by default, appears on hover */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+*:hover {
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 6px;
+  height: 6px;
 }
-
-/* Track */
 ::-webkit-scrollbar-track {
-  background: rgb(219, 218, 218);
+  background: transparent;
 }
-
-/* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #aaaaaa;
-  border-radius: 5px;
+  background: transparent;
+  border-radius: 3px;
+  transition: background 0.2s;
 }
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #888;
+*:hover::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+}
+/* Dark mode scrollbar */
+.dark *:hover {
+  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+}
+.dark *:hover::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .Highlight--scrolledTo .Highlight__part {

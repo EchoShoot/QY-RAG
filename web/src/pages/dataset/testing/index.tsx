@@ -20,7 +20,7 @@ export default function RetrievalTesting() {
   return (
     <div className="pr-5 pb-5">
       <Card className="size-full bg-transparent shadow-none flex flex-col">
-        <CardHeader className="p-5 border-b-0.5 border-border-button">
+        <CardHeader className="p-5">
           <header>
             <CardTitle as="h1">
               {t('knowledgeDetails.retrievalTesting')}
@@ -33,8 +33,8 @@ export default function RetrievalTesting() {
         </CardHeader>
 
         {count === 1 ? (
-          <CardContent className="flex-1 overflow-hidden p-0 grid grid-rows-1 grid-cols-2 divide-x-0.5">
-            <article className="size-full flex-1 flex flex-col">
+          <CardContent className="flex-1 overflow-hidden p-0 grid grid-rows-1 grid-cols-2 gap-3">
+            <article className="size-full flex-1 flex flex-col bg-bg-base">
               <header className="px-5 py-3">
                 <h2 className="font-semibold text-base leading-8">
                   {t('knowledgeDetails.testSetting')}
@@ -50,7 +50,7 @@ export default function RetrievalTesting() {
               </div>
             </article>
 
-            <div className="flex-1">
+            <div className="flex-1 bg-bg-base">
               <TestingResult
                 data={data}
                 loading={loading}

@@ -1,12 +1,10 @@
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   useFetchSessionList,
   useFetchSessionManually,
   useGetChatSearchParams,
 } from '@/hooks/use-chat-request';
 import { IClientConversation } from '@/interfaces/database/chat';
-import { cn } from '@/lib/utils';
 import { useMount } from 'ahooks';
 import { isEmpty } from 'lodash';
 import { LucideArrowBigLeft, LucideArrowUpRight } from 'lucide-react';
@@ -116,7 +114,7 @@ export default function Chat() {
   }
 
   return (
-    <div className="size-full overflow-hidden">
+    <div className="size-full overflow-hidden flex flex-col bg-app-page">
       <PageHeader>
         <Breadcrumb>
           <BreadcrumbList>
@@ -130,43 +128,35 @@ export default function Chat() {
           </BreadcrumbList>
         </Breadcrumb>
       </PageHeader>
-      <section className="h-[calc(100%-48px)] flex flex-col" data-testid="chat-detail">
-        <article className="flex flex-1 min-h-0 pb-9">
+      <section className="flex flex-1 min-h-0 flex-col" data-testid="chat-detail">
+        <article className="flex flex-1 min-h-0 gap-3 px-3 pb-3">
           <Sessions handleConversationCardClick={handleSessionClick}></Sessions>
 
-          <Card className="flex-1 min-w-0 bg-transparent border-none shadow-none h-full">
-            <CardContent className="flex p-0 h-full">
-              <Card className="flex flex-col flex-1 bg-transparent min-w-0">
-                <CardHeader
-                  className={cn('p-5', {
-                    'border-b-0.5 border-border-button': hasSingleChatBox,
-                  })}
-                >
-                  <CardTitle className="flex justify-between items-center text-base gap-2">
-                    <div className="truncate">{currentConversationName}</div>
-
-                    <Button
-                      variant="ghost"
-                      onClick={switchDebugMode}
-                      data-testid="chat-detail-multimodel-toggle"
-                    >
-                      <LucideArrowUpRight />
-                      {t('chat.multipleModels')}
-                    </Button>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="flex-1 p-0 min-h-0">
+          <div className="flex-1 min-w-0 bg-bg-base rounded-3xl overflow-hidden flex flex-col h-full">
+            <div className="flex flex-1 min-h-0">
+              <div className="flex flex-col flex-1 min-w-0">
+                <div className="px-5 py-4 flex justify-between items-center">
+                  <span className="text-base font-medium truncate text-text-primary">{currentConversationName}</span>
+                  <Button
+                    variant="ghost"
+                    onClick={switchDebugMode}
+                    data-testid="chat-detail-multimodel-toggle"
+                  >
+                    <LucideArrowUpRight />
+                    {t('chat.multipleModels')}
+                  </Button>
+                </div>
+                <div className="flex-1 min-h-0">
                   <SingleChatBox
                     controller={controller}
                     stopOutputMessage={stopOutputMessage}
                     conversation={currentConversation}
                   />
-                </CardContent>
-              </Card>
-
+                </div>
+              </div>
               <ChatSettings hasSingleChatBox={hasSingleChatBox}></ChatSettings>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </article>
       </section>
     </div>

@@ -7,7 +7,7 @@ export function CardContainer({ children, className }: CardContainerProps) {
   return (
     <div
       className={cn(
-        'grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 auto-rows-auto content-start',
+        'grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 auto-rows-[172px] content-start',
         className,
       )}
     >

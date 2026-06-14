@@ -62,15 +62,15 @@ export default function AgentExplore() {
         </Breadcrumb>
       </PageHeader>
 
-      <section className="flex flex-1 min-h-0">
-        <div className="w-[296px] border-r min-w-0">
+      <section className="flex flex-1 min-h-0 gap-3 px-3 pb-3">
+        <div className="w-[296px] bg-bg-component rounded-3xl overflow-hidden shrink-0">
           <SessionList
             selectedSessionId={sessionId}
             onSelectSession={handleSessionSelect}
           />
         </div>
 
-        <div className="flex-1 min-w-0">
+        <div className="flex-1 min-w-0 bg-bg-base rounded-3xl overflow-hidden">
           <SessionChat session={session} />
         </div>
       </section>
