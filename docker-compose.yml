@@ -1,0 +1,140 @@
+services:
+  qy-es:
+    image: elasticsearch:${STACK_VERSION:-8.11.3}
+    volumes:
+      - esdata01:/usr/share/elasticsearch/data
+    tmpfs:
+      - /tmp:mode=1777,size=512m,exec
+    ports:
+      - ${ES_PORT:-1200}:9200
+    environment:
+      - node.name=qy-es
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+      - bootstrap.memory_lock=false
+      - discovery.type=single-node
+      - xpack.security.enabled=true
+      - xpack.security.http.ssl.enabled=false
+      - xpack.security.transport.ssl.enabled=false
+      - cluster.routing.allocation.disk.watermark.low=5gb
+      - cluster.routing.allocation.disk.watermark.high=3gb
+      - cluster.routing.allocation.disk.watermark.flood_stage=2gb
+    mem_limit: ${MEM_LIMIT:-8073741824}
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    healthcheck:
+      test: ["CMD-SHELL", "curl http://localhost:9200"]
+      interval: 10s
+      timeout: 10s
+      retries: 120
+    networks:
+      - qiyuan_net
+    restart: unless-stopped
+
+  qy-minio:
+    image: pgsty/minio:RELEASE.2026-03-25T00-00-00Z
+    command: ["server", "--console-address", ":9001", "/data"]
+    ports:
+      - ${MINIO_PORT:-9000}:9000
+      - ${MINIO_CONSOLE_PORT:-9001}:9001
+    environment:
+      - MINIO_ROOT_USER=${MINIO_USER}
+      - MINIO_ROOT_PASSWORD=${MINIO_PASSWORD}
+    volumes:
+      - minio_data:/data
+    networks:
+      - qiyuan_net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 10s
+      timeout: 10s
+      retries: 120
+    restart: unless-stopped
+
+  qy-redis:
+    image: valkey/valkey:8
+    command: ["redis-server", "--requirepass", "${REDIS_PASSWORD}", "--maxmemory", "128mb", "--maxmemory-policy", "allkeys-lru"]
+    ports:
+      - ${REDIS_PORT:-6379}:6379
+    volumes:
+      - redis_data:/data
+    networks:
+      - qiyuan_net
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
+      interval: 10s
+      timeout: 10s
+      retries: 120
+    restart: unless-stopped
+
+  qy-postgres:
+    image: pgvector/pgvector:pg17
+    environment:
+      - POSTGRES_USER=${PG_USER:-postgres}
+      - POSTGRES_PASSWORD=${PG_PASSWORD:-postgres}
+    volumes:
+      - qy_pg_data:/var/lib/postgresql/data
+    configs:
+      - source: qy-pg-init
+        target: /docker-entrypoint-initdb.d/init.sql
+    networks:
+      - qiyuan_net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${PG_USER:-postgres}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    ports:
+      - ${PG_EXPOSE_PORT:-5432}:5432
+    restart: unless-stopped
+
+  ragflow:
+    image: qy-rag:v0.26.0
+    depends_on:
+      qy-postgres:
+        condition: service_healthy
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command:
+      - --enable-adminserver
+    ports:
+      - ${SVR_WEB_HTTP_PORT:-80}:80
+      - ${SVR_WEB_HTTPS_PORT:-443}:443
+      - ${SVR_HTTP_PORT:-9380}:9380
+      - ${ADMIN_SVR_HTTP_PORT:-9381}:9381
+      - ${SVR_MCP_PORT:-9382}:9382
+      - ${GO_HTTP_PORT:-9384}:9384
+      - ${GO_ADMIN_PORT:-9383}:9383
+    volumes:
+      - ragflow_logs:/ragflow/logs
+      - ./service_conf.yaml.template:/ragflow/conf/service_conf.yaml.template
+      - ./entrypoint.sh:/ragflow/entrypoint.sh
+    env_file: .env
+    environment:
+      - DOC_ENGINE=elasticsearch
+      - DB_TYPE=postgres
+    networks:
+      - qiyuan_net
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+      - "echoshoot:host-gateway"
+    restart: unless-stopped
+
+volumes:
+  esdata01:
+  minio_data:
+  redis_data:
+  ragflow_logs:
+  qy_pg_data:
+
+networks:
+  qiyuan_net:
+    external: true
+    name: qiyuan_net
+
+configs:
+  qy-pg-init:
+    content: |
+      CREATE DATABASE qy_rag;

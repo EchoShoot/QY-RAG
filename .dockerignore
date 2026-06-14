@@ -1,0 +1,10 @@
+.git
+.env
+qy-rag.tar
+
+web/node_modules
+web/dist
+web/.vite
+
+node_modules
+dist

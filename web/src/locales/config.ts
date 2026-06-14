@@ -40,7 +40,7 @@ export const supportedLanguages = supportedLanguageCodes.map((code) => {
     code,
     locale,
     displayName: upperFirst(
-      new Intl.DisplayNames(locale, { type: 'language' }).of(code)!,
+      new Intl.DisplayNames(code, { type: 'language' }).of(code) ?? code,
     ),
   };
 });
