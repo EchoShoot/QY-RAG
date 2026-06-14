@@ -1,0 +1,63 @@
+@import url(./inter.less);
+
+:root {
+  --font-sans: 'Inter';
+}
+
+@supports (font-variation-settings: normal) {
+  :root {
+    --font-sans: 'InterVariable';
+  }
+}
+
+html,
+body,
+#root {
+  width: 100vw;
+  width: 100dvw;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+
+  margin: 0;
+  padding: 0;
+}
+
+.vue-office-excel {
+  height: 100%;
+}
+
+/* Scroll bar stylings */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: rgb(219, 218, 218);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #aaaaaa;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}
+
+.Highlight--scrolledTo .Highlight__part {
+  background: rgb(var(--accent-primary) / 0.5) !important;
+}
+
+.Highlight__part {
+  background: rgb(var(--accent-primary) / 0.1) !important;
+}
+
+.x-spreadsheet-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: initial;
+}
