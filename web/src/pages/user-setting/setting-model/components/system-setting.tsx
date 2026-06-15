@@ -1,11 +1,13 @@
+import ChatApiKeyModal from '@/components/api-service/chat-api-key-modal';
 import { ModelTreeSelect, ModelTypeMap } from '@/components/model-tree-select';
+import { Button } from '@/components/ui/button';
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { FieldToModelType } from '@/constants/llm';
-import { useTranslate } from '@/hooks/common-hooks';
+import { useSetModalState, useTranslate } from '@/hooks/common-hooks';
 import {
   useFetchDefaultModelDictionary,
   useSetDefaultModel,
@@ -66,8 +68,14 @@ function ModelFieldItem({
 
 function SystemSetting() {
   const { t } = useTranslate('setting');
+  const { t: chatT } = useTranslate('chat');
   const defaultModelDictionary = useFetchDefaultModelDictionary();
   const { setDefaultModel } = useSetDefaultModel();
+  const {
+    visible: apiKeyVisible,
+    hideModal: hideApiKeyModal,
+    showModal: showApiKeyModal,
+  } = useSetModalState();
 
   const handleFieldChange = useCallback(
     async (field: string, value: string) => {
@@ -134,13 +142,18 @@ function SystemSetting() {
 
   return (
     <article className="rounded-lg w-full">
-      <header className="py-5">
-        <h2 className="text-2xl font-medium text-text-primary">
-          {t('systemModelSettings')}
-        </h2>
-        <p className="mt-1 text-sm text-text-secondary ">
-          {t('systemModelDescription')}
-        </p>
+      <header className="flex items-start justify-between gap-4 py-5">
+        <div>
+          <h2 className="text-2xl font-medium text-text-primary">
+            {t('systemModelSettings')}
+          </h2>
+          <p className="mt-1 text-sm text-text-secondary ">
+            {t('systemModelDescription')}
+          </p>
+        </div>
+        <Button className="shrink-0" onClick={showApiKeyModal}>
+          {chatT('apiKey')}
+        </Button>
       </header>
 
       <div className="px-7 py-6 space-y-6 max-h-[70vh] overflow-y-auto border border-border-button rounded-lg">
@@ -152,6 +165,13 @@ function SystemSetting() {
           />
         ))}
       </div>
+
+      {apiKeyVisible && (
+        <ChatApiKeyModal
+          hideModal={hideApiKeyModal}
+          idKey="dialogId"
+        ></ChatApiKeyModal>
+      )}
     </article>
   );
 }

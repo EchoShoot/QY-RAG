@@ -32,6 +32,8 @@ import { BgSvg } from './bg';
 import FlipCard3D, { FlipFaceContext } from './card';
 import './index.less';
 
+const authInputClassName = 'h-10';
+
 type LoginFormContentProps = {
   isLoginPage: boolean;
   title: string;
@@ -86,6 +88,7 @@ function LoginFormContent({
                     <FormLabel required>{t('emailLabel')}</FormLabel>
                     <FormControl>
                       <Input
+                        className={authInputClassName}
                         data-testid="auth-email"
                         placeholder={t('emailPlaceholder')}
                         autoComplete="email"
@@ -105,6 +108,7 @@ function LoginFormContent({
                       <FormLabel required>{t('nicknameLabel')}</FormLabel>
                       <FormControl>
                         <Input
+                          className={authInputClassName}
                           data-testid="auth-nickname"
                           placeholder={t('nicknamePlaceholder')}
                           autoComplete="username"
@@ -126,6 +130,7 @@ function LoginFormContent({
                     <FormControl>
                       <div className="relative">
                         <Input
+                          className={authInputClassName}
                           data-testid="auth-password"
                           type={'password'}
                           placeholder={t('passwordPlaceholder')}

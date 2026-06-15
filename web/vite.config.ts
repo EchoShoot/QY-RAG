@@ -37,6 +37,10 @@ function resolveMinify(value: string | undefined): MinifyValue {
   return 'terser';
 }
 
+function createProxyTarget(host: string, port: number) {
+  return `http://${host}:${port}/`;
+}
+
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   // Load env from .env file (also loads .env.local, .env.[mode], .env.[mode].local)
@@ -54,22 +58,26 @@ export default defineConfig(({ mode }) => {
   }
   proxyScheme = proxyScheme || 'python';
 
-  console.log(`[vite.config] mode: ${mode}, API_PROXY_SCHEME: ${proxyScheme}`);
+  const proxyHost = env.API_PROXY_HOST || '127.0.0.1';
+
+  console.log(
+    `[vite.config] mode: ${mode}, API_PROXY_SCHEME: ${proxyScheme}, API_PROXY_HOST: ${proxyHost}`,
+  );
 
   const proxySchemes = {
     python: {
       '/api/v1/admin': {
-        target: 'http://127.0.0.1:9381/',
+        target: createProxyTarget(proxyHost, 9381),
         changeOrigin: true,
         ws: true,
       },
       '/api': {
-        target: 'http://127.0.0.1:9380/',
+        target: createProxyTarget(proxyHost, 9380),
         changeOrigin: true,
         ws: true,
       },
       '/v1': {
-        target: 'http://127.0.0.1:9380/',
+        target: createProxyTarget(proxyHost, 9380),
         changeOrigin: true,
         ws: true,
       },
@@ -77,56 +85,56 @@ export default defineConfig(({ mode }) => {
     hybrid: {
       '^(/v1/kb)|^(/v1/document)|^(/v1/llm/list)|^(/api/v1/datasets)|^(/api/v1/memories)|^(/v1/user)|^(/v1/user/tenant_info)|^(/v1/tenant/list)|^(/v1/system/config)|^(/v1/user/login)|^(/v1/user/logout)|^(/api/v1/files)':
         {
-          target: 'http://127.0.0.1:9384/',
+          target: createProxyTarget(proxyHost, 9384),
           changeOrigin: true,
           ws: true,
         },
       '^(/api/v1/admin/sandbox)|^(/api/v1/admin/roles)|^(/api/v1/admin/roles/owner/permission)|^(/api/v1/admin/roles_with_permission)|^(/api/v1/admin/whitelist)|^(/api/v1/admin/variables)':
         {
-          target: 'http://127.0.0.1:9381/',
+          target: createProxyTarget(proxyHost, 9381),
           changeOrigin: true,
           ws: true,
         },
       '/api/v1/admin': {
-        target: 'http://127.0.0.1:9383/',
+        target: createProxyTarget(proxyHost, 9383),
         changeOrigin: true,
         ws: true,
       },
       '/api/v1/users/me/models': {
-        target: 'http://127.0.0.1:9380/',
+        target: createProxyTarget(proxyHost, 9380),
         changeOrigin: true,
         ws: true,
       },
       '^(/api/v1/users)|^(/api/v1/auth)|^(/api/v1/users/me)|^(/api/v1/system/config)|^(/api/v1/system/version)|^(/api/v1/tenants)|^(/api/v1/chats)|^(/api/v1/searches)|^(/api/v1/files)|^(/api/v1/agents$)|^(/api/v1/agents/[^/]+/versions$)|^(/api/v1/agents/[^/]+/versions/[^/]+$)':
         {
-          target: 'http://127.0.0.1:9384/',
+          target: createProxyTarget(proxyHost, 9384),
           changeOrigin: true,
           ws: true,
         },
       '/api': {
-        target: 'http://127.0.0.1:9380/',
+        target: createProxyTarget(proxyHost, 9380),
         changeOrigin: true,
         ws: true,
       },
       '/v1': {
-        target: 'http://127.0.0.1:9380/',
+        target: createProxyTarget(proxyHost, 9380),
         changeOrigin: true,
         ws: true,
       },
     },
     go: {
       '/api/v1/admin': {
-        target: 'http://127.0.0.1:9383/',
+        target: createProxyTarget(proxyHost, 9383),
         changeOrigin: true,
         ws: true,
       },
       '/api': {
-        target: 'http://127.0.0.1:9384/',
+        target: createProxyTarget(proxyHost, 9384),
         changeOrigin: true,
         ws: true,
       },
       '/v1': {
-        target: 'http://127.0.0.1:9384/',
+        target: createProxyTarget(proxyHost, 9384),
         changeOrigin: true,
         ws: true,
       },
@@ -139,6 +147,7 @@ export default defineConfig(({ mode }) => {
     define: {
       // Expose to client code via import.meta.env
       'import.meta.env.API_PROXY_SCHEME': JSON.stringify(proxyScheme),
+      'import.meta.env.API_PROXY_HOST': JSON.stringify(proxyHost),
       // Keep backward compatibility
       __API_PROXY_SCHEME__: JSON.stringify(proxyScheme),
     },

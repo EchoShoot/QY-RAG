@@ -139,13 +139,13 @@ const Modal: ModalType = ({
       footerTemp = footer;
     } else {
       footerTemp = (
-        <div className="flex justify-end gap-2">
+        <div className="flex flex-row flex-wrap justify-end gap-2">
           {showCancel && (
             <button
               type="button"
               onClick={() => handleCancel()}
               className={cn(
-                'px-2 py-1 border border-border-button rounded-md hover:bg-bg-card hover:text-text-primary ',
+                'min-w-20 px-2 py-1 border border-border-button rounded-md hover:bg-bg-card hover:text-text-primary ',
                 cancelButtonClassName,
               )}
             >
@@ -158,7 +158,7 @@ const Modal: ModalType = ({
             onClick={() => handleOk()}
             data-testid={okButtonTestId}
             className={cn(
-              'px-2 py-1 bg-primary text-primary-foreground rounded-md hover:bg-primary/90',
+              'min-w-20 px-2 py-1 bg-text-primary text-bg-base rounded-md hover:bg-text-primary/90',
               { 'cursor-not-allowed': disabled },
               okButtonClassName,
             )}

@@ -1,4 +1,6 @@
-import CopyToClipboard from '@/components/copy-to-clipboard';
+import CopyToClipboard, {
+  CopyToClipboardWithText,
+} from '@/components/copy-to-clipboard';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -37,6 +39,16 @@ const ChatApiKeyModal = ({
             <DialogTitle>{t('apiKey')}</DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
+            <section className="rounded-lg border border-border-button bg-bg-card p-3">
+              <div className="mb-2 text-sm font-medium text-text-primary">
+                {t('backendServiceApi')}
+              </div>
+              <CopyToClipboardWithText
+                text={location.origin}
+                showCopyTooltip={false}
+              />
+            </section>
+
             {listLoading ? (
               <div className="flex justify-center py-8">Loading...</div>
             ) : (

@@ -15,6 +15,7 @@ import {
   LucidePanelLeftOpen,
   LucidePlus,
   LucideSearch,
+  LucideSquarePen,
   LucideTrash2,
   LucideUndo2,
 } from 'lucide-react';
@@ -134,15 +135,27 @@ export function Sessions({ handleConversationCardClick }: SessionProps) {
 
   if (!visible) {
     return (
-      <div className="p-4">
+      <div className="flex flex-col items-center gap-6 bg-chat-sidebar px-4 py-10">
         <Button
           variant="transparent"
           size="icon-sm"
-          className="border-0 bg-chat-sidebar rounded-full hover:bg-chat-sidebar-item"
+          className="border-0 bg-chat-sidebar rounded-full text-text-secondary hover:bg-chat-sidebar-item"
           onClick={switchVisible}
           data-testid="chat-detail-sessions-open"
+          aria-label={t('chat.conversations')}
         >
-          <LucidePanelLeftOpen className="size-4 text-text-secondary" />
+          <LucidePanelLeftOpen className="size-5" />
+        </Button>
+
+        <Button
+          variant="transparent"
+          size="icon-sm"
+          className="border-0 bg-chat-sidebar rounded-full text-text-secondary hover:bg-chat-sidebar-item"
+          onClick={addTemporaryConversation}
+          data-testid="chat-detail-session-new-collapsed"
+          aria-label={t('chat.newConversation')}
+        >
+          <LucideSquarePen className="size-5" />
         </Button>
       </div>
     );

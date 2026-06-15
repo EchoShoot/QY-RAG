@@ -14,7 +14,9 @@ import {
 import { ArrowUpDown } from 'lucide-react';
 import * as React from 'react';
 
+import CopyToClipboard from '@/components/copy-to-clipboard';
 import { FileIcon } from '@/components/icon-font';
+import NewDocumentLink from '@/components/new-document-link';
 import { RenameDialog } from '@/components/rename-dialog';
 import { TableEmpty, TableSkeleton } from '@/components/table-skeleton';
 import { Button } from '@/components/ui/button';
@@ -38,6 +40,10 @@ import { useFetchFileList } from '@/hooks/use-file-request';
 import { IFile } from '@/interfaces/database/file-manager';
 import { formatFileSize } from '@/utils/common-util';
 import { formatDate } from '@/utils/date';
+import {
+  getExtension,
+  isSupportedPreviewDocumentType,
+} from '@/utils/document-util';
 import { pick } from 'lodash';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -190,6 +196,20 @@ export function FilesTable({
         const id = row.original.id;
         const isFolder = isFolderType(type);
         const isSkillsFolder = isFolder && name.toLowerCase() === 'skills';
+        const extension = getExtension(name);
+        const canPreview = isSupportedPreviewDocumentType(extension);
+
+        const nameContent = (
+          <>
+            <FileIcon
+              name={name}
+              type={isSkillsFolder ? 'skills' : type}
+              className="shrink-0"
+            />
+
+            <span className="min-w-0 truncate">{name}</span>
+          </>
+        );
 
         const handleNameClick = () => {
           if (isSkillsFolder) {
@@ -199,22 +219,48 @@ export function FilesTable({
           }
         };
 
+        const nameTrigger = isFolder ? (
+          <Button
+            variant="static"
+            onClick={handleNameClick}
+            className="inline-flex min-w-0 max-w-full p-0 justify-start gap-2 text-text-primary"
+          >
+            {nameContent}
+          </Button>
+        ) : canPreview ? (
+          <NewDocumentLink
+            documentId={id}
+            documentName={name}
+            resource="files"
+            className="inline-flex min-w-0 max-w-full p-0 justify-start gap-2 text-text-primary hover:text-accent-primary"
+          >
+            {nameContent}
+          </NewDocumentLink>
+        ) : (
+          <span className="inline-flex min-w-0 max-w-full p-0 justify-start gap-2 text-text-primary">
+            {nameContent}
+          </span>
+        );
+
         return (
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                variant="static"
-                onClick={handleNameClick}
-                className="max-w-full p-0 flex justify-start gap-2 text-text-primary"
-              >
-                <FileIcon name={name} type={isSkillsFolder ? 'skills' : type} />
+          <span className="group/name inline-flex max-w-full items-center gap-1">
+            <Tooltip>
+              <TooltipTrigger asChild>{nameTrigger}</TooltipTrigger>
 
-                <span className="truncate">{name}</span>
-              </Button>
-            </TooltipTrigger>
+              <TooltipContent>{name}</TooltipContent>
+            </Tooltip>
 
-            <TooltipContent>{name}</TooltipContent>
-          </Tooltip>
+            <CopyToClipboard
+              text={name}
+              size="icon-xs"
+              className="
+                pointer-events-none shrink-0 border-0 text-text-secondary opacity-0
+                transition-opacity group-hover/name:pointer-events-auto group-hover/name:opacity-100
+                group-focus-within/name:pointer-events-auto group-focus-within/name:opacity-100
+                hover:text-text-primary
+              "
+            />
+          </span>
         );
       },
     },

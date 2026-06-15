@@ -9,8 +9,9 @@ import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 const CopyToClipboard = ({
   text,
   className,
+  showCopyTooltip = true,
   ...buttonProps
-}: { text: string } & ButtonProps) => {
+}: { text: string; showCopyTooltip?: boolean } & ButtonProps) => {
   const [copied, setCopied] = useState(false);
   const { t } = useTranslate('common');
 
@@ -22,7 +23,7 @@ const CopyToClipboard = ({
   };
 
   return (
-    <Tooltip open={copied ? true : undefined}>
+    <Tooltip open={copied ? true : showCopyTooltip ? undefined : false}>
       <Clipboard text={text} onCopy={handleCopy}>
         <TooltipTrigger asChild>
           <Button
@@ -42,11 +43,20 @@ const CopyToClipboard = ({
 
 export default CopyToClipboard;
 
-export function CopyToClipboardWithText({ text }: { text: string }) {
+export function CopyToClipboardWithText({
+  text,
+  showCopyTooltip = true,
+}: {
+  text: string;
+  showCopyTooltip?: boolean;
+}) {
   return (
     <div className="bg-bg-card p-1 rounded-md flex gap-2">
       <span className="flex-1 truncate">{text}</span>
-      <CopyToClipboard text={text}></CopyToClipboard>
+      <CopyToClipboard
+        text={text}
+        showCopyTooltip={showCopyTooltip}
+      ></CopyToClipboard>
     </div>
   );
 }

@@ -38,6 +38,8 @@ import { BgSvg } from '../login-next/bg';
 
 import { CurrentUserInfoContext } from './layouts/root-layout';
 
+const authInputClassName = 'h-10';
+
 function AdminLogin() {
   const navigate = useNavigate();
   const [, setCurrentUserInfo] = useContext(CurrentUserInfoContext);
@@ -166,7 +168,7 @@ function AdminLogin() {
 
                           <FormControl>
                             <Input
-                              className="h-10"
+                              className={authInputClassName}
                               placeholder={t('emailPlaceholder')}
                               autoComplete="email"
                               {...field}
@@ -188,7 +190,7 @@ function AdminLogin() {
                           <FormControl>
                             <Input
                               {...field}
-                              className="h-10"
+                              className={authInputClassName}
                               type="password"
                               placeholder={t('passwordPlaceholder')}
                               autoComplete="password"

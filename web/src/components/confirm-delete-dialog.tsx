@@ -92,9 +92,10 @@ export function ConfirmDeleteDialog({
             </>
           )}
         </AlertDialogHeader>
-        <AlertDialogFooter className="px-5 flex items-center gap-2">
+        <AlertDialogFooter className="flex w-full flex-row flex-wrap items-center justify-end gap-2 px-5">
           <AlertDialogCancel
             onClick={onCancel}
+            className="mt-0 min-w-20"
             data-testid={
               cancelButtonTestId ?? 'confirm-delete-dialog-cancel-btn'
             }
@@ -102,7 +103,7 @@ export function ConfirmDeleteDialog({
             {cancelButtonText || t('common.cancel')}
           </AlertDialogCancel>
           <AlertDialogAction
-            className="bg-state-error text-text-primary hover:text-text-primary hover:bg-state-error"
+            className="!visible min-w-20 !bg-red-600 !text-white !opacity-100 hover:!bg-red-700 hover:!text-white"
             onClick={onOk}
             data-testid={
               confirmButtonTestId ?? 'confirm-delete-dialog-confirm-btn'
