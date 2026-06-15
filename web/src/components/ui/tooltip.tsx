@@ -21,7 +21,7 @@ const TooltipContent = React.forwardRef<
       ref={ref}
       sideOffset={sideOffset}
       className={cn(
-        'z-50 overflow-auto scrollbar-auto rounded-md whitespace-pre-wrap border bg-bg-base px-3 py-1.5 text-sm text-text-primary shadow-md animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 max-w-[30vw]',
+        'z-50 overflow-auto scrollbar-auto rounded-md whitespace-pre-wrap border border-transparent bg-bg-base px-3 py-1.5 text-sm text-text-primary shadow-floating animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 max-w-[30vw]',
         className,
       )}
       {...props}
@@ -125,7 +125,7 @@ export const AntToolTip: React.FC<AntToolTipProps> = ({
       {visible && title && (
         <div
           className={cn(
-            'absolute z-50 px-2.5 py-2 text-xs text-text-primary bg-muted rounded-sm shadow-sm whitespace-wrap w-max',
+            'absolute z-50 px-2.5 py-2 text-xs text-text-primary bg-bg-base rounded-sm shadow-floating whitespace-wrap w-max',
             getPlacementClasses(),
             className,
           )}
@@ -133,7 +133,7 @@ export const AntToolTip: React.FC<AntToolTipProps> = ({
           {title}
           <div
             className={cn(
-              'absolute w-2 h-2  bg-muted ',
+              'absolute w-2 h-2  bg-bg-base ',
               placement === 'top' &&
                 'bottom-[-4px] left-1/2 transform -translate-x-1/2 rotate-45',
               placement === 'bottom' &&

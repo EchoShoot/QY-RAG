@@ -86,7 +86,10 @@ export default function Agents() {
   return (
     <>
       {data?.length || searchString ? (
-        <article className="size-full flex flex-col bg-app-page" data-testid="agents-list">
+        <article
+          className="size-full flex flex-col bg-app-page"
+          data-testid="agents-list"
+        >
           <header className="px-6 pt-6 pb-4">
             <ListFilterBar
               title={t('flow.agents')}
@@ -98,7 +101,7 @@ export default function Agents() {
               value={filterValue}
             >
               <DropdownMenu>
-                <DropdownMenuTrigger data-testid="create-agent">
+                <DropdownMenuTrigger asChild data-testid="create-agent">
                   <Button>
                     <Plus className="size-[1em]" />
                     {t('flow.createGraph')}
@@ -169,7 +172,7 @@ export default function Agents() {
         </article>
       ) : (
         <article
-          className="size-full flex items-center justify-center"
+          className="size-full flex items-center justify-center bg-app-page"
           data-testid="agents-list"
         >
           <EmptyAppCard

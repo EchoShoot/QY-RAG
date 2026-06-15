@@ -147,7 +147,7 @@ export const StructuredOutputSecondaryMenu = forwardRef(
         <HoverCardContent
           side="left"
           align="start"
-          className="min-w-72 bg-bg-base border-0.5 border-border rounded-md shadow-lg p-0 overflow-hidden"
+          className="min-w-72 bg-bg-base border-0.5 border-transparent rounded-md shadow-floating p-0 overflow-hidden"
         >
           <ScrollArea className="p-2">
             <section>

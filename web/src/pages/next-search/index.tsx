@@ -1,4 +1,14 @@
+import { PageHeader } from '@/components/page-header';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb';
 import { Button } from '@/components/ui/button';
+import { useNavigatePage } from '@/hooks/logic-hooks/navigate-hooks';
 import { useFetchUserInfo } from '@/hooks/use-user-setting-request';
 import { Settings } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -11,16 +21,6 @@ import './index.less';
 import SearchHome from './search-home';
 import { SearchSetting } from './search-setting';
 import SearchingPage from './searching';
-import { PageHeader } from '@/components/page-header';
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb';
-import { useNavigatePage } from '@/hooks/logic-hooks/navigate-hooks';
 
 export default function SearchPage() {
   const [isSearching, setIsSearching] = useState(false);
@@ -30,6 +30,7 @@ export default function SearchPage() {
   const [openSetting, setOpenSetting] = useState(false);
   const [searchText, setSearchText] = useState('');
   const { data: userInfo } = useFetchUserInfo();
+  const searchName = (SearchData as ISearchAppDetailProps)?.name;
   const { openSetting: checkOpenSetting } = useCheckSettings(
     SearchData as ISearchAppDetailProps,
   );
@@ -51,13 +52,23 @@ export default function SearchPage() {
       <PageHeader>
         <Breadcrumb>
           <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink onClick={navigateToSearchList}>搜索</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>{(SearchData as ISearchAppDetailProps)?.name}</BreadcrumbPage>
-            </BreadcrumbItem>
+            {searchName ? (
+              <>
+                <BreadcrumbItem>
+                  <BreadcrumbLink onClick={navigateToSearchList}>
+                    搜索
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbPage>{searchName}</BreadcrumbPage>
+                </BreadcrumbItem>
+              </>
+            ) : (
+              <BreadcrumbItem>
+                <BreadcrumbPage>搜索</BreadcrumbPage>
+              </BreadcrumbItem>
+            )}
           </BreadcrumbList>
         </Breadcrumb>
         <Button
@@ -69,9 +80,9 @@ export default function SearchPage() {
         </Button>
       </PageHeader>
       <div className="flex gap-3 flex-1 min-h-0 px-3 pb-3">
-        <div className="flex-1 min-w-0 bg-bg-base rounded-3xl overflow-hidden">
+        <div className="relative flex-1 min-w-0 bg-bg-base rounded-3xl overflow-hidden">
           {!isSearching && (
-            <div className="animate-fade-in-down">
+            <div className="absolute inset-0 animate-fade-in-down">
               <SearchHome
                 setIsSearching={setIsSearching}
                 isSearching={isSearching}

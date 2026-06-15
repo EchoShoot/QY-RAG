@@ -209,7 +209,7 @@ function CheckboxFormMultiple({
               return (
                 <div
                   key={key}
-                  className="flex flex-col space-y-4 border-b border-border-button pb-4"
+                  className="flex flex-col space-y-4 border-b border-transparent pb-4"
                 >
                   <div className="text-text-primary text-sm">{key}</div>
                   <div className="flex flex-col space-y-4">
@@ -288,21 +288,10 @@ function CheckboxFormMultiple({
         </div>
 
         <div className="flex justify-end gap-5">
-          <Button
-            type="button"
-            variant={'outline'}
-            size={'sm'}
-            onClick={onReset}
-          >
+          <Button type="button" variant={'ghost'} size={'sm'} onClick={onReset}>
             {t('common.clear')}
           </Button>
-          <Button
-            type="submit"
-            onClick={() => {
-              console.log(form.formState.errors, form.getValues());
-            }}
-            size={'sm'}
-          >
+          <Button type="submit" size={'sm'}>
             {t('common.submit')}
           </Button>
         </div>
@@ -330,7 +319,7 @@ export function FilterPopover({
   return (
     <Popover open={open} onOpenChange={onOpenChangeFun}>
       <PopoverTrigger asChild>{children}</PopoverTrigger>
-      <PopoverContent className="p-0">
+      <PopoverContent className="p-0 bg-bg-base">
         <CheckboxFormMultiple
           onChange={onChange}
           value={value}

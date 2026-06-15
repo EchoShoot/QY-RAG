@@ -58,7 +58,7 @@ export const EmptyCard = (props: EmptyCardProps) => {
   return (
     <article
       className={cn(
-        'flex flex-col gap-3 items-start justify-start border border-dashed border-border-button rounded-md p-5 w-fit',
+        'flex flex-col gap-3 items-start justify-start border border-transparent rounded-md bg-bg-base p-5 w-fit shadow-none motion-breath',
         className,
       )}
       style={style}
@@ -115,7 +115,11 @@ export const EmptyAppCard = (props: {
         tabIndex={tabIndex ?? (isSearch ? undefined : 0)}
         icon={showIcon ? cardData.icon : undefined}
         title={isSearch ? notFound : title}
-        className={cn(!isSearch && 'cursor-pointer', className)}
+        className={cn(
+          !isSearch &&
+            'cursor-pointer hover:shadow-raised hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.985] active:shadow-surface focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent-primary focus-visible:shadow-focus',
+          className,
+        )}
         style={style}
         // description={EmptyCardData[type].description}
       >

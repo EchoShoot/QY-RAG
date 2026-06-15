@@ -71,7 +71,10 @@ export default function MemoryList() {
   return (
     <>
       {list?.data?.memory_list?.length || searchString ? (
-        <article className="size-full flex flex-col bg-app-page" data-testid="memory-list">
+        <article
+          className="size-full flex flex-col bg-app-page"
+          data-testid="memory-list"
+        >
           <header className="px-6 pt-6 pb-4">
             <ListFilterBar
               icon="memory"
@@ -127,7 +130,7 @@ export default function MemoryList() {
         </article>
       ) : (
         <article
-          className="size-full flex items-center justify-center"
+          className="size-full flex items-center justify-center bg-app-page"
           data-testid="memory-list"
         >
           <EmptyAppCard

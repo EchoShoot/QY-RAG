@@ -83,7 +83,7 @@ function MultiCommandItem({
         <option.icon
           className={cn('mr-2 h-4 w-4 ', {
             'text-text-disabled': option.disabled,
-            'text-muted-foreground': !option.disabled,
+            'text-text-secondary': !option.disabled,
           })}
         />
       )}
@@ -103,25 +103,22 @@ function MultiCommandItem({
  * Variants for the multi-select component to handle different styles.
  * Uses class-variance-authority (cva) to define different styles based on "variant" prop.
  */
-const multiSelectVariants = cva(
-  'm-1 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300',
-  {
-    variants: {
-      variant: {
-        default:
-          'border-foreground/10 text-foreground bg-card hover:bg-card/80',
-        secondary:
-          'border-foreground/10 bg-secondary text-secondary-foreground hover:bg-secondary/80',
-        destructive:
-          'border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80',
-        inverted: 'inverted',
-      },
-    },
-    defaultVariants: {
-      variant: 'default',
+const multiSelectVariants = cva('m-1 transition-colors duration-200', {
+  variants: {
+    variant: {
+      default:
+        'border-transparent text-text-secondary bg-bg-card hover:text-text-primary hover:bg-bg-component',
+      secondary:
+        'border-transparent bg-bg-card text-text-secondary hover:text-text-primary hover:bg-bg-component',
+      destructive:
+        'border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80',
+      inverted: 'inverted',
     },
   },
-);
+  defaultVariants: {
+    variant: 'default',
+  },
+});
 
 /**
  * Props for MultiSelect component
@@ -394,7 +391,7 @@ export const MultiSelect = React.forwardRef<
                   {selectedValues.length > maxCount && (
                     <Badge
                       className={cn(
-                        'bg-transparent text-foreground border-foreground/1 hover:bg-transparent',
+                        'bg-transparent text-text-secondary border-transparent hover:bg-transparent',
                         isAnimating ? 'animate-bounce' : '',
                         multiSelectVariants({ variant }),
                       )}
@@ -518,7 +515,7 @@ export const MultiSelect = React.forwardRef<
                   </CommandGroup>
                 ))}
               <CommandGroup>
-                <div className=" absolute bottom-1 left-1 right-1 flex items-center justify-between mx-5 bg-bg-base border-t border-border-button">
+                <div className="sticky bottom-0 flex items-center justify-between bg-bg-base border-t border-transparent">
                   <CommandSeparator />
                   {selectedValues.length > 0 && (
                     <>
@@ -550,8 +547,8 @@ export const MultiSelect = React.forwardRef<
         {animation > 0 && selectedValues.length > 0 && (
           <WandSparkles
             className={cn(
-              'cursor-pointer my-2 text-foreground bg-background w-3 h-3',
-              isAnimating ? '' : 'text-muted-foreground',
+              'cursor-pointer my-2 text-text-primary bg-bg-base w-3 h-3',
+              isAnimating ? '' : 'text-text-secondary',
             )}
             onClick={() => setIsAnimating(!isAnimating)}
           />

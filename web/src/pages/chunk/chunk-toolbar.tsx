@@ -8,9 +8,7 @@ interface ChunkToolbarProps {
 export function ChunkToolbar({ text }: ChunkToolbarProps) {
   return (
     <div className="flex justify-between px-9">
-      <span className="text-colors-text-neutral-strong text-3xl font-bold">
-        {text}
-      </span>
+      <span className="text-text-primary text-2xl font-semibold">{text}</span>
       <div className="flex items-center gap-3">
         <Button variant={'ghost'} size={'icon'}>
           <Copy />

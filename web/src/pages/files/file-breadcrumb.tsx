@@ -1,6 +1,7 @@
 import {
   Breadcrumb,
   BreadcrumbItem,
+  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
@@ -25,7 +26,7 @@ export function FileBreadcrumb() {
               {idx === breadcrumbItems.length - 1 ? (
                 <BreadcrumbPage>{x.title}</BreadcrumbPage>
               ) : (
-                x.title
+                <BreadcrumbLink>{x.title}</BreadcrumbLink>
               )}
             </BreadcrumbItem>
           </div>

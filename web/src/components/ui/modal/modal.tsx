@@ -227,7 +227,7 @@ const Modal: ModalType = ({
         >
           <DialogPrimitive.Content
             className={cn(
-              `relative w-[700px] ${full ? 'max-w-full' : sizeClasses[size]} ${className} bg-bg-base rounded-lg shadow-lg border border-border-default transition-all focus-visible:!outline-none`,
+              `relative w-[700px] ${full ? 'max-w-full' : sizeClasses[size]} ${className} bg-bg-base rounded-lg shadow-modal border border-transparent transition-all focus-visible:!outline-none`,
               { 'pt-10': closable && !title && !type },
             )}
             data-testid={testId}

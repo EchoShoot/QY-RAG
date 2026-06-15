@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 const { fontFamily } = require('tailwindcss/defaultTheme');
 
 /** @type {import('tailwindcss').Config} */
@@ -119,7 +120,8 @@ module.exports = {
         'bg-member': 'var(--bg-member)',
         'bg-department': 'var(--bg-department)',
         'app-page': 'var(--app-page)',
-        'app-page': '#F0F4F9',
+        'surface-raised': 'var(--surface-raised)',
+        'surface-floating': 'var(--surface-floating)',
 
         primary: {
           DEFAULT: 'hsl(var(--primary))',
@@ -187,6 +189,13 @@ module.exports = {
       backgroundImage: {
         'metallic-gradient':
           'linear-gradient(104deg, rgb(var(--text-primary)) 30%, var(--metallic) 50%, rgb(var(--text-primary)) 70%)',
+      },
+      boxShadow: {
+        surface: 'var(--shadow-surface)',
+        raised: 'var(--shadow-raised)',
+        floating: 'var(--shadow-floating)',
+        modal: 'var(--shadow-modal)',
+        focus: 'var(--shadow-focus)',
       },
       borderRadius: {
         px: '1px',

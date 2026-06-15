@@ -2,6 +2,37 @@
 
 :root {
   --font-sans: 'Inter';
+  --app-page: #e8edf5;
+  --surface-raised: #f4f7fb;
+  --surface-floating: #fbfcfe;
+  --shadow-surface:
+    0 1px 2px rgba(60, 64, 67, 0.08), 0 1px 3px rgba(60, 64, 67, 0.06);
+  --shadow-raised:
+    0 6px 18px rgba(60, 64, 67, 0.12), 0 1px 4px rgba(60, 64, 67, 0.08);
+  --shadow-floating:
+    0 12px 32px rgba(60, 64, 67, 0.16), 0 2px 8px rgba(60, 64, 67, 0.1);
+  --shadow-modal:
+    0 24px 70px rgba(31, 31, 31, 0.2), 0 8px 24px rgba(31, 31, 31, 0.12);
+  --shadow-focus:
+    0 0 0 1px rgb(var(--accent-primary) / 0.28),
+    0 8px 24px rgb(var(--accent-primary) / 0.12);
+}
+
+.dark {
+  --app-page: #131314;
+  --surface-raised: #242528;
+  --surface-floating: #2a2b2f;
+  --shadow-surface:
+    0 1px 2px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.03);
+  --shadow-raised:
+    0 10px 26px rgba(0, 0, 0, 0.42), 0 0 0 1px rgba(255, 255, 255, 0.04);
+  --shadow-floating:
+    0 18px 46px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.06);
+  --shadow-modal:
+    0 28px 80px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.06);
+  --shadow-focus:
+    0 0 0 1px rgb(var(--accent-primary) / 0.35),
+    0 0 28px rgb(var(--accent-primary) / 0.18);
 }
 
 @supports (font-variation-settings: normal) {
@@ -56,6 +87,32 @@ body,
 }
 .dark *:hover::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.15);
+}
+
+.motion-breath {
+  transition-duration: 220ms;
+  transition-property:
+    color, background-color, border-color, box-shadow, opacity, transform;
+  transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
+  will-change: transform, box-shadow;
+}
+
+.motion-breath:active {
+  transition-duration: 140ms;
+  transition-timing-function: cubic-bezier(0.3, 0, 0.8, 0.15);
+}
+
+.motion-pop {
+  transition-duration: 180ms;
+  transition-property: opacity, transform;
+  transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-breath,
+  .motion-pop {
+    transition-duration: 0ms;
+  }
 }
 
 .Highlight--scrolledTo .Highlight__part {

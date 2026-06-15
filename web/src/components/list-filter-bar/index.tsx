@@ -96,7 +96,7 @@ export default function ListFilterBar({
 
   return (
     <div className={cn('flex justify-between items-center', className)}>
-      <h1 className="text-2xl font-semibold flex items-center gap-2.5">
+      <h1 className="text-2xl font-semibold flex items-center gap-2.5 text-text-primary">
         {typeof icon === 'string' ? (
           // <IconFont name={icon} className="size-6"></IconFont>
           <HomeIcon

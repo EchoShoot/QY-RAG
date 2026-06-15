@@ -83,7 +83,6 @@ const RetrievalDocuments = ({
   };
 
   const onValueChange = (value: string[]) => {
-    console.log(value);
     onTesting(value);
     setSelectedDocumentIds(value);
     // handleDatasetSelectChange(value, field.onChange);
@@ -117,7 +116,7 @@ const RetrievalDocuments = ({
           <Button
             onClick={handleTogglePopover}
             className={cn(
-              'flex w-full p-1 rounded-md text-base text-text-primary border min-h-10 h-auto items-center justify-between bg-inherit hover:bg-inherit [&_svg]:pointer-events-auto',
+              'flex w-full p-1 rounded-md text-base text-text-primary border border-transparent min-h-10 h-auto items-center justify-between bg-bg-card hover:bg-bg-card [&_svg]:pointer-events-auto',
             )}
           >
             <div className="flex justify-between items-center w-full">
@@ -130,7 +129,7 @@ const RetrievalDocuments = ({
               </div>
               <div className="flex items-center justify-between">
                 <XIcon
-                  className="h-4 mx-2 cursor-pointer text-muted-foreground"
+                  className="h-4 mx-2 cursor-pointer text-text-secondary"
                   onClick={(event) => {
                     event.stopPropagation();
                     handleClear();
@@ -140,7 +139,7 @@ const RetrievalDocuments = ({
                   orientation="vertical"
                   className="flex min-h-6 h-full"
                 />
-                <ChevronDown className="h-4 mx-2 cursor-pointer text-muted-foreground" />
+                <ChevronDown className="h-4 mx-2 cursor-pointer text-text-secondary" />
               </div>
             </div>
           </Button>
@@ -192,7 +191,7 @@ const RetrievalDocuments = ({
                           <option.icon
                             className={cn('mr-2 h-4 w-4 ', {
                               'text-text-disabled': option.disabled,
-                              'text-muted-foreground': !option.disabled,
+                              'text-text-secondary': !option.disabled,
                             })}
                           />
                         )}

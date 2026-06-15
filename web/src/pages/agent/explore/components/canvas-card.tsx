@@ -14,8 +14,8 @@ export function CanvasCard({ canvas, selected, onClick }: CanvasCardProps) {
     <Card
       onClick={onClick}
       className={cn(
-        'cursor-pointer hover:shadow-md transition-shadow',
-        selected && 'bg-bg-card',
+        'cursor-pointer hover:shadow-raised hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.985] active:shadow-surface',
+        selected && 'bg-bg-card shadow-surface',
       )}
     >
       <CardContent className="p-3 flex gap-2 items-start">

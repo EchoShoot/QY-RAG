@@ -21,7 +21,7 @@ const DialogOverlay = React.forwardRef<
   <DialogPrimitive.Overlay
     ref={ref}
     className={cn(
-      'fixed inset-0 z-50 bg-black/50 backdrop-blur-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
+      'fixed inset-0 z-50 bg-black/25 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
       className,
     )}
     {...props}
@@ -40,7 +40,7 @@ const DialogContent = React.forwardRef<
       className={cn(
         'outline-none outline-0 fixed left-[50%] top-[50%] rounded-3xl z-50 grid w-full max-w-xl translate-x-[-50%] translate-y-[-50%]',
         'gap-4',
-        'border-0 bg-bg-base p-6 shadow-xl duration-200',
+        'border-0 bg-bg-base p-6 shadow-modal duration-200',
         'data-[state=open]:animate-in data-[state=closed]:animate-out',
         'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
         'data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',
@@ -54,9 +54,9 @@ const DialogContent = React.forwardRef<
       <DialogPrimitive.Close
         className="
         absolute right-4 top-4 p-2 rounded-sm opacity-70 outline-none text-text-secondary transition-colors
-        hover:bg-border-button hover:text-text-primary
-        focus-visible:bg-border-button focus-visible:text-text-primary
-        disabled:pointer-events-none data-[state=open]:bg-bg-accent data-[state=open]:text-muted-foreground
+        hover:bg-bg-card hover:text-text-primary
+        focus-visible:bg-bg-card focus-visible:text-text-primary
+        disabled:pointer-events-none data-[state=open]:bg-bg-accent data-[state=open]:text-text-secondary
       "
       >
         <X className="h-4 w-4" />
@@ -73,7 +73,7 @@ const DialogHeader = ({
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
     className={cn(
-      '-mx-6 -mt-6 p-6 border-b-0.5 border-border-button',
+      '-mx-6 -mt-6 p-6 border-b-0.5 border-transparent',
       'flex flex-col space-y-1.5 text-center sm:text-left',
       className,
     )}

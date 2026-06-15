@@ -8,8 +8,10 @@ import { Link, LinkProps } from 'react-router';
 
 const buttonVariants = cva(
   cn(
-    'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm transition-colors outline-0',
+    'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm outline-0',
+    'motion-breath active:scale-[0.97]',
     'disabled:pointer-events-none disabled:opacity-50 rounded border-0.5 border-transparent',
+    'focus-visible:ring-1 focus-visible:ring-accent-primary focus-visible:shadow-focus',
     '[&_svg]:pointer-events-none [&_svg:not([class*="size-"])]:size-4 shrink-0 [&_svg]:shrink-0',
   ),
   {
@@ -18,54 +20,62 @@ const buttonVariants = cva(
         // Solid variant series:
         // Button has its own background color, may have borders
         default:
-          'bg-text-primary text-bg-base shadow-xs hover:bg-text-primary/90 focus-visible:bg-text-primary/90',
+          'bg-text-primary text-bg-base shadow-surface hover:bg-text-primary/90 hover:shadow-raised focus-visible:bg-text-primary/90',
 
         secondary: `
           bg-bg-card
-          hover:text-text-primary hover:bg-border-button
-          focus-visible:text-text-primary focus-visible:bg-border-button
+          hover:text-text-primary hover:bg-bg-component
+          focus-visible:text-text-primary focus-visible:bg-bg-component
+          hover:shadow-surface
         `,
 
         highlighted: `
           bg-text-primary text-bg-base border-b-4 border-b-accent-primary
           hover:bg-text-primary/90 focus-visible:bg-text-primary/90
+          shadow-surface hover:shadow-raised
         `,
 
         accent: `
           bg-accent-primary text-white
           hover:bg-accent-primary/90 focus-visible:bg-accent-primary/90
+          shadow-surface hover:shadow-raised
         `,
 
         destructive: `
-          bg-state-error text-white shadow-xs
+          bg-state-error text-white shadow-surface
           hover:bg-state-error/90 focus-visible:ring-state-error/20 dark:focus-visible:ring-state-error/40
+          hover:shadow-raised
         `,
 
         // Outline variant series
         // Button has transparent or greyish background, may have borders
         outline: `
-          text-text-secondary bg-bg-input border-0.5 border-border-button
-          hover:text-text-primary hover:bg-border-button hover:border-border-default
-          focus-visible:text-text-primary focus-visible:bg-border-button focus-visible:border-border-button
+          text-text-secondary bg-bg-input border-transparent
+          hover:text-text-primary hover:bg-bg-card
+          focus-visible:text-text-primary focus-visible:bg-bg-card
+          hover:shadow-surface
         `, // light: bg=transparent, dark: bg-input
 
         dashed: `
           text-text-secondary border-border-button border-dashed
-          hover:text-text-primary hover:bg-border-button hover:border-border-default
-          focus-visible:text-text-primary focus-visible:bg-border-button focus-visible:border-border-button
+          hover:text-text-primary hover:bg-bg-card
+          focus-visible:text-text-primary focus-visible:bg-bg-card
+          hover:shadow-surface
         `,
 
-        icon: 'bg-transparent text-foreground hover:bg-transparent/80',
+        icon: 'bg-transparent text-text-primary hover:bg-transparent/80',
 
         transparent: `
-          text-text-secondary bg-transparent border-0.5 border-border-button
-          hover:text-text-primary hover:bg-border-button
-          focus-visible:text-text-primary focus-visible:bg-border-button focus-visible:border-border-button
+          text-text-secondary bg-transparent border-transparent
+          hover:text-text-primary hover:bg-bg-card
+          focus-visible:text-text-primary focus-visible:bg-bg-card
+          hover:shadow-surface
         `,
 
         danger: `
           bg-transparent border border-state-error text-state-error
           hover:bg-state-error/10 focus-visible:bg-state-error/10
+          hover:shadow-surface
         `,
 
         'danger-hover': `
@@ -73,28 +83,31 @@ const buttonVariants = cva(
           hover:bg-state-error/10 focus-visible:bg-state-error/10
           hover:text-state-error focus-visible:text-state-error
           hover:border-state-error focus-visible:border-state-error
+          hover:shadow-surface
         `,
 
         // Ghost variant series
         // Button has transparent background, without borders
         ghost: `
           text-text-secondary
-          hover:bg-border-button focus-visible:bg-border-button
+          hover:bg-bg-card focus-visible:bg-bg-card
           hover:text-text-primary focus-visible:text-text-primary
+          hover:shadow-surface
         `,
 
         delete: `
           text-text-secondary
           hover:bg-state-error-5 hover:text-state-error
           focus-visible:text-state-error focus-visible:bg-state-error-5
+          hover:shadow-surface
         `,
 
-        link: 'text-primary underline-offset-4 hover:underline',
+        link: 'text-primary underline-offset-4 hover:underline active:scale-100',
 
         // Static
-        // Button has no interaction transitions
+        // Keep the label-only treatment; no elevation or press motion.
         static:
-          'text-text-secondary hover:text-text-primary focus-visible:text-text-primary',
+          'text-text-secondary hover:text-text-primary focus-visible:text-text-primary active:scale-100',
       },
       size: {
         auto: '',

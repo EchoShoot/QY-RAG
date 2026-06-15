@@ -127,7 +127,7 @@ export default function Datasets() {
         </article>
       ) : (
         <article
-          className="size-full flex items-center justify-center"
+          className="size-full flex items-center justify-center bg-app-page"
           data-testid="datasets-list"
         >
           <EmptyAppCard

@@ -19,7 +19,7 @@ const BreadcrumbList = React.forwardRef<
   <ol
     ref={ref}
     className={cn(
-      'flex flex-wrap items-center gap-1.5 break-words text-sm text-text-secondary sm:gap-2.5',
+      'flex flex-wrap items-center gap-1.5 break-words text-sm text-text-secondary sm:gap-2',
       className,
     )}
     {...props}
@@ -34,7 +34,7 @@ const BreadcrumbItem = React.forwardRef<
   <li
     ref={ref}
     className={cn(
-      'inline-flex items-center gap-1.5 text-text-secondary',
+      'inline-flex items-center gap-1.5 text-text-secondary only:[&>a]:-mx-0 only:[&>a]:px-0 only:[&>a]:text-base only:[&>a]:font-semibold only:[&>a]:text-text-primary only:[&>a:hover]:bg-transparent',
       className,
     )}
     {...props}
@@ -54,7 +54,7 @@ const BreadcrumbLink = React.forwardRef<
     <Comp
       ref={ref}
       className={cn(
-        'transition-colors hover:text-text-primary focus-visible:text-text-primary cursor-pointer',
+        'rounded-full px-2 py-1 -mx-2 transition-colors hover:bg-bg-card hover:text-text-primary focus-visible:bg-bg-card focus-visible:text-text-primary cursor-pointer',
         className,
       )}
       {...props}
@@ -72,7 +72,10 @@ const BreadcrumbPage = React.forwardRef<
     role="link"
     aria-disabled="true"
     aria-current="page"
-    className={cn('font-medium text-text-primary truncate max-w-40', className)}
+    className={cn(
+      'truncate max-w-64 text-base font-semibold text-text-primary',
+      className,
+    )}
     {...props}
   />
 ));
@@ -86,7 +89,7 @@ const BreadcrumbSeparator = ({
   <li
     role="presentation"
     aria-hidden="true"
-    className={cn('[&>svg]:w-3.5 [&>svg]:h-3.5', className)}
+    className={cn('text-text-disabled [&>svg]:w-3.5 [&>svg]:h-3.5', className)}
     {...props}
   >
     {children ?? <ChevronRight />}

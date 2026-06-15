@@ -1,0 +1,45 @@
+# Local environment
+.env
+.env.*
+!.env.example
+
+# Logs and runtime data
+*.log
+logs/
+*.pid
+
+# Docker/exported artifacts
+*.tar
+*.tar.gz
+*.tgz
+*.zip
+docker-compose.override.yml
+
+# Node/frontend artifacts
+node_modules/
+dist/
+.vite/
+.cache/
+web/node_modules/
+web/dist/
+web/.vite/
+web/.cache/
+web/storybook-static/
+web/*storybook.log
+
+# Python/cache artifacts
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo

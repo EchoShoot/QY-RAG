@@ -258,7 +258,10 @@ export default function Agent() {
   );
 
   return (
-    <section className="h-full" data-testid="agent-detail">
+    <section
+      className="size-full flex flex-col bg-app-page"
+      data-testid="agent-detail"
+    >
       <PageHeader>
         <section>
           <Breadcrumb>
@@ -344,14 +347,14 @@ export default function Agent() {
                 {t('flow.setting')}
               </AgentDropdownMenuItem>
               {isPipeline || (
-                  <>
-                    <DropdownMenuSeparator />
-                    <AgentDropdownMenuItem onClick={showEmbedModal}>
-                      <ScreenShare />
-                      {t('common.embedIntoSite')}
-                    </AgentDropdownMenuItem>
-                  </>
-                )}
+                <>
+                  <DropdownMenuSeparator />
+                  <AgentDropdownMenuItem onClick={showEmbedModal}>
+                    <ScreenShare />
+                    {t('common.embedIntoSite')}
+                  </AgentDropdownMenuItem>
+                </>
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

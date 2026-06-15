@@ -35,7 +35,6 @@ const formatMetadataValue = (value: unknown) => {
   return String(value);
 };
 export default function SearchingView({
-  setIsSearching,
   searchData,
   handleClickRelatedQuestion,
   handleTestChunk,
@@ -146,9 +145,7 @@ export default function SearchingView({
             </div>
           </div>
           {/* search body */}
-          <div
-            className="w-full mt-5 flex-1 min-h-0 overflow-auto scrollbar-thin"
-          >
+          <div className="w-full mt-5 flex-1 min-h-0 overflow-auto scrollbar-thin">
             {searchData.search_config.summary && !isSearchStrEmpty && (
               <>
                 <div className="flex justify-start items-start text-text-primary text-2xl">
@@ -158,7 +155,7 @@ export default function SearchingView({
                   <SkeletonCard className=" mt-2" />
                 ) : (
                   answer.answer && (
-                    <div className="border rounded-lg p-4 mt-3">
+                    <div className="rounded-2xl bg-bg-card p-4 mt-3">
                       <ExpandableContent maxHeight={208}>
                         <MarkdownContent
                           loading={sendingLoading}
@@ -171,7 +168,7 @@ export default function SearchingView({
                   )
                 )}
                 {answer.answer && !sendingLoading && (
-                  <div className="w-full border-b border-border-default/80 my-6"></div>
+                  <div className="w-full h-px bg-bg-card my-6"></div>
                 )}
               </>
             )}
@@ -223,7 +220,7 @@ export default function SearchingView({
                                   ([key, value]) => (
                                     <div
                                       key={key}
-                                      className="text-xs border border-border-default rounded px-2 py-1"
+                                      className="text-xs bg-bg-card rounded-full px-2 py-1"
                                     >
                                       <span className="text-text-secondary">
                                         {key}:
@@ -237,7 +234,7 @@ export default function SearchingView({
                               </div>
                             )}
                           <div
-                            className="flex gap-2 items-center text-xs text-text-secondary border p-1 rounded-lg w-fit mt-3"
+                            className="flex gap-2 items-center text-xs text-text-secondary bg-bg-card p-1 rounded-lg w-fit mt-3"
                             onClick={() =>
                               clickDocumentButton(chunk.doc_id, chunk as any)
                             }
@@ -247,7 +244,7 @@ export default function SearchingView({
                           </div>
                         </div>
                         {index < chunks.length - 1 && (
-                          <div className="w-full border-b border-border-default/80 mt-6 mb-2"></div>
+                          <div className="w-full h-px bg-bg-card mt-6 mb-2"></div>
                         )}
                       </div>
                     );
@@ -257,7 +254,7 @@ export default function SearchingView({
               {relatedQuestions?.length > 0 &&
                 searchData.search_config.related_search && (
                   <>
-                    <div className="w-full border-b border-border-default/80 mt-6"></div>
+                    <div className="w-full h-px bg-bg-card mt-6"></div>
 
                     <div className="mt-6 w-full overflow-hidden opacity-100 max-h-96">
                       <p className="text-text-primary mb-2 text-xl">
