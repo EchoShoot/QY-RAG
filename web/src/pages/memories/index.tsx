@@ -1,9 +1,11 @@
 import { CardContainer } from '@/components/card-container';
 import { EmptyCardType } from '@/components/empty/constant';
+import { DelayedEmptyState } from '@/components/empty/delayed-empty-state';
 import { EmptyAppCard } from '@/components/empty/empty';
 import ListFilterBar from '@/components/list-filter-bar';
 import { Button } from '@/components/ui/button';
 import { RAGFlowPagination } from '@/components/ui/ragflow-pagination';
+import { Spin } from '@/components/ui/spin';
 import { useTranslate } from '@/hooks/common-hooks';
 import { pick } from 'lodash';
 import { Plus } from 'lucide-react';
@@ -29,6 +31,7 @@ export default function MemoryList() {
     refetch: refetchList,
     filterValue,
     handleFilterSubmit,
+    isLoading,
   } = useFetchMemoryList();
 
   const {
@@ -68,80 +71,77 @@ export default function MemoryList() {
     }
   }, [isCreate, openCreateModalFun, searchUrl, setMemoryUrl]);
 
+  const memories = list?.data?.memory_list ?? [];
+  const hasMemories = memories.length > 0;
+  const showInitialLoading = isLoading && !hasMemories;
+
   return (
     <>
-      {list?.data?.memory_list?.length || searchString ? (
-        <article
-          className="size-full flex flex-col bg-app-page"
-          data-testid="memory-list"
-        >
-          <header className="px-6 pt-6 pb-4">
-            <ListFilterBar
-              icon="memory"
-              title={t('memory')}
-              onSearchChange={handleInputChange}
-              searchString={searchString}
-              filters={filters}
-              onChange={handleFilterSubmit}
-              value={filterValue}
-            >
-              <Button onClick={() => openCreateModalFun()}>
-                <Plus className="size-[1em]" />
-                {t('createMemory')}
-              </Button>
-            </ListFilterBar>
-          </header>
+      <article
+        className="size-full flex flex-col bg-app-page"
+        data-testid="memory-list"
+      >
+        <header className="px-6 pt-6 pb-4">
+          <ListFilterBar
+            icon="memory"
+            title={t('memory')}
+            onSearchChange={handleInputChange}
+            searchString={searchString}
+            filters={filters}
+            onChange={handleFilterSubmit}
+            value={filterValue}
+          >
+            <Button onClick={() => openCreateModalFun()}>
+              <Plus className="size-[1em]" />
+              {t('createMemory')}
+            </Button>
+          </ListFilterBar>
+        </header>
 
-          {list?.data?.memory_list?.length ? (
-            <>
-              <CardContainer className="flex-1 overflow-auto px-6 py-5">
-                {list?.data.memory_list.map((x) => (
-                  <MemoryCard
-                    key={x.id}
-                    data={x}
-                    showMemoryRenameModal={() => {
-                      setAddOrEditType('edit');
-                      showMemoryRenameModal(x);
-                    }}
-                  />
-                ))}
-              </CardContainer>
-
-              <footer className="px-6 py-4">
-                <RAGFlowPagination
-                  {...pick(pagination, 'current', 'pageSize')}
-                  total={list?.data.total_count}
-                  onChange={handlePageChange}
-                />
-              </footer>
-            </>
-          ) : (
-            <div className="flex-1 flex items-center justify-center">
-              <EmptyAppCard
-                showIcon
-                size="large"
-                className="w-[480px] p-14"
-                isSearch
-                type={EmptyCardType.Memory}
-                onClick={() => openCreateModalFun()}
+        {hasMemories ? (
+          <CardContainer className="flex-1 min-h-0 overflow-auto px-6 py-5">
+            {memories.map((x) => (
+              <MemoryCard
+                key={x.id}
+                data={x}
+                showMemoryRenameModal={() => {
+                  setAddOrEditType('edit');
+                  showMemoryRenameModal(x);
+                }}
               />
-            </div>
-          )}
-        </article>
-      ) : (
-        <article
-          className="size-full flex items-center justify-center bg-app-page"
-          data-testid="memory-list"
-        >
-          <EmptyAppCard
-            showIcon
-            size="large"
-            className="w-[480px] p-14"
-            type={EmptyCardType.Memory}
-            onClick={() => openCreateModalFun()}
-          />
-        </article>
-      )}
+            ))}
+          </CardContainer>
+        ) : (
+          <div className="flex-1 min-h-0 flex items-center justify-center px-6 py-5">
+            {showInitialLoading ? (
+              <Spin size="large" />
+            ) : (
+              <DelayedEmptyState
+                resetKey={`${searchString}:${JSON.stringify(filterValue)}`}
+              >
+                <EmptyAppCard
+                  showIcon
+                  size="large"
+                  className="w-[480px] p-14"
+                  isSearch={Boolean(searchString)}
+                  type={EmptyCardType.Memory}
+                  onClick={() => openCreateModalFun()}
+                />
+              </DelayedEmptyState>
+            )}
+          </div>
+        )}
+
+        {hasMemories && (
+          <footer className="px-6 py-4">
+            <RAGFlowPagination
+              {...pick(pagination, 'current', 'pageSize')}
+              total={list?.data.total_count}
+              onChange={handlePageChange}
+            />
+          </footer>
+        )}
+      </article>
       {/* {openCreateModal && (
         <RenameDialog
           hideModal={hideMemoryRenameModal}

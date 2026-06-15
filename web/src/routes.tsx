@@ -77,8 +77,8 @@ export enum Routes {
 }
 
 const defaultRouteFallback = (
-  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-[1px]">
-    <div className="h-8 w-8 animate-spin rounded-full border-2 border-white/70 border-t-transparent" />
+  <div className="route-loading-shell" aria-label="Loading page">
+    <div className="route-loading-spinner" aria-hidden="true" />
   </div>
 );
 
@@ -90,11 +90,18 @@ type LazyRouteConfig = Omit<RouteObject, 'Component' | 'children'> & {
 const withLazyRoute = (
   importer: () => Promise<{ default: React.ComponentType<any> }>,
   fallback: React.ReactNode = defaultRouteFallback,
+  animate = true,
 ) => {
   const LazyComponent = lazy(importer);
   const Wrapped: React.FC<any> = (props) => (
     <Suspense fallback={fallback}>
-      <LazyComponent {...props} />
+      <div
+        className={
+          animate ? 'route-enter size-full min-h-0' : 'size-full min-h-0'
+        }
+      >
+        <LazyComponent {...props} />
+      </div>
     </Suspense>
   );
   Wrapped.displayName = `LazyRoute(${
@@ -102,7 +109,7 @@ const withLazyRoute = (
     LazyComponent.name ||
     'Component'
   })`;
-  return process.env.NODE_ENV === 'development' ? LazyComponent : memo(Wrapped);
+  return process.env.NODE_ENV === 'development' ? Wrapped : memo(Wrapped);
 };
 
 const routeConfigOptions = [
@@ -390,7 +397,11 @@ const wrapRoutes = (routes: LazyRouteConfig[]): RouteObject[] =>
     const { Component, children, ...rest } = item;
     const next: RouteObject = { ...rest, errorElement: <FallbackComponent /> };
     if (Component) {
-      next.Component = withLazyRoute(Component);
+      next.Component = withLazyRoute(
+        Component,
+        defaultRouteFallback,
+        !children,
+      );
     }
     if (children) {
       next.children = wrapRoutes(children);

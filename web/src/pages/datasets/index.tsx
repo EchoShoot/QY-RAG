@@ -1,10 +1,12 @@
 import { CardContainer } from '@/components/card-container';
 import { EmptyCardType } from '@/components/empty/constant';
+import { DelayedEmptyState } from '@/components/empty/delayed-empty-state';
 import { EmptyAppCard } from '@/components/empty/empty';
 import ListFilterBar from '@/components/list-filter-bar';
 import { RenameDialog } from '@/components/rename-dialog';
 import { Button } from '@/components/ui/button';
 import { RAGFlowPagination } from '@/components/ui/ragflow-pagination';
+import { Spin } from '@/components/ui/spin';
 import { useFetchNextKnowledgeListByPage } from '@/hooks/use-knowledge-request';
 import { useQueryClient } from '@tanstack/react-query';
 import { pick } from 'lodash';
@@ -37,6 +39,7 @@ export default function Datasets() {
     searchString,
     filterValue,
     handleFilterSubmit,
+    loading,
   } = useFetchNextKnowledgeListByPage();
 
   const owners = useSelectOwners();
@@ -68,77 +71,73 @@ export default function Datasets() {
     }
   }, [isCreate, showModal, searchUrl, setSearchUrl, queryClient]);
 
+  const hasDatasets = Boolean(kbs?.length);
+  const showInitialLoading = loading && !hasDatasets;
+
   return (
     <>
-      {kbs?.length || searchString ? (
-        <article
-          className="size-full flex flex-col bg-app-page"
-          data-testid="datasets-list"
-        >
-          <header className="px-6 pt-6 pb-4">
-            <ListFilterBar
-              title={t('header.dataset')}
-              searchString={searchString}
-              onSearchChange={handleInputChange}
-              value={filterValue}
-              filters={owners}
-              onChange={handleFilterSubmit}
-              icon={'datasets'}
-            >
-              <Button onClick={showModal}>
-                <Plus className="size-[1em]" />
-                {t('knowledgeList.createKnowledgeBase')}
-              </Button>
-            </ListFilterBar>
-          </header>
+      <article
+        className="size-full flex flex-col bg-app-page"
+        data-testid="datasets-list"
+      >
+        <header className="px-6 pt-6 pb-4">
+          <ListFilterBar
+            title={t('header.dataset')}
+            searchString={searchString}
+            onSearchChange={handleInputChange}
+            value={filterValue}
+            filters={owners}
+            onChange={handleFilterSubmit}
+            icon={'datasets'}
+          >
+            <Button onClick={showModal}>
+              <Plus className="size-[1em]" />
+              {t('knowledgeList.createKnowledgeBase')}
+            </Button>
+          </ListFilterBar>
+        </header>
 
-          {kbs?.length ? (
-            <>
-              <CardContainer className="flex-1 overflow-auto px-6 py-5">
-                {kbs.map((dataset) => (
-                  <DatasetCard
-                    dataset={dataset}
-                    key={dataset.id}
-                    showDatasetRenameModal={showDatasetRenameModal}
-                  />
-                ))}
-              </CardContainer>
-
-              <footer className="px-6 py-4">
-                <RAGFlowPagination
-                  {...pick(pagination, 'current', 'pageSize')}
-                  total={total_datasets}
-                  onChange={handlePageChange}
-                />
-              </footer>
-            </>
-          ) : (
-            <div className="flex-1 flex items-center justify-center">
-              <EmptyAppCard
-                showIcon
-                size="large"
-                className="w-[480px] p-14"
-                isSearch
-                type={EmptyCardType.Dataset}
-                onClick={() => showModal()}
+        {hasDatasets ? (
+          <CardContainer className="flex-1 min-h-0 overflow-auto px-6 py-5">
+            {kbs.map((dataset) => (
+              <DatasetCard
+                dataset={dataset}
+                key={dataset.id}
+                showDatasetRenameModal={showDatasetRenameModal}
               />
-            </div>
-          )}
-        </article>
-      ) : (
-        <article
-          className="size-full flex items-center justify-center bg-app-page"
-          data-testid="datasets-list"
-        >
-          <EmptyAppCard
-            showIcon
-            size="large"
-            className="w-[480px] p-14"
-            type={EmptyCardType.Dataset}
-            onClick={() => showModal()}
-          />
-        </article>
-      )}
+            ))}
+          </CardContainer>
+        ) : (
+          <div className="flex-1 min-h-0 flex items-center justify-center px-6 py-5">
+            {showInitialLoading ? (
+              <Spin size="large" />
+            ) : (
+              <DelayedEmptyState
+                resetKey={`${searchString}:${JSON.stringify(filterValue)}`}
+              >
+                <EmptyAppCard
+                  showIcon
+                  size="large"
+                  className="w-[480px] p-14"
+                  isSearch={Boolean(searchString)}
+                  type={EmptyCardType.Dataset}
+                  onClick={() => showModal()}
+                />
+              </DelayedEmptyState>
+            )}
+          </div>
+        )}
+
+        {hasDatasets && (
+          <footer className="px-6 py-4">
+            <RAGFlowPagination
+              {...pick(pagination, 'current', 'pageSize')}
+              total={total_datasets}
+              onChange={handlePageChange}
+            />
+          </footer>
+        )}
+      </article>
       {visible && (
         <DatasetCreatingDialog
           hideModal={hideModal}

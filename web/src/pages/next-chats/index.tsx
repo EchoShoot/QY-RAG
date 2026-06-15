@@ -1,10 +1,12 @@
 import { CardContainer } from '@/components/card-container';
 import { EmptyCardType } from '@/components/empty/constant';
+import { DelayedEmptyState } from '@/components/empty/delayed-empty-state';
 import { EmptyAppCard } from '@/components/empty/empty';
 import ListFilterBar from '@/components/list-filter-bar';
 import { RenameDialog } from '@/components/rename-dialog';
 import { Button } from '@/components/ui/button';
 import { RAGFlowPagination } from '@/components/ui/ragflow-pagination';
+import { Spin } from '@/components/ui/spin';
 import { useFetchChatList } from '@/hooks/use-chat-request';
 import { pick } from 'lodash';
 import { Plus } from 'lucide-react';
@@ -16,8 +18,14 @@ import { useCreateChatDialog } from './hooks/use-create-chat';
 import { useRenameChat } from './hooks/use-rename-chat';
 
 export default function ChatList() {
-  const { data, setPagination, pagination, handleInputChange, searchString } =
-    useFetchChatList();
+  const {
+    data,
+    loading,
+    setPagination,
+    pagination,
+    handleInputChange,
+    searchString,
+  } = useFetchChatList();
   const { t } = useTranslation();
   const {
     initialChatName,
@@ -89,72 +97,69 @@ export default function ChatList() {
     t,
   ]);
 
+  const hasChats = Boolean(data.chats?.length);
+  const showInitialLoading = loading && !hasChats;
+
   return (
     <>
-      {data.chats?.length || searchString ? (
-        <article className="size-full flex flex-col" data-testid="chats-list">
-          <header className="px-5 pt-8 mb-4">
-            <ListFilterBar
-              title={t('chat.chatApps')}
-              icon="chats"
-              onSearchChange={handleInputChange}
-              searchString={searchString}
-            >
-              <Button data-testid="create-chat" onClick={handleShowCreateModal}>
-                <Plus className="size-[1em]" />
-                {t('chat.createChat')}
-              </Button>
-            </ListFilterBar>
-          </header>
+      <article
+        className="size-full flex flex-col bg-app-page"
+        data-testid="chats-list"
+      >
+        <header className="px-6 pt-6 pb-4">
+          <ListFilterBar
+            title={t('chat.chatApps')}
+            icon="chats"
+            onSearchChange={handleInputChange}
+            searchString={searchString}
+          >
+            <Button data-testid="create-chat" onClick={handleShowCreateModal}>
+              <Plus className="size-[1em]" />
+              {t('chat.createChat')}
+            </Button>
+          </ListFilterBar>
+        </header>
 
-          {data.chats?.length ? (
-            <>
-              <CardContainer className="flex-1 overflow-auto px-5">
-                {data.chats.map((x) => (
-                  <ChatCard
-                    key={x.id}
-                    data={x}
-                    showChatRenameModal={showChatRenameModal}
-                  />
-                ))}
-              </CardContainer>
-
-              <footer className="mt-4 px-5 pb-5">
-                <RAGFlowPagination
-                  {...pick(pagination, 'current', 'pageSize')}
-                  total={pagination.total}
-                  onChange={handlePageChange}
-                />
-              </footer>
-            </>
-          ) : (
-            <div className="flex-1 flex items-center justify-center">
-              <EmptyAppCard
-                showIcon
-                size="large"
-                className="w-[480px] p-14"
-                isSearch
-                type={EmptyCardType.Chat}
-                testId="chats-empty-create"
+        {hasChats ? (
+          <CardContainer className="flex-1 min-h-0 overflow-auto px-6 py-5">
+            {data.chats.map((x) => (
+              <ChatCard
+                key={x.id}
+                data={x}
+                showChatRenameModal={showChatRenameModal}
               />
-            </div>
-          )}
-        </article>
-      ) : (
-        <article
-          className="size-full flex items-center justify-center"
-          data-testid="chats-list"
-        >
-          <EmptyAppCard
-            showIcon
-            size="large"
-            className="w-[480px] p-14"
-            type={EmptyCardType.Chat}
-            onClick={() => handleShowCreateModal()}
-            testId="chats-empty-create"
-          />
-        </article>
-      )}
+            ))}
+          </CardContainer>
+        ) : (
+          <div className="flex-1 min-h-0 flex items-center justify-center px-6 py-5">
+            {showInitialLoading ? (
+              <Spin size="large" />
+            ) : (
+              <DelayedEmptyState resetKey={searchString}>
+                <EmptyAppCard
+                  showIcon
+                  size="large"
+                  className="w-[480px] p-14"
+                  isSearch={Boolean(searchString)}
+                  type={EmptyCardType.Chat}
+                  onClick={handleShowCreateModal}
+                  testId="chats-empty-create"
+                />
+              </DelayedEmptyState>
+            )}
+          </div>
+        )}
+
+        {hasChats && (
+          <footer className="px-6 py-4">
+            <RAGFlowPagination
+              {...pick(pagination, 'current', 'pageSize')}
+              total={pagination.total}
+              onChange={handlePageChange}
+            />
+          </footer>
+        )}
+      </article>
 
       {renameDialogProps && (
         <RenameDialog {...renameDialogProps}></RenameDialog>

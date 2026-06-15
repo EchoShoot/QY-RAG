@@ -96,7 +96,10 @@ export default function Files() {
   );
 
   return (
-    <article className="size-full flex flex-col bg-app-page" data-testid="files-list">
+    <article
+      className="size-full flex flex-col bg-app-page"
+      data-testid="files-list"
+    >
       <header className="px-6 pt-4 pb-4">
         <ListFilterBar
           leftPanel={leftPanel}

@@ -1,10 +1,12 @@
 import { CardContainer } from '@/components/card-container';
 import { EmptyCardType } from '@/components/empty/constant';
+import { DelayedEmptyState } from '@/components/empty/delayed-empty-state';
 import { EmptyAppCard } from '@/components/empty/empty';
 import ListFilterBar from '@/components/list-filter-bar';
 import { RenameDialog } from '@/components/rename-dialog';
 import { Button } from '@/components/ui/button';
 import { RAGFlowPagination } from '@/components/ui/ragflow-pagination';
+import { Spin } from '@/components/ui/spin';
 import { useTranslate } from '@/hooks/common-hooks';
 import { pick } from 'lodash';
 import { Plus } from 'lucide-react';
@@ -24,6 +26,7 @@ export default function SearchList() {
     handleInputChange,
     setPagination,
     refetch: refetchList,
+    isLoading,
   } = useFetchSearchList();
 
   const {
@@ -64,83 +67,78 @@ export default function SearchList() {
     }
   }, [isCreate, openCreateModalFun, searchUrl, setSearchUrl]);
 
+  const searchApps = list?.data?.search_apps ?? [];
+  const hasSearchApps = searchApps.length > 0;
+  const showInitialLoading = isLoading && !hasSearchApps;
+
   return (
     <>
-      {list?.data?.search_apps?.length || searchString ? (
-        <article
-          className="size-full flex flex-col bg-app-page"
-          data-testid="search-list"
-        >
-          <header className="px-6 pt-6 pb-4">
-            <ListFilterBar
-              icon="searches"
-              title={t('searchApps')}
-              showFilter={false}
-              searchString={searchString}
-              onSearchChange={handleInputChange}
+      <article
+        className="size-full flex flex-col bg-app-page"
+        data-testid="search-list"
+      >
+        <header className="px-6 pt-6 pb-4">
+          <ListFilterBar
+            icon="searches"
+            title={t('searchApps')}
+            showFilter={false}
+            searchString={searchString}
+            onSearchChange={handleInputChange}
+          >
+            <Button
+              data-testid="create-search"
+              onClick={() => openCreateModalFun()}
             >
-              <Button
-                data-testid="create-search"
-                onClick={() => openCreateModalFun()}
-              >
-                <Plus className="size-[1em]" />
-                {t('createSearch')}
-              </Button>
-            </ListFilterBar>
-          </header>
+              <Plus className="size-[1em]" />
+              {t('createSearch')}
+            </Button>
+          </ListFilterBar>
+        </header>
 
-          {list?.data?.search_apps?.length ? (
-            <>
-              <CardContainer className="flex-1 overflow-auto px-6 py-5">
-                {list?.data.search_apps.map((x) => {
-                  return (
-                    <SearchCard
-                      key={x.id}
-                      data={x}
-                      showSearchRenameModal={() => {
-                        showSearchRenameModal(x);
-                      }}
-                    />
-                  );
-                })}
-              </CardContainer>
-
-              <footer className="px-6 py-4">
-                <RAGFlowPagination
-                  {...pick(pagination, 'current', 'pageSize')}
-                  total={list?.data.total}
-                  onChange={handlePageChange}
+        {hasSearchApps ? (
+          <CardContainer className="flex-1 min-h-0 overflow-auto px-6 py-5">
+            {searchApps.map((x) => {
+              return (
+                <SearchCard
+                  key={x.id}
+                  data={x}
+                  showSearchRenameModal={() => {
+                    showSearchRenameModal(x);
+                  }}
                 />
-              </footer>
-            </>
-          ) : (
-            <div className="flex-1 flex items-center justify-center">
-              <EmptyAppCard
-                showIcon
-                size="large"
-                className="w-[480px] p-14"
-                isSearch
-                type={EmptyCardType.Search}
-                testId="search-empty-create"
-              />
-            </div>
-          )}
-        </article>
-      ) : (
-        <article
-          className="size-full flex items-center justify-center bg-app-page"
-          data-testid="search-list"
-        >
-          <EmptyAppCard
-            showIcon
-            size="large"
-            className="w-[480px] p-14"
-            type={EmptyCardType.Search}
-            onClick={() => openCreateModalFun()}
-            testId="search-empty-create"
-          />
-        </article>
-      )}
+              );
+            })}
+          </CardContainer>
+        ) : (
+          <div className="flex-1 min-h-0 flex items-center justify-center px-6 py-5">
+            {showInitialLoading ? (
+              <Spin size="large" />
+            ) : (
+              <DelayedEmptyState resetKey={searchString}>
+                <EmptyAppCard
+                  showIcon
+                  size="large"
+                  className="w-[480px] p-14"
+                  isSearch={Boolean(searchString)}
+                  type={EmptyCardType.Search}
+                  onClick={() => openCreateModalFun()}
+                  testId="search-empty-create"
+                />
+              </DelayedEmptyState>
+            )}
+          </div>
+        )}
+
+        {hasSearchApps && (
+          <footer className="px-6 py-4">
+            <RAGFlowPagination
+              {...pick(pagination, 'current', 'pageSize')}
+              total={list?.data.total}
+              onChange={handlePageChange}
+            />
+          </footer>
+        )}
+      </article>
       {openCreateModal && (
         <RenameDialog
           hideModal={hideSearchRenameModal}

@@ -1,5 +1,6 @@
 import { CardContainer } from '@/components/card-container';
 import { EmptyCardType } from '@/components/empty/constant';
+import { DelayedEmptyState } from '@/components/empty/delayed-empty-state';
 import { EmptyAppCard } from '@/components/empty/empty';
 import ListFilterBar from '@/components/list-filter-bar';
 import { RenameDialog } from '@/components/rename-dialog';
@@ -11,6 +12,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { RAGFlowPagination } from '@/components/ui/ragflow-pagination';
+import { Spin } from '@/components/ui/spin';
 import { useNavigatePage } from '@/hooks/logic-hooks/navigate-hooks';
 import { useFetchAgentListByPage } from '@/hooks/use-agent-request';
 import { Routes } from '@/routes';
@@ -36,6 +38,7 @@ export default function Agents() {
     handleInputChange,
     filterValue,
     handleFilterSubmit,
+    loading: agentListLoading,
   } = useFetchAgentListByPage();
 
   const { navigateToAgentTemplates } = useNavigatePage();
@@ -53,7 +56,7 @@ export default function Agents() {
     creatingVisible,
     hideCreatingModal,
     showCreatingModal,
-    loading,
+    loading: creatingLoading,
     handleCreateAgentOrPipeline,
   } = useCreateAgentOrPipeline();
 
@@ -83,140 +86,129 @@ export default function Agents() {
     }
   }, [isCreate, showCreatingModal, searchUrl, setSearchUrl]);
 
+  const hasAgents = data.length > 0;
+  const showInitialLoading = agentListLoading && !hasAgents;
+  const emptyActionList = (
+    <ul className="flex flex-col gap-y-5 text-text-secondary text-sm pt-5">
+      <li data-testid="agents-empty-create">
+        <Button variant="static" size="auto" onClick={showCreatingModal}>
+          <Clipboard className="size-[1em]" />
+          {t('flow.createFromBlank')}
+        </Button>
+      </li>
+
+      <li>
+        <Button asLink variant="static" size="auto" to={Routes.AgentTemplates}>
+          <ClipboardPlus className="size-[1em]" />
+          {t('flow.createFromTemplate')}
+        </Button>
+      </li>
+
+      <li>
+        <Button variant="static" size="auto" onClick={handleImportJson}>
+          <FileInput className="size-[1em]" />
+          {t('flow.importJsonFile')}
+        </Button>
+      </li>
+    </ul>
+  );
+
   return (
     <>
-      {data?.length || searchString ? (
-        <article
-          className="size-full flex flex-col bg-app-page"
-          data-testid="agents-list"
-        >
-          <header className="px-6 pt-6 pb-4">
-            <ListFilterBar
-              title={t('flow.agents')}
-              searchString={searchString}
-              onSearchChange={handleInputChange}
-              icon="agents"
-              filters={filters}
-              onChange={handleFilterSubmit}
-              value={filterValue}
-            >
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild data-testid="create-agent">
-                  <Button>
-                    <Plus className="size-[1em]" />
-                    {t('flow.createGraph')}
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent data-testid="agent-create-menu">
-                  <DropdownMenuItem
-                    justifyBetween={false}
-                    onClick={showCreatingModal}
-                  >
-                    <Clipboard />
-                    {t('flow.createFromBlank')}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    justifyBetween={false}
-                    onClick={() => navigateToAgentTemplates()}
-                  >
-                    <ClipboardPlus />
-                    {t('flow.createFromTemplate')}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    data-testid="agent-import-json"
-                    justifyBetween={false}
-                    onClick={handleImportJson}
-                  >
-                    <FileInput />
-                    {t('flow.importJsonFile')}
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </ListFilterBar>
-          </header>
-
-          {data.length ? (
-            <>
-              <CardContainer className="flex-1 overflow-auto px-6 py-5">
-                {data.map((x) => {
-                  return (
-                    <AgentCard
-                      key={x.id}
-                      data={x}
-                      showAgentRenameModal={showAgentRenameModal}
-                    />
-                  );
-                })}
-              </CardContainer>
-
-              <footer className="px-6 py-4">
-                <RAGFlowPagination
-                  {...pick(pagination, 'current', 'pageSize')}
-                  total={pagination.total}
-                  onChange={handlePageChange}
-                />
-              </footer>
-            </>
-          ) : (
-            <div className="flex-1 flex items-center justify-center">
-              <EmptyAppCard
-                showIcon
-                size="large"
-                className="w-[480px] p-14"
-                isSearch
-                type={EmptyCardType.Agent}
-                onClick={() => showCreatingModal()}
-              />
-            </div>
-          )}
-        </article>
-      ) : (
-        <article
-          className="size-full flex items-center justify-center bg-app-page"
-          data-testid="agents-list"
-        >
-          <EmptyAppCard
-            showIcon
-            size="large"
-            className="w-[480px] p-14 !cursor-default"
-            type={EmptyCardType.Agent}
-            tabIndex={-1}
-            // onClick={() => showCreatingModal()}
+      <article
+        className="size-full flex flex-col bg-app-page"
+        data-testid="agents-list"
+      >
+        <header className="px-6 pt-6 pb-4">
+          <ListFilterBar
+            title={t('flow.agents')}
+            searchString={searchString}
+            onSearchChange={handleInputChange}
+            icon="agents"
+            filters={filters}
+            onChange={handleFilterSubmit}
+            value={filterValue}
           >
-            <ul className="flex flex-col gap-y-5 text-text-secondary text-sm pt-5">
-              <li data-testid="agents-empty-create">
-                <Button
-                  variant="static"
-                  size="auto"
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild data-testid="create-agent">
+                <Button>
+                  <Plus className="size-[1em]" />
+                  {t('flow.createGraph')}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent data-testid="agent-create-menu">
+                <DropdownMenuItem
+                  justifyBetween={false}
                   onClick={showCreatingModal}
                 >
-                  <Clipboard className="size-[1em]" />
+                  <Clipboard />
                   {t('flow.createFromBlank')}
-                </Button>
-              </li>
-
-              <li>
-                <Button
-                  asLink
-                  variant="static"
-                  size="auto"
-                  to={Routes.AgentTemplates}
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  justifyBetween={false}
+                  onClick={() => navigateToAgentTemplates()}
                 >
-                  <ClipboardPlus className="size-[1em]" />
+                  <ClipboardPlus />
                   {t('flow.createFromTemplate')}
-                </Button>
-              </li>
-
-              <li>
-                <Button variant="static" size="auto" onClick={handleImportJson}>
-                  <FileInput className="size-[1em]" />
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  data-testid="agent-import-json"
+                  justifyBetween={false}
+                  onClick={handleImportJson}
+                >
+                  <FileInput />
                   {t('flow.importJsonFile')}
-                </Button>
-              </li>
-            </ul>
-          </EmptyAppCard>
-        </article>
-      )}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </ListFilterBar>
+        </header>
+
+        {hasAgents ? (
+          <CardContainer className="flex-1 min-h-0 overflow-auto px-6 py-5">
+            {data.map((x) => {
+              return (
+                <AgentCard
+                  key={x.id}
+                  data={x}
+                  showAgentRenameModal={showAgentRenameModal}
+                />
+              );
+            })}
+          </CardContainer>
+        ) : (
+          <div className="flex-1 min-h-0 flex items-center justify-center px-6 py-5">
+            {showInitialLoading ? (
+              <Spin size="large" />
+            ) : (
+              <DelayedEmptyState
+                resetKey={`${searchString}:${JSON.stringify(filterValue)}`}
+              >
+                <EmptyAppCard
+                  showIcon
+                  size="large"
+                  className="w-[480px] p-14 !cursor-default"
+                  isSearch={Boolean(searchString)}
+                  type={EmptyCardType.Agent}
+                  tabIndex={-1}
+                >
+                  {!searchString && emptyActionList}
+                </EmptyAppCard>
+              </DelayedEmptyState>
+            )}
+          </div>
+        )}
+
+        {hasAgents && (
+          <footer className="px-6 py-4">
+            <RAGFlowPagination
+              {...pick(pagination, 'current', 'pageSize')}
+              total={pagination.total}
+              onChange={handlePageChange}
+            />
+          </footer>
+        )}
+      </article>
 
       {agentRenameVisible && (
         <RenameDialog
@@ -228,7 +220,7 @@ export default function Agents() {
       )}
       {creatingVisible && (
         <CreateAgentDialog
-          loading={loading}
+          loading={creatingLoading}
           visible={creatingVisible}
           hideModal={hideCreatingModal}
           shouldChooseAgent
