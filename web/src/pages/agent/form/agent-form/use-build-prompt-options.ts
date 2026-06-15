@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { hasSubAgentOrTool } from '../../utils';
 
-export const PromptIdentity = 'RAGFlow-Prompt';
+export const PromptIdentity = 'Built-in Prompt';
 
 function wrapPromptWithTag(text: string, tag: string) {
   const capitalTag = tag.toUpperCase();

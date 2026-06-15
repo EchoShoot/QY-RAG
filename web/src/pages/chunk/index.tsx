@@ -19,8 +19,12 @@ import { useMemo } from 'react';
 import { Outlet, useLocation } from 'react-router';
 
 export default function ChunkPage() {
-  const { navigateToDataset, navigateToDatasetList, getQueryString, navigateToChunk } =
-    useNavigatePage();
+  const {
+    navigateToDataset,
+    navigateToDatasetList,
+    getQueryString,
+    navigateToChunk,
+  } = useNavigatePage();
   const location = useLocation();
 
   const options = useMemo(() => {
@@ -87,7 +91,7 @@ export default function ChunkPage() {
           </Button>
         </div>
       </PageHeader>
-      <div className="flex-1 min-h-0 mx-3 mb-3 bg-bg-base rounded-3xl overflow-hidden">
+      <div className="mx-3 mb-3 flex flex-1 min-h-0 flex-col overflow-hidden rounded-3xl bg-bg-base">
         <Outlet />
       </div>
     </section>

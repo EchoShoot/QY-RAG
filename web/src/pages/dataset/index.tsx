@@ -1,6 +1,7 @@
 import { useFetchKnowledgeBaseConfiguration } from '@/hooks/use-knowledge-request';
 import { KnowledgeBaseProvider } from '@/pages/dataset/contexts/knowledge-base-context';
 
+import { PageHeader } from '@/components/page-header';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -8,7 +9,6 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
-import { PageHeader } from '@/components/page-header';
 import { useNavigatePage } from '@/hooks/logic-hooks/navigate-hooks';
 import { Outlet } from 'react-router';
 import { SideBar } from './sidebar';
@@ -40,7 +40,7 @@ export default function DatasetWrapper() {
         </PageHeader>
         <div className="flex flex-1 min-h-0 gap-3 px-3 pb-3">
           <SideBar dataset={data} />
-          <div className="flex-1 min-w-0 bg-bg-base rounded-3xl overflow-hidden">
+          <div className="flex min-h-0 flex-1 min-w-0 flex-col overflow-hidden rounded-3xl bg-bg-base">
             <Outlet />
           </div>
         </div>

@@ -80,7 +80,7 @@ const globalFilterFn = createFuzzySearchFn<AdminService.ListServicesItem>([
 ]);
 
 const SERVICE_TYPE_FILTER_OPTIONS = [
-  { value: 'ragflow_server', label: 'ragflow_server' },
+  { value: 'ragflow_server', label: 'API server' },
   { value: 'meta_data', label: 'meta_data' },
   { value: 'file_store', label: 'file_store' },
   { value: 'retrieval', label: 'retrieval' },
@@ -103,7 +103,7 @@ function AdminServiceStatus() {
   const { data: serviceDetails, error: serviceDetailsError } = useQuery({
     queryKey: ['admin/serviceDetails', itemToMakeAction?.id],
     queryFn: async () =>
-      (await showServiceDetails(itemToMakeAction!?.id)).data.data,
+      (await showServiceDetails(itemToMakeAction?.id)).data.data,
     enabled: !!(itemToMakeAction && detailModalOpen),
     retry: false,
   });
@@ -244,11 +244,11 @@ function AdminServiceStatus() {
                       <RadioGroup
                         value={
                           (table
-                            .getColumn('service_type')!
+                            .getColumn('service_type')
                             ?.getFilterValue() as string) ?? ''
                         }
                         onValueChange={
-                          table.getColumn('service_type')!?.setFilterValue
+                          table.getColumn('service_type')?.setFilterValue
                         }
                       >
                         <Label className="flex items-center space-x-2">

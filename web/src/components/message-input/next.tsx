@@ -19,6 +19,7 @@ import { t } from 'i18next';
 import {
   ArrowUp,
   Atom,
+  BrushCleaning,
   CircleStop,
   Globe,
   Plus,
@@ -54,6 +55,7 @@ interface NextMessageInputProps {
   stopOutputMessage?(): void;
   onUpload?: NonNullable<FileUploadProps['onUpload']>;
   removeFile?(file: File): void;
+  onClearMessages?(): void;
   showReasoning?: boolean;
   showInternet?: boolean;
   resize?: 'none' | 'vertical' | 'horizontal' | 'both';
@@ -69,6 +71,7 @@ export function NextMessageInput({
   resize = 'none',
   onUpload,
   onInputChange,
+  onClearMessages,
   stopOutputMessage,
   onPressEnter,
   removeFile,
@@ -242,6 +245,22 @@ export function NextMessageInput({
                   <span className="sr-only">Attach file</span>
                 </Button>
               </FileUploadTrigger>
+            )}
+
+            {onClearMessages && (
+              <Button
+                type="button"
+                size="icon"
+                variant="transparent"
+                className="size-9 rounded-full border-0 text-text-secondary hover:bg-bg-card"
+                disabled={isUploading || sendLoading}
+                onClick={onClearMessages}
+                title={t('common.clear')}
+                aria-label={t('common.clear')}
+                data-testid="chat-detail-clear-messages"
+              >
+                <BrushCleaning className="size-[20px]" />
+              </Button>
             )}
 
             {showReasoning && (

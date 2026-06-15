@@ -31,7 +31,7 @@ import { IDslComponent, IPipelineFileLogDetail } from './interface';
 import ParserContainer from './parser';
 
 const DataflowResult = () => {
-  const { isReadOnly, knowledgeId, agentId, documentExtension } =
+  const { isReadOnly, agentId, documentExtension } =
     useGetPipelineResultSearchParams();
 
   const isAgent = !!agentId;
@@ -141,12 +141,9 @@ const DataflowResult = () => {
   }, [activeStepId, timelineNodes]);
   const { summaryInfo } = useSummaryInfo(dataset, currentTimeNode);
   return (
-    <>
+    <section className="flex size-full flex-col bg-app-page">
       <PageHeader>
-        <Button
-          variant="outline"
-          onClick={() => history.back()}
-        >
+        <Button variant="outline" onClick={() => history.back()}>
           <LucideArrowBigLeft />
           {t('common.back')}
         </Button>
@@ -163,7 +160,7 @@ const DataflowResult = () => {
         </div>
       )}
       <div className={styles.chunkPage}>
-        <div className="flex flex-none gap-3 mt-4 p-3 rounded-3xl bg-bg-base flex-1 min-h-0">
+        <div className="mt-4 flex min-h-0 flex-1 gap-3 rounded-3xl bg-bg-base p-3">
           <div className="w-2/5 flex flex-col min-h-0">
             <div className="h-[50px] flex flex-col justify-end pb-[5px]">
               <DocumentHeader {...documentInfo} />
@@ -179,7 +176,7 @@ const DataflowResult = () => {
             </section>
           </div>
           <div className="self-stretch w-px bg-border-button -mt-3"></div>
-          <div className="w-3/5 h-full">
+          <div className="flex h-full min-h-0 w-3/5 flex-col">
             {/* {currentTimeNode?.type === TimelineNodeType.splitter && (
               <ChunkerContainer
                 isChange={isChange}
@@ -214,7 +211,7 @@ const DataflowResult = () => {
           </div>
         </div>
       </div>
-    </>
+    </section>
   );
 };
 

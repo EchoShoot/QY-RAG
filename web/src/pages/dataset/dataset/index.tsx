@@ -79,7 +79,7 @@ export default function Dataset() {
 
   useEffect(() => {
     checkValue(filters);
-  }, [filters]);
+  }, [checkValue, filters]);
 
   const { rowSelection, rowSelectionIsEmpty, setRowSelection, selectedCount } =
     useRowSelection();
@@ -142,7 +142,7 @@ export default function Dataset() {
   return (
     <Card
       as="article"
-      className="h-[calc(100%-1.25rem)] min-h-0 mb-5 mr-5 min-w-[880px] bg-transparent shadow-none flex flex-col overflow-hidden"
+      className="mb-5 mr-5 flex h-full min-h-0 flex-1 min-w-[880px] flex-col overflow-hidden bg-transparent shadow-none"
     >
       <CardHeader as="header" className="p-5 space-y-0">
         <ListFilterBar

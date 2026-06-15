@@ -48,7 +48,6 @@ const ParserContainer = (props: IProps) => {
       };
     const value = outputs[key as keyof typeof outputs]?.value;
     const type = outputs[key as keyof typeof outputs]?.type;
-    console.log('outputs-->', outputs, data, key, value);
     return {
       key: key as 'text' | 'html' | 'json' | 'chunks',
       type,
@@ -63,7 +62,6 @@ const ParserContainer = (props: IProps) => {
     setInitialText(initialValue);
   }, [initialValue]);
   const handleSave = (newContent: any) => {
-    console.log('newContent-change-->', newContent, initialValue);
     if (JSON.stringify(newContent) !== JSON.stringify(initialValue)) {
       setIsChange(true);
       setInitialText(newContent);
@@ -155,9 +153,9 @@ const ParserContainer = (props: IProps) => {
           />
         </div>
       )}
-      <div className={classNames('flex flex-col w-full')}>
+      <div className={classNames('flex h-full min-h-0 w-full flex-col')}>
         {/* <Spin spinning={false} className="" size="large"> */}
-        <div className="h-[50px] flex flex-col justify-end pb-[5px]">
+        <div className="flex h-[50px] shrink-0 flex-col justify-end pb-[5px]">
           {!isChunck && (
             <div>
               <h2 className="text-[16px]">
@@ -180,7 +178,7 @@ const ParserContainer = (props: IProps) => {
         </div>
 
         {isChunck && (
-          <div className="pt-[5px] pb-[5px] flex justify-between items-center">
+          <div className="flex shrink-0 items-center justify-between pb-[5px] pt-[5px]">
             {!isReadonly && (
               <CheckboxSets
                 selectAllChunk={selectAllChunk}
@@ -199,11 +197,7 @@ const ParserContainer = (props: IProps) => {
 
         <div
           className={cn(
-            ' border rounded-lg p-[20px] box-border w-[calc(100%-20px)] overflow-auto scrollbar-auto',
-            {
-              'h-[calc(100vh-240px)]': isChunck,
-              'h-[calc(100vh-180px)]': !isChunck,
-            },
+            'box-border min-h-0 flex-1 overflow-auto rounded-lg border p-[20px] scrollbar-auto',
           )}
         >
           {initialText && (

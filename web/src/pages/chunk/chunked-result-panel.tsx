@@ -19,9 +19,9 @@ const list = new Array(10).fill({
 
 export default function ChunkedResultPanel() {
   return (
-    <div className="flex-1 min-h-0 py-6 space-y-6">
+    <div className="flex size-full min-h-0 flex-col gap-6 py-6">
       <ChunkToolbar text="Chunked  results"></ChunkToolbar>
-      <div className="space-y-6 overflow-auto px-9">
+      <div className="min-h-0 flex-1 space-y-6 overflow-auto px-9">
         {list.map((x, idx) => (
           <ChunkCard key={idx} content={x.content} activated></ChunkCard>
         ))}

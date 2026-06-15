@@ -56,15 +56,11 @@ const ChatContainer = () => {
 
   return (
     <>
-      <EmbedContainer
-        title={chatInfo.title}
-        avatar={chatInfo.avatar}
-        handleReset={removeAllMessagesExceptFirst}
-      >
-        <div className="flex flex-1 flex-col p-2.5 h-[90vh] m-3">
+      <EmbedContainer title={chatInfo.title} avatar={chatInfo.avatar}>
+        <div className="flex min-h-0 flex-1 flex-col px-3 pb-3 md:px-5 md:pb-5">
           <div
             className={
-              'flex flex-1 flex-col overflow-auto scrollbar-auto m-auto w-full md:w-5/6'
+              'mx-auto flex min-h-0 w-full max-w-5xl flex-1 flex-col overflow-auto px-1 py-3 scrollbar-auto md:px-0'
             }
             ref={messageContainerRef}
           >
@@ -99,8 +95,8 @@ const ChatContainer = () => {
             </div>
             <div ref={scrollRef} />
           </div>
-          <div className="flex w-full justify-center md:mb-8">
-            <div className="w-full md:w-5/6">
+          <div className="flex w-full shrink-0 justify-center pt-2">
+            <div className="w-full max-w-5xl">
               <NextMessageInput
                 isShared
                 value={value}
@@ -114,6 +110,7 @@ const ChatContainer = () => {
                 uploadMethod="external_upload_and_parse"
                 showUploadIcon={false}
                 stopOutputMessage={stopOutputMessage}
+                onClearMessages={removeAllMessagesExceptFirst}
                 showReasoning
                 showInternet={chatInfo?.has_tavily_key}
               ></NextMessageInput>

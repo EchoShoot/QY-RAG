@@ -127,7 +127,7 @@ export function DatasetTable({
   });
 
   return (
-    <div className="w-full h-full min-h-0 flex flex-col">
+    <div className="flex h-full min-h-0 w-full flex-1 flex-col">
       <Table rootClassName="flex-1 min-h-0 overflow-auto">
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -176,7 +176,7 @@ export function DatasetTable({
           )}
         </TableBody>
       </Table>
-      <div className="flex shrink-0 items-center justify-end py-4">
+      <footer className="mt-auto flex w-full shrink-0 items-center justify-end py-4">
         <div className="space-x-2">
           <RAGFlowPagination
             {...pick(pagination, 'current', 'pageSize')}
@@ -186,7 +186,7 @@ export function DatasetTable({
             }}
           ></RAGFlowPagination>
         </div>
-      </div>
+      </footer>
       {changeParserVisible && (
         <ChunkMethodDialog
           documentId={changeParserRecord.id}

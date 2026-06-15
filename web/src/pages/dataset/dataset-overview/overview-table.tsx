@@ -41,7 +41,7 @@ import {
 } from '@tanstack/react-table';
 import { TFunction } from 'i18next';
 import { ArrowUpDown, ClipboardList, Eye, MonitorUp } from 'lucide-react';
-import { FC, useMemo, useState } from 'react';
+import { FC, useCallback, useMemo, useState } from 'react';
 import { useParams } from 'react-router';
 import { RunningStatus } from '../dataset/constant';
 import ProcessLogModal, { ILogInfo } from '../process-log-modal';
@@ -369,7 +369,7 @@ const FileLogsTable: FC<FileLogsTableProps> = ({
     useState<NavigateToDataflowResultProps | null>(null);
   const [logInfo, setLogInfo] = useState<IFileLogItem>();
   const knowledgeId = useParams().id;
-  const showLog = (row: Row<IFileLogItem & DocumentLog>) => {
+  const showLog = useCallback((row: Row<IFileLogItem & DocumentLog>) => {
     const logDetail = {
       taskId: row.original?.dsl?.task_id,
       fileName: row.original.document_name,
@@ -382,14 +382,16 @@ const FileLogsTable: FC<FileLogsTableProps> = ({
       ),
       details: row.original.progress_msg,
     } as unknown as IFileLogItem;
-    console.log('logDetail', logDetail);
     setLogInfo(logDetail);
     setIsModalVisible(true);
-  };
-  const openDataflowModal = (props: NavigateToDataflowResultProps) => () => {
-    setDataflowParams(props);
-    setDataflowModalOpen(true);
-  };
+  }, []);
+  const openDataflowModal = useCallback(
+    (props: NavigateToDataflowResultProps) => () => {
+      setDataflowParams(props);
+      setDataflowModalOpen(true);
+    },
+    [],
+  );
   const { dataSourceInfo } = useDataSourceInfo();
   const columns = useMemo(() => {
     return active === LogTabs.FILE_LOGS
@@ -401,7 +403,7 @@ const FileLogsTable: FC<FileLogsTableProps> = ({
           dataSourceInfo,
         )
       : getDatasetLogsTableColumns(t, showLog);
-  }, [active, t]);
+  }, [active, dataSourceInfo, knowledgeId, openDataflowModal, showLog, t]);
 
   const currentPagination = useMemo(
     () => ({
@@ -434,8 +436,8 @@ const FileLogsTable: FC<FileLogsTableProps> = ({
   });
 
   return (
-    <div className="flex-1 min-h-0 flex flex-col">
-      <Table rootClassName="flex-1 min-h-0 mb-4">
+    <div className="flex h-full min-h-0 flex-1 flex-col">
+      <Table rootClassName="mb-4 flex-1 min-h-0 overflow-auto">
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
@@ -481,13 +483,13 @@ const FileLogsTable: FC<FileLogsTableProps> = ({
         </TableBody>
       </Table>
 
-      <div className="shrink-0 flex items-center justify-end">
+      <footer className="mt-auto flex w-full shrink-0 items-center justify-end py-4">
         <RAGFlowPagination
           {...{ current: pagination.current, pageSize: pagination.pageSize }}
           total={pagination.total}
           onChange={(page, pageSize) => setPagination({ page, pageSize })}
         />
-      </div>
+      </footer>
 
       {isModalVisible && (
         <ProcessLogModal

@@ -18,8 +18,8 @@ export default function RetrievalTesting() {
   const [count] = useState(1); // TODO: Different layouts are needed; if they are no longer required, consider deleting them.
 
   return (
-    <div className="pr-5 pb-5">
-      <Card className="size-full bg-transparent shadow-none flex flex-col">
+    <div className="flex size-full min-h-0 flex-col p-5">
+      <Card className="flex min-h-0 flex-1 flex-col bg-transparent shadow-none">
         <CardHeader className="p-5">
           <header>
             <CardTitle as="h1">
@@ -33,15 +33,15 @@ export default function RetrievalTesting() {
         </CardHeader>
 
         {count === 1 ? (
-          <CardContent className="flex-1 overflow-hidden p-0 grid grid-rows-1 grid-cols-2 gap-3">
-            <article className="size-full flex-1 flex flex-col bg-bg-base">
-              <header className="px-5 py-3">
+          <CardContent className="grid min-h-0 flex-1 grid-cols-1 grid-rows-[minmax(0,1fr)_minmax(0,1fr)] gap-3 overflow-hidden p-0 xl:grid-cols-2 xl:grid-rows-1">
+            <article className="flex min-h-0 min-w-0 flex-col overflow-hidden rounded-3xl bg-surface-raised">
+              <header className="shrink-0 px-5 py-3">
                 <h2 className="font-semibold text-base leading-8">
                   {t('knowledgeDetails.testSetting')}
                 </h2>
               </header>
 
-              <div className="flex-1 h-0">
+              <div className="min-h-0 flex-1">
                 <TestingForm
                   loading={loading}
                   setValues={setValues}
@@ -50,7 +50,7 @@ export default function RetrievalTesting() {
               </div>
             </article>
 
-            <div className="flex-1 bg-bg-base">
+            <div className="flex min-h-0 min-w-0 flex-col overflow-hidden rounded-3xl bg-surface-raised">
               <TestingResult
                 data={data}
                 loading={loading}

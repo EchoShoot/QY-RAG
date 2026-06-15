@@ -148,15 +148,15 @@ const ChunkerContainer = (props: IProps) => {
     setIsChange(false);
   };
   return (
-    <div className="w-full h-full">
+    <div className="flex h-full min-h-0 w-full flex-col">
       {isChange && (
         <div className=" absolute top-2 right-6">
           <RerunButton step={step} onRerun={handleReRunFunc} />
         </div>
       )}
-      <div className={classNames('flex flex-col w-full')}>
+      <div className={classNames('flex min-h-0 flex-1 flex-col w-full')}>
         <Spin spinning={loading} className={styles.spin} size="large">
-          <div className="h-[50px] flex flex-row justify-between items-end pb-[5px]">
+          <div className="flex h-[50px] shrink-0 flex-row items-end justify-between pb-[5px]">
             <div>
               <h2 className="text-[16px]">{t('chunk.chunkResult')}</h2>
               <div className="text-[12px] text-text-secondary italic">
@@ -173,7 +173,7 @@ const ChunkerContainer = (props: IProps) => {
               handleSetAvailable={handleSetAvailable}
             />
           </div>
-          <div className=" rounded-[16px] box-border	mb-2">
+          <div className="mb-2 flex min-h-0 flex-1 flex-col rounded-[16px] box-border">
             <div className="pt-[5px] pb-[5px]">
               <CheckboxSets
                 selectAllChunk={selectAllChunk}
@@ -183,7 +183,7 @@ const ChunkerContainer = (props: IProps) => {
                 selectedChunkIds={selectedChunkIds}
               />
             </div>
-            <div className="h-[calc(100vh-280px)] overflow-y-auto pr-2 scrollbar-auto">
+            <div className="min-h-0 flex-1 overflow-y-auto pr-2 scrollbar-auto">
               <div
                 className={classNames(
                   styles.chunkContainer,

@@ -435,7 +435,7 @@ window.addEventListener('message',e=>{
                       name="widgetFooterText"
                       label="Footer text"
                     >
-                      <Input placeholder="Powered by RAGFlow"></Input>
+                      <Input placeholder="Powered by workspace"></Input>
                     </RAGFlowFormItem>
                     <RAGFlowFormItem
                       name="widgetFooterLink"
@@ -614,11 +614,7 @@ window.addEventListener('message',e=>{
           </div>
           <a
             className="cursor-pointer text-accent-primary inline-block"
-            href={
-              isAgent
-                ? ''
-                : ''
-            }
+            href={isAgent ? '' : ''}
             target="_blank"
             rel="noreferrer"
           >

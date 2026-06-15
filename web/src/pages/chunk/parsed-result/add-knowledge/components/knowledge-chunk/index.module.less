@@ -3,8 +3,8 @@
   padding-top: 2px;
 
   display: flex;
-  // height: calc(100vh - 112px);
-  height: 100vh;
+  flex: 1;
+  min-height: 0;
   flex-direction: column;
 
   .filter {
@@ -34,14 +34,15 @@
   }
 
   .documentPreview {
-    // width: 40%;
-    height: calc(100vh - 180px);
+    flex: 1;
+    min-height: 0;
     overflow: auto;
   }
 
   .chunkContainer {
     display: flex;
-    height: calc(100vh - 332px);
+    flex: 1;
+    min-height: 0;
   }
 
   .chunkOtherContainer {

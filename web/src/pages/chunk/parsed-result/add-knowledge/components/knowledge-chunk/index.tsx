@@ -184,11 +184,11 @@ const Chunk = () => {
         </Button>
       </PageHeader>
 
-      <div className="mx-3 mb-3 flex-1 h-0 flex gap-3">
+      <div className="mx-3 mb-3 flex min-h-0 flex-1 gap-3">
         {/* 左侧：文档预览 — Surface L2 */}
         <article className="w-2/5 flex flex-col bg-bg-component rounded-3xl overflow-hidden">
-          <DocumentHeader className="flex-0 p-5 pb-0" {...documentInfo} />
-          <div className="flex-1 h-0 min-h-0 overflow-hidden p-5 pt-2.5 [&>section]:h-full [&>section]:min-h-0">
+          <DocumentHeader className="shrink-0 p-5 pb-0" {...documentInfo} />
+          <div className="min-h-0 flex-1 overflow-hidden p-5 pt-2.5 [&>section]:h-full [&>section]:min-h-0">
             <DocumentPreview
               className="h-full min-h-0 overflow-auto [&_img]:max-w-full [&_img]:h-auto"
               fileType={fileType}
@@ -203,17 +203,17 @@ const Chunk = () => {
         <article
           className={classNames(
             { [styles.pagePdfWrapper]: isPdf },
-            'flex flex-col w-3/5 bg-bg-base rounded-3xl overflow-hidden',
+            'flex min-h-0 w-3/5 flex-col overflow-hidden rounded-3xl bg-bg-base',
           )}
         >
-          <header className="flex-0 px-5 pt-5 pb-3">
+          <header className="shrink-0 px-5 pt-5 pb-3">
             <h2 className="text-xl font-semibold">{t('chunk.chunkResult')}</h2>
             <div className="text-sm text-text-secondary mt-1">
               {t('chunk.chunkResultTip')}
             </div>
           </header>
 
-          <Spin spinning={loading} className="flex-1 h-0" size="large">
+          <Spin spinning={loading} className="min-h-0 flex-1" size="large">
             <div className="relative @container h-full px-5 pb-5 overflow-hidden flex flex-col">
               <div
                 className="
@@ -249,9 +249,7 @@ const Chunk = () => {
                     item={item}
                     key={item.chunk_id}
                     editChunk={showChunkUpdatingModal}
-                    checked={selectedChunkIds.some(
-                      (x) => x === item.chunk_id,
-                    )}
+                    checked={selectedChunkIds.some((x) => x === item.chunk_id)}
                     handleCheckboxClick={handleSingleCheckboxClick}
                     switchChunk={handleSwitchChunk}
                     clickChunkCard={handleChunkCardClick}

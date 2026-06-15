@@ -423,7 +423,7 @@ export default {
       testSetting: '测试设置',
       retrievalTesting: '知识检索测试',
       retrievalTestingDescription:
-        '进行检索测试，检查 RAGFlow 是否能够为大语言模型（LLM）恢复预期的内容。',
+        '进行检索测试，检查系统 是否能够为大语言模型（LLM）恢复预期的内容。',
       Parse: '解析',
       dataset: '知识库',
       testing: '检索测试',
@@ -447,7 +447,7 @@ export default {
       action: '动作',
       parsingStatus: '解析状态',
       parsingStatusTip:
-        '文本解析的时间取决于诸多因素。如果开启了知识图谱、RAPTOR、自动问题提取、自动关键词提取等功能，时间会更长。如果解析进度条长时间不更新，也可以参考这两条 FAQ：https://ragflow.io/docs/dev/faq#why-does-my-document-parsing-stall-at-under-one-percent。',
+        '文本解析的时间取决于诸多因素。如果开启了知识图谱、RAPTOR、自动问题提取、自动关键词提取等功能，时间会更长。如果解析进度条长时间不更新，也可以参考这两条 FAQ：相关文档。',
       processBeginAt: '开始于',
       processDuration: '持续时间',
       progressMsg: '进度',
@@ -489,7 +489,7 @@ export default {
       toMessage: '缺少结束页码（不包含）',
       layoutRecognize: 'PDF解析器',
       layoutRecognizeTip:
-        '使用视觉模型进行 PDF 布局分析，以更好地识别文档结构，找到标题、文本块、图像和表格的位置。 如果选择 Naive 选项，则只能获取 PDF 的纯文本。请注意该功能只适用于 PDF 文档，对其他文档不生效。欲了解更多信息，请参阅 https://ragflow.io/docs/dev/select_pdf_parser。',
+        '使用视觉模型进行 PDF 布局分析，以更好地识别文档结构，找到标题、文本块、图像和表格的位置。 如果选择 Naive 选项，则只能获取 PDF 的纯文本。请注意该功能只适用于 PDF 文档，对其他文档不生效。欲了解更多信息，请参阅相关文档。',
       taskPageSize: '任务页面大小',
       taskPageSizeMessage: '请输入您的任务页面大小！',
       taskPageSizeTip: `如果使用布局识别，PDF 文件将被分成连续的组。 布局分析将在组之间并行执行，以提高处理速度。 “任务页面大小”决定组的大小。 页面大小越大，将页面之间的连续文本分割成不同块的机会就越低。`,
@@ -500,14 +500,14 @@ export default {
       changeSpecificCategory: '更改特定类别',
       uploadTitle: '点击或拖拽文件至此区域即可上传',
       uploadDescription:
-        '支持单次或批量上传。本地部署的单次上传文件总大小上限为 1GB，单次批量上传文件数不超过 32，单个账户不限文件数量。对于 cloud.ragflow.io：每次上传的总文件大小限制为 10MB，每个文件不得超过 10MB，每个账户最多可上传 128 个文件。严禁上传违禁文件。',
+        '支持单次或批量上传。本地部署的单次上传文件总大小上限为 1GB，单次批量上传文件数不超过 32，单个账户不限文件数量。对于云服务：每次上传的总文件大小限制为 10MB，每个文件不得超过 10MB，每个账户最多可上传 128 个文件。严禁上传违禁文件。',
       chunk: '解析块',
       bulk: '批量',
       cancel: '取消',
       close: '关闭',
       rerankModel: 'Rerank模型',
       rerankPlaceholder: '请选择',
-      rerankTip: `非必选项：若不选择 rerank 模型，系统将默认采用关键词相似度与向量余弦相似度相结合的混合查询方式；如果设置了 rerank 模型，则混合查询中的向量相似度部分将被 rerank 打分替代。请注意：采用 rerank 模型会非常耗时。如需选用 rerank 模型，建议使用 SaaS 的 rerank 模型服务；如果你倾向使用本地部署的 rerank 模型，请务必确保你使用 docker-compose-gpu.yml 启动 RAGFlow。`,
+      rerankTip: `非必选项：若不选择 rerank 模型，系统将默认采用关键词相似度与向量余弦相似度相结合的混合查询方式；如果设置了 rerank 模型，则混合查询中的向量相似度部分将被 rerank 打分替代。请注意：采用 rerank 模型会非常耗时。如需选用 rerank 模型，建议使用 SaaS 的 rerank 模型服务；如果你倾向使用本地部署的 rerank 模型，请务必确保你使用 docker-compose-gpu.yml 启动系统。`,
       topK: 'Top-K',
       topKTip: `与 Rerank 模型配合使用，用于设置传给 Rerank 模型的文本块数量。`,
       delimiter: `文本分段标识符`,
@@ -519,11 +519,11 @@ export default {
         '支持多字符作为分隔符，多字符用两个反引号 \\`\\` 分隔符包裹。若配置成：\\n`##`; 系统将首先使用换行符、两个#号以及分号先对文本进行分割，随后再对分得的小文本块按照「建议文本块大小」设定的大小进行拼装。在设置文本分段标识符前请确保理解上述文本分段切片机制。',
 
       html4excel: '表格转HTML',
-      html4excelTip: `与 General 切片方法配合使用。未开启状态下，表格文件（XLSX、XLS（Excel 97-2003））会按行解析为键值对。开启后，表格文件会被解析为 HTML 表格。若原始表格超过 12 行，系统会自动按每 12 行拆分为多个 HTML 表格。欲了解更多详情，请参阅 https://ragflow.io/docs/dev/enable_excel2html。`,
+      html4excelTip: `与 General 切片方法配合使用。未开启状态下，表格文件（XLSX、XLS（Excel 97-2003））会按行解析为键值对。开启后，表格文件会被解析为 HTML 表格。若原始表格超过 12 行，系统会自动按每 12 行拆分为多个 HTML 表格。欲了解更多详情，请参阅相关文档。`,
       autoKeywords: '自动关键词提取',
-      autoKeywordsTip: `自动为每个文本块中提取 N 个关键词，用以提升查询精度。请注意：该功能采用在“配置”中指定的索引模型提取关键词，因此也会产生更多 Token 消耗。另外，你也可以手动更新生成的关键词。详情请见 https://ragflow.io/docs/dev/autokeyword_autoquestion。`,
+      autoKeywordsTip: `自动为每个文本块中提取 N 个关键词，用以提升查询精度。请注意：该功能采用在“配置”中指定的索引模型提取关键词，因此也会产生更多 Token 消耗。另外，你也可以手动更新生成的关键词。详情请见 相关文档。`,
       autoQuestions: '自动问题提取',
-      autoQuestionsTip: `利用在“配置”中指定的索引模型 对知识库的每个文本块提取 N 个问题以提高其排名得分。请注意，开启后将消耗额外的 token。您可以在块列表中查看、编辑结果。如果自动问题提取发生错误，不会妨碍整个分块过程，只会将空结果添加到原始文本块。详情请见 https://ragflow.io/docs/dev/autokeyword_autoquestion。`,
+      autoQuestionsTip: `利用在“配置”中指定的索引模型 对知识库的每个文本块提取 N 个问题以提高其排名得分。请注意，开启后将消耗额外的 token。您可以在块列表中查看、编辑结果。如果自动问题提取发生错误，不会妨碍整个分块过程，只会将空结果添加到原始文本块。详情请见 相关文档。`,
       redo: '是否清空已有 {{chunkNum}}个 chunk？',
       setMetaData: '设置元数据',
       pleaseInputJson: '请输入JSON',
@@ -712,7 +712,7 @@ export default {
       简历有多种格式，就像一个人的个性一样，但我们经常必须将它们组织成结构化数据，以便于搜索。
       </p><p>
       我们不是将简历分块，而是将简历解析为结构化数据。 作为HR，你可以扔掉所有的简历，
-      您只需与<i>'RAGFlow'</i>交谈即可列出所有符合资格的候选人。
+      您只需与<i>'系统'</i>交谈即可列出所有符合资格的候选人。
       </p>
         `,
       table: `支持<p><b>XLSX</b>和<b>CSV/TXT</b>格式文件。</p><p>
@@ -763,7 +763,7 @@ export default {
 `,
       useRaptor: '使用召回增强 RAPTOR 策略',
       useRaptorTip:
-        'RAPTOR 常应用于复杂的多跳问答任务。如需打开，请跳转至知识库的文件页面，点击生成 > RAPTOR 开启。详见: https://ragflow.io/docs/dev/enable_raptor。',
+        'RAPTOR 常应用于复杂的多跳问答任务。如需打开，请跳转至知识库的文件页面，点击生成 > RAPTOR 开启。详见: 相关文档。',
       prompt: '提示词',
       promptMessage: '提示词是必填项',
       promptText: `请总结以下段落。 小心数字，不要编造。 段落如下：
@@ -790,7 +790,7 @@ export default {
       maxClusterTip: '最多可创建的聚类数。',
       entityTypes: '实体类型',
       pageRank: '页面排名',
-      pageRankTip: `知识库检索时，你可以为特定知识库设置较高的 PageRank 分数，该知识库中匹配文本块的混合相似度得分会自动叠加 PageRank 分数，从而提升排序权重。详见 https://ragflow.io/docs/dev/set_page_rank。`,
+      pageRankTip: `知识库检索时，你可以为特定知识库设置较高的 PageRank 分数，该知识库中匹配文本块的混合相似度得分会自动叠加 PageRank 分数，从而提升排序权重。详见 相关文档。`,
       tagName: '标签',
       frequency: '频次',
       searchTags: '搜索标签',
@@ -808,13 +808,13 @@ export default {
       <li>在给你的知识库文本块批量打标签之前，你需要先生成标签集作为样本。 </li>
       <li>自动关键词提取功能中的关键词由 LLM 生成，此过程相对耗时，并且会产生一定的 Token 消耗。 </li>
       </ul>
-      <p> 详见：https://ragflow.io/docs/dev/use_tag_sets </p>
+      <p> 详见：相关文档 </p>
       `,
       tags: '标签',
       addTag: '增加标签',
       useGraphRag: '提取知识图谱',
       useGraphRagTip:
-        '基于知识库内所有切好的文本块构建知识图谱，用以提升多跳和复杂问题回答的正确率。请注意：构建知识图谱将消耗大量 token 和时间。详见 https://ragflow.io/docs/dev/construct_knowledge_graph。',
+        '基于知识库内所有切好的文本块构建知识图谱，用以提升多跳和复杂问题回答的正确率。请注意：构建知识图谱将消耗大量 token 和时间。详见 相关文档。',
       graphRagMethod: '方法',
       graphRagMethodTip: `Light：实体和关系提取提示来自 GitHub - HKUDS/LightRAG：“LightRAG：简单快速的检索增强生成”<br>
 General：实体和关系提取提示来自 GitHub - microsoft/graphrag：基于图的模块化检索增强生成 (RAG) 系统<br>
@@ -914,7 +914,7 @@ NER：使用 spaCy NER 和基于规则的关键词提取来抽取实体和关系
       variable: '变量',
       variableTip: `你可以通过对话 API，并配合变量设置来动态调整大模型的系统提示词。
       {knowledge}为系统预留变量，代表从指定知识库召回的文本块。
-      “系统提示词”中的所有变量都必须用大括号{}括起来。详见 https://ragflow.io/docs/dev/set_chat_variables。`,
+      “系统提示词”中的所有变量都必须用大括号{}括起来。详见 相关文档。`,
       add: '新增',
       key: '关键字',
       optional: '可选的',
@@ -1307,18 +1307,18 @@ NER：使用 spaCy NER 和基于规则的关键词提取来抽取实体和关系
       chatModelTip: '所有新创建的知识库都会使用默认的聊天模型。',
       ttsModel: 'TTS',
       ttsModelTip:
-        '默认的tts模型会被用于在对话过程中请求语音生成时使用。如未显示可选模型，请根据 https://ragflow.io/docs/dev/supported_models 确认你的模型供应商是否提供该模型。',
+        '默认的tts模型会被用于在对话过程中请求语音生成时使用。如未显示可选模型，请根据 相关文档 确认你的模型供应商是否提供该模型。',
       embeddingModel: 'Embedding',
       embeddingModelTip:
-        '所有新创建的知识库使用的默认嵌入模型。如未显示可选模型，请检查你是否在使用 RAGFlow slim 版(不含嵌入模型)；或根据 https://ragflow.io/docs/dev/supported_models 确认你的模型供应商是否提供该模型。',
+        '所有新创建的知识库使用的默认嵌入模型。如未显示可选模型，请检查你是否在使用 系统 slim 版(不含嵌入模型)；或根据 相关文档 确认你的模型供应商是否提供该模型。',
       img2txtModel: 'VLM',
       img2txtModelTip:
-        '所有新创建的知识库都将使用默认的 img2txt 模型。 它可以描述图片或视频。如未显示可选模型，请根据 https://ragflow.io/docs/dev/supported_models 确认你的模型供应商是否提供该模型。',
+        '所有新创建的知识库都将使用默认的 img2txt 模型。 它可以描述图片或视频。如未显示可选模型，请根据 相关文档 确认你的模型供应商是否提供该模型。',
       sequence2txtModel: 'ASR',
       sequence2txtModelTip:
-        '所有新创建的知识库都将使用默认的 ASR 模型。 使用此模型将语音翻译为相应的文本。如未显示可选模型，请根据 https://ragflow.io/docs/dev/supported_models 确认你的模型供应商是否提供该模型。',
+        '所有新创建的知识库都将使用默认的 ASR 模型。 使用此模型将语音翻译为相应的文本。如未显示可选模型，请根据 相关文档 确认你的模型供应商是否提供该模型。',
       rerankModel: 'Rerank',
-      rerankModelTip: `默认的 reranking 模型。如未显示可选模型，请根据 https://ragflow.io/docs/dev/supported_models 确认你的模型供应商是否提供该模型。`,
+      rerankModelTip: `默认的 reranking 模型。如未显示可选模型，请根据 相关文档 确认你的模型供应商是否提供该模型。`,
       workspace: '工作空间',
       upgrade: '升级',
       addLlmTitle: '添加 LLM',
@@ -1533,7 +1533,7 @@ NER：使用 spaCy NER 和基于规则的关键词提取来抽取实体和关系
       parseOnCreation: '创建时解析',
       uploadTitle: '点击或拖拽文件至此区域即可上传',
       uploadDescription:
-        '支持单次或批量上传。 本地部署的单次上传文件总大小上限为 1GB，单次批量上传文件数不超过 32，单个账户不限文件数量。对于 cloud.ragflow.io：每次上传的总文件大小限制为 10MB，每个文件不得超过 10MB，每个账户最多可上传 128 个文件。严禁上传违禁文件。',
+        '支持单次或批量上传。 本地部署的单次上传文件总大小上限为 1GB，单次批量上传文件数不超过 32，单个账户不限文件数量。对于云服务：每次上传的总文件大小限制为 10MB，每个文件不得超过 10MB，每个账户最多可上传 128 个文件。严禁上传违禁文件。',
       file: '文件',
       directory: '文件夹',
       local: '本地上传',

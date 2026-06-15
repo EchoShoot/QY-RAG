@@ -14,7 +14,7 @@ import {
 import { cn } from '@/lib/utils';
 import { TenantRole } from '@/pages/user-setting/constants';
 import { Routes } from '@/routes';
-import { LucideChevronDown } from 'lucide-react';
+import { LucideChevronDown, LucideHouse } from 'lucide-react';
 import React, { useMemo } from 'react';
 import { Link, useLocation } from 'react-router';
 import { BellButton } from './bell-button';
@@ -61,8 +61,10 @@ export function Header({
         <Link
           to={Routes.Root}
           aria-current={pathname === Routes.Root ? 'page' : undefined}
+          aria-label="Home"
+          className="inline-flex size-10 items-center justify-center rounded-2xl text-text-secondary hover:bg-bg-card hover:text-text-primary"
         >
-          <img src={'/logo.svg'} alt="logo" className="size-10" />
+          <LucideHouse className="size-5" aria-hidden="true" />
         </Link>
       </div>
 
