@@ -11,13 +11,12 @@ import { memo, useCallback, useMemo } from 'react';
 import { IRegenerateMessage, IRemoveMessageById } from '@/hooks/logic-hooks';
 import { cn } from '@/lib/utils';
 import { isEmpty } from 'lodash';
+import { Bot } from 'lucide-react';
 import { DocumentDownloadButton } from '../document-download-button';
 import MarkdownContent from '../markdown-content';
 import { ReferenceDocumentList } from '../next-message-item/reference-document-list';
 import { ReferenceImageList } from '../next-message-item/reference-image-list';
 import { UploadedMessageFiles } from '../next-message-item/uploaded-message-files';
-import { RAGFlowAvatar } from '../ragflow-avatar';
-import SvgIcon from '../svg-icon';
 import { useTheme } from '../theme-provider';
 import { AssistantGroupButton, UserGroupButton } from './group-button';
 import styles from './index.module.less';
@@ -29,8 +28,7 @@ interface IProps extends Partial<IRemoveMessageById>, IRegenerateMessage {
   sendLoading?: boolean;
   visibleAvatar?: boolean;
   nickname?: string;
-  avatar?: string;
-  avatarDialog?: string | null;
+  agentName?: string;
   clickDocumentButton?: (documentId: string, chunk: IReferenceChunk) => void;
   index: number;
   showLikeButton?: boolean;
@@ -41,8 +39,7 @@ const MessageItem = ({
   item,
   reference,
   loading = false,
-  avatar,
-  avatarDialog,
+  agentName,
   sendLoading = false,
   clickDocumentButton,
   index,
@@ -92,26 +89,17 @@ const MessageItem = ({
             [styles.messageItemContentReverse]: item.role === MessageType.User,
           })}
         >
-          {visibleAvatar &&
-            (item.role === MessageType.User ? (
-              <RAGFlowAvatar
-                className="size-10"
-                avatar={avatar ?? '/logo.svg'}
-                isPerson
-              />
-            ) : avatarDialog ? (
-              <RAGFlowAvatar
-                className="size-10"
-                avatar={avatarDialog}
-                isPerson
-              />
-            ) : (
-              <SvgIcon
-                name={'assistant'}
-                width={'100%'}
-                className={cn('size-10 fill-current')}
-              ></SvgIcon>
-            ))}
+          {visibleAvatar && isAssistant && (
+            <div
+              className="
+                flex size-10 shrink-0 items-center justify-center rounded-full
+                bg-accent-primary text-bg-base shadow-surface
+              "
+              aria-label={agentName || 'AI'}
+            >
+              <Bot className="size-5" />
+            </div>
+          )}
 
           <section className="flex min-w-0 gap-2 flex-1 flex-col">
             {isAssistant ? (
@@ -143,7 +131,7 @@ const MessageItem = ({
                       ? styles.messageTextDark
                       : styles.messageText
                     : styles.messageUserText,
-                  { '!bg-bg-card': !isAssistant },
+                  { '!bg-surface-raised': !isAssistant },
                 )}
               >
                 {sendLoading && isEmpty(messageContent) ? (

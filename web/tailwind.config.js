@@ -122,6 +122,9 @@ module.exports = {
         'app-page': 'var(--app-page)',
         'surface-raised': 'var(--surface-raised)',
         'surface-floating': 'var(--surface-floating)',
+        'chat-sidebar': 'var(--chat-sidebar)',
+        'chat-sidebar-item': 'var(--chat-sidebar-item)',
+        'chat-sidebar-active': 'var(--chat-sidebar-active)',
 
         primary: {
           DEFAULT: 'hsl(var(--primary))',
@@ -194,6 +197,7 @@ module.exports = {
         surface: 'var(--shadow-surface)',
         raised: 'var(--shadow-raised)',
         floating: 'var(--shadow-floating)',
+        input: 'var(--shadow-input)',
         modal: 'var(--shadow-modal)',
         focus: 'var(--shadow-focus)',
       },

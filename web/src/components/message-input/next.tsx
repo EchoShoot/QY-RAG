@@ -17,11 +17,11 @@ import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 import { t } from 'i18next';
 import {
+  ArrowUp,
   Atom,
   CircleStop,
   Globe,
-  Paperclip,
-  Send,
+  Plus,
   Upload,
   X,
 } from 'lucide-react';
@@ -166,14 +166,14 @@ export function NextMessageInput({
         tabIndex={-1}
         // Prevents the dropzone from triggering on click
         onClick={(event) => event.preventDefault()}
-        className="absolute top-0 left-0 z-0 flex size-full items-center justify-center rounded-none border-none bg-background/50 p-0 opacity-0 backdrop-blur transition-opacity duration-200 ease-out data-[dragging]:z-10 data-[dragging]:opacity-100"
+        className="absolute top-0 left-0 z-0 flex size-full items-center justify-center rounded-[2rem] border-none bg-bg-base/70 p-0 opacity-0 backdrop-blur transition-opacity duration-200 ease-out data-[dragging]:z-10 data-[dragging]:opacity-100"
       >
         <div className="flex flex-col items-center gap-1 text-center">
           <div className="flex items-center justify-center rounded-full border p-2.5">
-            <Upload className="size-6 text-muted-foreground" />
+            <Upload className="size-6 text-text-secondary" />
           </div>
           <p className="font-medium text-sm">Drag & drop files here</p>
-          <p className="text-muted-foreground text-xs">
+          <p className="text-text-secondary text-xs">
             Upload max 5 files each up to 5MB
           </p>
         </div>
@@ -182,14 +182,14 @@ export function NextMessageInput({
       <form
         onSubmit={onSubmit}
         className="
-          relative flex w-full flex-col gap-2.5 rounded-md
-          border-0.5 border-border-default bg-bg-card p-2 outline-none
-          has-[textarea:focus]:outline-accent-primary has-[textarea:focus]:outline-1 has-[textarea:focus]:outline-offset-2
+          relative flex w-full flex-col gap-2 rounded-[1.375rem]
+          bg-bg-base px-5 pb-3 pt-4 shadow-input outline-none
+          transition-shadow duration-200 ease-out has-[textarea:focus]:shadow-focus
         "
       >
         <FileUploadList
           orientation="horizontal"
-          className="overflow-x-auto px-0 py-1"
+          className="overflow-x-auto px-1 py-1"
         >
           {files.map((file, index) => (
             <FileUploadItem key={index} value={file} className="max-w-52 p-1.5">
@@ -217,12 +217,13 @@ export function NextMessageInput({
           onChange={onInputChange}
           placeholder={t('chat.messagePlaceholder')}
           className="
-            min-h-10 max-h-40 w-full p-0 overflow-auto
+            min-h-11 max-h-40 w-full px-1 py-0.5 overflow-auto text-base leading-7
             !outline-none !border-transparent !bg-transparent !shadow-none !ring-transparent !ring-offset-transparent
           "
+          style={{ resize }}
           disabled={isUploading || disabled || sendLoading}
           onKeyDown={handleKeyDown}
-          autoSize={{ minRows: 2, maxRows: 8 }}
+          autoSize={{ minRows: 1, maxRows: 8 }}
         />
 
         <div className="flex items-center justify-between gap-2">
@@ -231,13 +232,13 @@ export function NextMessageInput({
               <FileUploadTrigger asChild>
                 <Button
                   type="button"
-                  size="icon-xs"
+                  size="icon"
                   variant="transparent"
-                  className="rounded-sm border-0"
+                  className="size-9 rounded-full border-0 text-text-secondary hover:bg-bg-card"
                   disabled={isUploading || sendLoading}
                   data-testid="chat-detail-attach"
                 >
-                  <Paperclip className="size-3.5" />
+                  <Plus className="size-[22px]" />
                   <span className="sr-only">Attach file</span>
                 </Button>
               </FileUploadTrigger>
@@ -248,9 +249,12 @@ export function NextMessageInput({
                 type="button"
                 size="sm"
                 variant={'outline'}
-                className={cn('border-0 h-7 text-sm bg-bg-card', {
-                  'bg-text-primary text-bg-base': enableThinking,
-                })}
+                className={cn(
+                  'border-0 h-8 rounded-full text-sm bg-bg-card px-3',
+                  {
+                    'bg-text-primary text-bg-base': enableThinking,
+                  },
+                )}
                 onClick={handleThinkingToggle}
                 data-testid="chat-detail-thinking-toggle"
               >
@@ -263,8 +267,8 @@ export function NextMessageInput({
               <Button
                 type="button"
                 variant={enableInternet ? 'accent' : 'transparent'}
-                size="icon-xs"
-                className="border-0"
+                size="icon"
+                className="size-9 rounded-full border-0 text-text-secondary hover:bg-bg-card"
                 onClick={handleInternetToggle}
                 data-testid="chat-detail-internet-toggle"
               >
@@ -277,7 +281,8 @@ export function NextMessageInput({
             <Button
               data-testid="chat-stream-status"
               onClick={stopOutputMessage}
-              size="icon-xs"
+              size="icon"
+              className="size-10 rounded-full"
             >
               <CircleStop />
             </Button>
@@ -287,17 +292,21 @@ export function NextMessageInput({
                 onOk={(value) => {
                   setAudioInputValue(value);
                 }}
+                className="size-9"
+                buttonClassName="size-9 text-text-secondary hover:bg-bg-card"
+                iconClassName="size-5"
                 testId="chat-detail-audio-toggle"
               />
 
               <Button
-                size="icon-xs"
+                size="icon"
+                className="size-10 rounded-full bg-accent-primary text-bg-base shadow-surface hover:bg-accent-primary/90 hover:shadow-raised"
                 disabled={
                   sendDisabled || isUploading || sendLoading || !value.trim()
                 }
                 data-testid="chat-detail-send"
               >
-                <Send />
+                <ArrowUp className="size-5" />
                 <span className="sr-only">Send message</span>
               </Button>
             </div>

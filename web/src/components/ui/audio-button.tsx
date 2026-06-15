@@ -216,9 +216,15 @@ const VoiceInputBox = ({
 export const AudioButton = ({
   onOk,
   testId,
+  className,
+  buttonClassName,
+  iconClassName,
 }: {
   onOk?: (transcript: string) => void;
   testId?: string;
+  className?: string;
+  buttonClassName?: string;
+  iconClassName?: string;
 }) => {
   // const [showInputBox, setShowInputBox] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
@@ -376,7 +382,12 @@ export const AudioButton = ({
         </div>
       )}
 
-      <div className=" relative w-6 h-6 flex items-center justify-center">
+      <div
+        className={cn(
+          'relative w-6 h-6 flex items-center justify-center',
+          className,
+        )}
+      >
         {isRecording && (
           <div className="absolute inset-0 size-full overflow-hidden flex items-center justify-center p-1">
             <VoiceVisualizer isRecording={isRecording} />
@@ -393,7 +404,7 @@ export const AudioButton = ({
 
         <Button
           variant="transparent"
-          size="icon-xs"
+          size="icon"
           // onMouseDown={() => {
           //   startRecording();
           // }}
@@ -408,21 +419,22 @@ export const AudioButton = ({
             }
           }}
           className={cn(
-            'border-0 p-2 rounded-md border-none bg-transparent hover:bg-state-success-5',
+            'border-0 p-2 rounded-full border-none bg-transparent hover:bg-state-success-5',
             isRecording &&
               'animate-pulse !bg-state-success/20 text-state-success rounded-full',
+            buttonClassName,
           )}
           disabled={isProcessing}
           data-testid={testId}
         >
           {isProcessing ? (
-            <Loader2 size={16} className=" animate-spin" />
+            <Loader2 className={cn('size-5 animate-spin', iconClassName)} />
           ) : isRecording ? (
             <></>
           ) : (
             // <Mic size={16} className="text-text-primary" />
             // <Square size={12} className="text-text-primary" />
-            <Mic size={16} />
+            <Mic className={cn('size-5', iconClassName)} />
           )}
         </Button>
       </div>

@@ -1,3 +1,5 @@
+import EmbedDialog from '@/components/embed-dialog';
+import { useShowEmbedModal } from '@/components/embed-dialog/use-show-embed-dialog';
 import { PageHeader } from '@/components/page-header';
 import {
   Breadcrumb,
@@ -8,6 +10,12 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 import { Button } from '@/components/ui/button';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+import { SharedFrom } from '@/constants/chat';
 import { useSetModalState } from '@/hooks/common-hooks';
 import { useNavigatePage } from '@/hooks/logic-hooks/navigate-hooks';
 import {
@@ -21,10 +29,12 @@ import { isEmpty } from 'lodash';
 import {
   LucideArrowBigLeft,
   LucideArrowUpRight,
+  LucideSend,
   LucideSettings,
 } from 'lucide-react';
 import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router';
 import { useHandleClickConversationCard } from '../hooks/use-click-card';
 import { ChatSettings } from './app-settings/chat-settings';
 import { MultipleChatBox } from './chat-box/next-multiple-chat-box';
@@ -35,6 +45,7 @@ import { useSwitchDebugMode } from './use-switch-debug-mode';
 
 export default function Chat() {
   const { t } = useTranslation();
+  const { id } = useParams();
   const { navigateToChatList } = useNavigatePage();
   const [currentConversation, setCurrentConversation] =
     useState<IClientConversation>({} as IClientConversation);
@@ -49,6 +60,8 @@ export default function Chat() {
     useAddChatBox(isDebugMode);
   const { visible: settingVisible, switchVisible: switchSettingVisible } =
     useSetModalState(false);
+  const { showEmbedModal, hideEmbedModal, embedVisible, beta } =
+    useShowEmbedModal();
 
   const { conversationId, isNew } = useGetChatSearchParams();
 
@@ -88,25 +101,22 @@ export default function Chat() {
   if (isDebugMode) {
     return (
       <section
-        className="pt-5 pb-14 h-[100vh] flex flex-col"
+        className="size-full overflow-hidden flex flex-col bg-app-page"
         data-testid="chat-detail-multimodel-root"
       >
-        <header className="px-10 pb-5">
-          <div className="mb-5">
-            <Button
-              variant="outline"
-              onClick={switchDebugMode}
-              data-testid="chat-detail-multimodel-back"
-            >
-              <LucideArrowBigLeft />
-              <span>{t('common.back')}</span>
-            </Button>
-          </div>
-
-          <span className="text-2xl">
+        <PageHeader>
+          <Button
+            variant="ghost"
+            onClick={switchDebugMode}
+            data-testid="chat-detail-multimodel-back"
+          >
+            <LucideArrowBigLeft />
+            <span>{t('common.back')}</span>
+          </Button>
+          <span className="text-sm font-medium text-text-secondary">
             {t('chat.multipleModels')} ({chatBoxIds.length}/3)
           </span>
-        </header>
+        </PageHeader>
 
         <MultipleChatBox
           chatBoxIds={chatBoxIds}
@@ -134,16 +144,47 @@ export default function Chat() {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        <Button
-          onClick={switchSettingVisible}
-          disabled={!hasSingleChatBox}
-          variant="ghost"
-          size="icon-sm"
-          data-testid="chat-settings"
-        >
-          <LucideSettings className="text-text-secondary" />
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="ghost"
+            onClick={switchDebugMode}
+            data-testid="chat-detail-multimodel-toggle"
+          >
+            <LucideArrowUpRight />
+            {t('chat.multipleModels')}
+          </Button>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                onClick={showEmbedModal}
+                variant="ghost"
+                size="icon-sm"
+                data-testid="chat-detail-embed-open"
+              >
+                <LucideSend className="text-text-secondary" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>{t('common.embedIntoSite')}</TooltipContent>
+          </Tooltip>
+          <Button
+            onClick={switchSettingVisible}
+            disabled={!hasSingleChatBox}
+            variant="ghost"
+            size="icon-sm"
+            data-testid="chat-settings"
+          >
+            <LucideSettings className="text-text-secondary" />
+          </Button>
+        </div>
       </PageHeader>
+      <EmbedDialog
+        visible={embedVisible}
+        hideModal={hideEmbedModal}
+        token={id!}
+        from={SharedFrom.Chat}
+        beta={beta}
+        isAgent={false}
+      />
       <section
         className="flex flex-1 min-h-0 flex-col"
         data-testid="chat-detail"
@@ -153,18 +194,10 @@ export default function Chat() {
 
           <div className="flex-1 min-w-0 bg-bg-base rounded-3xl overflow-hidden flex flex-col h-full">
             <div className="flex flex-col flex-1 min-h-0">
-              <div className="px-5 py-4 flex justify-between items-center">
+              <div className="px-5 py-4 flex items-center">
                 <span className="text-base font-medium truncate text-text-primary">
                   {currentConversationName}
                 </span>
-                <Button
-                  variant="ghost"
-                  onClick={switchDebugMode}
-                  data-testid="chat-detail-multimodel-toggle"
-                >
-                  <LucideArrowUpRight />
-                  {t('chat.multipleModels')}
-                </Button>
               </div>
               <div className="flex-1 min-h-0">
                 <SingleChatBox

@@ -102,8 +102,7 @@ export function SingleChatBox({
               key={buildMessageUuidWithRole(message)}
               item={message}
               nickname={userInfo.nickname}
-              avatar={userInfo.avatar}
-              avatarDialog={currentDialog.icon}
+              agentName={currentDialog.name}
               reference={buildMessageItemReference(
                 {
                   messages: derivedMessages,
@@ -122,7 +121,7 @@ export function SingleChatBox({
         <div ref={scrollRef} />
       </div>
 
-      <div className="p-5 pt-0">
+      <div className="mx-auto w-full max-w-[1120px] px-6 pb-5 pt-0">
         <NextMessageInput
           disabled={disabled}
           sendDisabled={sendDisabled}

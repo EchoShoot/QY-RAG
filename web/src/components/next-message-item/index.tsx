@@ -24,11 +24,9 @@ import { WorkFlowTimeline } from '@/pages/agent/log-sheet/workflow-timeline';
 import { citationMarkerReg } from '@/utils/citation-utils';
 import { getDirAttribute } from '@/utils/text-direction';
 import { isEmpty } from 'lodash';
-import { Atom, ChevronDown, ChevronUp } from 'lucide-react';
+import { Atom, Bot, ChevronDown, ChevronUp } from 'lucide-react';
 import { DocumentDownloadButton } from '../document-download-button';
 import MarkdownContent from '../next-markdown-content';
-import { RAGFlowAvatar } from '../ragflow-avatar';
-import SvgIcon from '../svg-icon';
 import { useTheme } from '../theme-provider';
 import { Button } from '../ui/button';
 import { AssistantGroupButton, UserGroupButton } from './group-button';
@@ -66,8 +64,6 @@ function MessageItem({
   setCurrentMessageId,
   reference,
   loading = false,
-  avatar,
-  avatarDialog,
   agentName,
   sendLoading = false,
   clickDocumentButton,
@@ -184,22 +180,17 @@ function MessageItem({
             [styles.messageItemContentReverse]: item.role === MessageType.User,
           })}
         >
-          {visibleAvatar &&
-            (item.role === MessageType.User ? (
-              <RAGFlowAvatar avatar={avatar ?? '/logo.svg'} />
-            ) : avatarDialog || agentName ? (
-              <RAGFlowAvatar
-                avatar={avatarDialog as string}
-                name={agentName}
-                isPerson
-              />
-            ) : (
-              <SvgIcon
-                name={'assistant'}
-                width={'100%'}
-                className={cn('size-10 fill-current')}
-              ></SvgIcon>
-            ))}
+          {visibleAvatar && isAssistant && (
+            <div
+              className="
+                flex size-10 shrink-0 items-center justify-center rounded-full
+                bg-accent-primary text-bg-base shadow-surface
+              "
+              aria-label={agentName || 'AI'}
+            >
+              <Bot className="size-5" />
+            </div>
+          )}
           <section className="flex-col gap-2 flex-1">
             <div className="flex justify-between items-center">
               {isShare && isAssistant && (

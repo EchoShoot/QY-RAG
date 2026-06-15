@@ -242,8 +242,7 @@ const ChatCard = forwardRef(function ChatCard(
                   key={buildMessageUuidWithRole(message)}
                   item={message}
                   nickname={userInfo.nickname}
-                  avatar={userInfo.avatar}
-                  avatarDialog={currentDialog.icon}
+                  agentName={currentDialog.name}
                   reference={buildMessageItemReference(
                     {
                       messages: derivedMessages,
@@ -340,7 +339,7 @@ export function MultipleChatBox({
   return (
     <section className="flex flex-1 min-h-0 flex-col px-3 bg-app-page">
       <div
-        className="flex gap-3 flex-1 py-3 pb-14 min-h-0"
+        className="flex gap-3 flex-1 py-2 pb-4 min-h-0"
         data-testid="chat-detail-multimodel-grid"
       >
         {chatBoxIds.map((id, idx) => (
@@ -363,7 +362,7 @@ export function MultipleChatBox({
           ></ChatCard>
         ))}
       </div>
-      <div className="px-[20%]">
+      <div className="mx-auto w-full max-w-[1120px] px-6 pb-4">
         <NextMessageInput
           disabled={disabled}
           sendDisabled={sendDisabled}
