@@ -22,8 +22,8 @@ import { RunningStatusMap } from '@/constants/knowledge';
 import { useTranslate } from '@/hooks/common-hooks';
 import { cn } from '@/lib/utils';
 import { PipelineResultSearchParams } from '@/pages/dataflow-result/constant';
-import { DataflowResultModal } from '@/pages/dataflow-result/modal';
 import { NavigateToDataflowResultProps } from '@/pages/dataflow-result/interface';
+import { DataflowResultModal } from '@/pages/dataflow-result/modal';
 import { useDataSourceInfo } from '@/pages/user-setting/data-source/constant';
 import { IDataSourceInfoMap } from '@/pages/user-setting/data-source/interface';
 import { formatDate, formatSecondsToHumanReadable } from '@/utils/date';
@@ -365,7 +365,8 @@ const FileLogsTable: FC<FileLogsTableProps> = ({
   const { t: tDatasetOverview } = useTranslate('datasetOverview');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [dataflowModalOpen, setDataflowModalOpen] = useState(false);
-  const [dataflowParams, setDataflowParams] = useState<NavigateToDataflowResultProps | null>(null);
+  const [dataflowParams, setDataflowParams] =
+    useState<NavigateToDataflowResultProps | null>(null);
   const [logInfo, setLogInfo] = useState<IFileLogItem>();
   const knowledgeId = useParams().id;
   const showLog = (row: Row<IFileLogItem & DocumentLog>) => {
@@ -433,8 +434,8 @@ const FileLogsTable: FC<FileLogsTableProps> = ({
   });
 
   return (
-    <div className="size-full flex flex-col">
-      <Table rootClassName="max-h-full mb-4">
+    <div className="flex-1 min-h-0 flex flex-col">
+      <Table rootClassName="flex-1 min-h-0 mb-4">
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
@@ -480,7 +481,7 @@ const FileLogsTable: FC<FileLogsTableProps> = ({
         </TableBody>
       </Table>
 
-      <div className="mt-auto flex items-center justify-end">
+      <div className="shrink-0 flex items-center justify-end">
         <RAGFlowPagination
           {...{ current: pagination.current, pageSize: pagination.pageSize }}
           total={pagination.total}

@@ -3,7 +3,6 @@ import { Form } from '@/components/ui/form';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { DatasetMetadata } from '@/constants/chat';
-import { useSetModalState } from '@/hooks/common-hooks';
 import { useFetchChat, useUpdateChat } from '@/hooks/use-chat-request';
 import { useFindLlmByUuid } from '@/hooks/use-llm-request';
 import { cn } from '@/lib/utils';
@@ -13,7 +12,7 @@ import {
 } from '@/utils/form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { isEmpty, omit } from 'lodash';
-import { LucidePanelRightClose, LucideSettings } from 'lucide-react';
+import { LucidePanelRightClose } from 'lucide-react';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -25,18 +24,21 @@ import { ChatPromptEngine } from './chat-prompt-engine';
 import { SavingButton } from './saving-button';
 import { useChatSettingSchema } from './use-chat-setting-schema';
 
-type ChatSettingsProps = { hasSingleChatBox: boolean };
+type ChatSettingsProps = {
+  settingVisible: boolean;
+  switchSettingVisible: () => void;
+};
 
-export function ChatSettings({ hasSingleChatBox }: ChatSettingsProps) {
+export function ChatSettings({
+  settingVisible,
+  switchSettingVisible,
+}: ChatSettingsProps) {
   const formSchema = useChatSettingSchema();
   const { data } = useFetchChat();
   const { updateChat, loading } = useUpdateChat();
   const findLlmByUuid = useFindLlmByUuid();
   const { id } = useParams();
   const { t } = useTranslation();
-
-  const { visible: settingVisible, switchVisible: switchSettingVisible } =
-    useSetModalState(false);
 
   type FormSchemaType = z.infer<typeof formSchema>;
 
@@ -147,24 +149,10 @@ export function ChatSettings({ hasSingleChatBox }: ChatSettingsProps) {
 
   return (
     <>
-      {settingVisible || (
-        <div className="p-5">
-          <Button
-            onClick={switchSettingVisible}
-            disabled={!hasSingleChatBox}
-            variant={'ghost'}
-            size="icon-sm"
-            data-testid="chat-settings"
-          >
-            <LucideSettings />
-          </Button>
-        </div>
-      )}
-
       <section
         data-testid="chat-detail-settings"
         className={cn(
-          'transition-[width] ease-out duration-300 flex-shrink-0 flex flex-col overflow-hidden',
+          'h-full bg-bg-component rounded-3xl transition-[width] ease-out duration-300 flex-shrink-0 flex flex-col overflow-hidden',
           settingVisible ? 'w-[440px]' : 'w-0',
         )}
       >

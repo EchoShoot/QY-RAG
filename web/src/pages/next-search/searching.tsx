@@ -8,7 +8,6 @@ export default function SearchingPage({
   data: searchData,
   setIsSearching,
   setSearchText,
-  showEmbedLogo,
 }: {
   searchText: string;
   setIsSearching: Dispatch<SetStateAction<boolean>>;
@@ -27,7 +26,6 @@ export default function SearchingPage({
       {...searchingParam}
       searchData={searchData}
       setIsSearching={setIsSearching}
-      showEmbedLogo={showEmbedLogo}
     />
   );
 }

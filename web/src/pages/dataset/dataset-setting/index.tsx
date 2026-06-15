@@ -274,8 +274,8 @@ export default function DatasetSettings() {
   };
 
   return (
-    <div className="pr-5 pb-5">
-      <Card className="p-0 h-full flex flex-col bg-transparent shadow-none">
+    <div className="size-full pr-5 pb-5 overflow-hidden">
+      <Card className="p-0 h-full min-h-0 flex flex-col bg-transparent shadow-none">
         <CardHeader className="p-5">
           <header>
             <CardTitle as="h1">{t('knowledgeDetails.configuration')}</CardTitle>
@@ -288,7 +288,7 @@ export default function DatasetSettings() {
           </header>
         </CardHeader>
 
-        <CardContent className="p-0 flex-1 h-0 flex divide-x-0.5">
+        <CardContent className="p-0 flex-1 min-h-0 flex divide-x-0.5">
           <DataSetContext.Provider
             value={{
               loading: datasetSettingLoading,
@@ -298,9 +298,9 @@ export default function DatasetSettings() {
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="flex flex-col"
+                className="h-full min-h-0 flex flex-col"
               >
-                <div className="flex-1 h-0 w-[768px] px-5 pt-5 overflow-y-auto scrollbar-auto">
+                <div className="flex-1 min-h-0 w-[768px] px-5 pt-5 overflow-y-auto scrollbar-auto">
                   <MainContainer className="text-text-secondary">
                     <div className="text-base font-medium text-text-primary">
                       {t('knowledgeConfiguration.baseInfo')}
@@ -378,7 +378,7 @@ export default function DatasetSettings() {
             </Form>
           </DataSetContext.Provider>
 
-          <div className="flex-1 p-5 overflow-auto">
+          <div className="flex-1 min-h-0 p-5 overflow-auto">
             {parseType === ParseType.BuiltIn && (
               <ChunkMethodLearnMore parserId={selectedTag} />
             )}

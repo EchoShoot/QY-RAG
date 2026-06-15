@@ -142,7 +142,7 @@ export default function Dataset() {
   return (
     <Card
       as="article"
-      className="mb-5 mr-5 min-w-[880px] bg-transparent shadow-none"
+      className="h-[calc(100%-1.25rem)] min-h-0 mb-5 mr-5 min-w-[880px] bg-transparent shadow-none flex flex-col overflow-hidden"
     >
       <CardHeader as="header" className="p-5 space-y-0">
         <ListFilterBar
@@ -225,7 +225,7 @@ export default function Dataset() {
         )}
       </CardHeader>
 
-      <CardContent className="px-5 py-0">
+      <CardContent className="px-5 py-0 flex-1 min-h-0 flex flex-col">
         <DatasetTable
           documents={documents}
           pagination={pagination}

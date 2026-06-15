@@ -18,6 +18,7 @@ import {
 } from '../next-searches/hooks';
 import { useCheckSettings } from './hooks';
 import './index.less';
+import { RAGFlowLogo } from './ragflow-logo';
 import SearchHome from './search-home';
 import { SearchSetting } from './search-setting';
 import SearchingPage from './searching';
@@ -71,13 +72,16 @@ export default function SearchPage() {
             )}
           </BreadcrumbList>
         </Breadcrumb>
-        <Button
-          variant="ghost"
-          size="icon-sm"
-          onClick={() => setOpenSetting(!openSetting)}
-        >
-          <Settings className="text-text-secondary" />
-        </Button>
+        <div className="flex items-center gap-2">
+          <RAGFlowLogo />
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            onClick={() => setOpenSetting(!openSetting)}
+          >
+            <Settings className="text-text-secondary" />
+          </Button>
+        </div>
       </PageHeader>
       <div className="flex gap-3 flex-1 min-h-0 px-3 pb-3">
         <div className="relative flex-1 min-w-0 bg-bg-base rounded-3xl overflow-hidden">

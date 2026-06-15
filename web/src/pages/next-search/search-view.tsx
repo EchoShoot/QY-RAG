@@ -25,7 +25,6 @@ import { ISearchReturnProps } from './hooks';
 import './index.less';
 import MarkdownContent from './markdown-content';
 import MindMapSheet from './mindmap-sheet';
-import { RAGFlowLogo } from './ragflow-logo';
 import RetrievalDocuments from './retrieval-documents';
 
 const formatMetadataValue = (value: unknown) => {
@@ -62,11 +61,9 @@ export default function SearchingView({
   handleSearch,
   pageSize,
   handleTopChange,
-  showEmbedLogo,
 }: ISearchReturnProps & {
   setIsSearching?: Dispatch<SetStateAction<boolean>>;
   searchData: ISearchAppDetailProps;
-  showEmbedLogo?: boolean;
 }) {
   const { t } = useTranslation();
 
@@ -89,10 +86,9 @@ export default function SearchingView({
           'relative z-10 px-8 pt-8 flex  text-transparent justify-start items-start w-full h-full',
         )}
       >
-        <RAGFlowLogo showEmbedIcon={showEmbedLogo}></RAGFlowLogo>
         <div
           className={cn(
-            ' rounded-lg text-primary text-xl sticky flex flex-col justify-center  transform scale-100 ml-16 h-full flex-1 3xl:w-2/3 3xl:flex-none',
+            'rounded-lg text-primary text-xl sticky flex flex-col justify-center transform scale-100 h-full w-full max-w-[1680px] mx-auto',
           )}
         >
           <div className={cn('flex flex-col justify-start items-start w-full')}>

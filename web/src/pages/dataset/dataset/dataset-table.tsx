@@ -127,7 +127,7 @@ export function DatasetTable({
   });
 
   return (
-    <div className="w-full flex flex-col flex-1 min-h-0">
+    <div className="w-full h-full min-h-0 flex flex-col">
       <Table rootClassName="flex-1 min-h-0 overflow-auto">
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -176,7 +176,7 @@ export function DatasetTable({
           )}
         </TableBody>
       </Table>
-      <div className="flex items-center justify-end  py-4 absolute bottom-3 right-3">
+      <div className="flex shrink-0 items-center justify-end py-4">
         <div className="space-x-2">
           <RAGFlowPagination
             {...pick(pagination, 'current', 'pageSize')}
