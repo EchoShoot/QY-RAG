@@ -18,7 +18,7 @@ import { RouterProvider } from 'react-router';
 import { ThemeProvider } from './components/theme-provider';
 import { TooltipProvider } from './components/ui/tooltip';
 import { ThemeEnum } from './constants/common';
-import { routers } from './routes';
+import { routers, RouteTransitionOverlayHost } from './routes';
 import storage from './utils/authorization-util';
 
 import 'react-photo-view/dist/react-photo-view.css';
@@ -108,6 +108,7 @@ export default function AppContainer() {
   return (
     <RootProvider>
       <RouterProviderWrapper router={routers} />
+      <RouteTransitionOverlayHost />
     </RootProvider>
   );
 }

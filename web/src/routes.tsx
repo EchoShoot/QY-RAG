@@ -1,4 +1,4 @@
-import { lazy, memo, Suspense } from 'react';
+import { memo, useEffect, useLayoutEffect, useState } from 'react';
 import {
   createBrowserRouter,
   Navigate,
@@ -76,39 +76,245 @@ export enum Routes {
   AdminMonitoring = `${Admin}/monitoring`,
 }
 
-const defaultRouteFallback = (
-  <div className="route-loading-shell" aria-label="Loading page">
+const RouteLoadingOverlay = ({ leaving = false }: { leaving?: boolean }) => (
+  <div
+    className={`route-loading-shell${leaving ? ' is-leaving' : ''}`}
+    aria-label="Loading page"
+  >
     <div className="route-loading-spinner" aria-hidden="true" />
   </div>
 );
 
+const ROUTE_OVERLAY_MIN_DURATION = 360;
+const ROUTE_OVERLAY_REVEAL_DELAY = 80;
+const ROUTE_OVERLAY_DISMISS_DURATION = 240;
+const ROUTE_OVERLAY_MAX_DURATION = 3000;
+
+type RouteOverlayPhase = 'visible' | 'leaving' | 'hidden';
+
+const activeRouteLoadTokens = new Set<symbol>();
+const routeOverlayListeners = new Set<() => void>();
+let routeOverlayPhase: RouteOverlayPhase = 'hidden';
+let routeOverlayStartedAt = 0;
+let routeOverlayMaxTimer: number | undefined;
+let routeOverlayLeaveTimer: number | undefined;
+let routeOverlayHideTimer: number | undefined;
+
+const notifyRouteOverlayListeners = () => {
+  routeOverlayListeners.forEach((listener) => listener());
+};
+
+const setRouteOverlayPhase = (phase: RouteOverlayPhase) => {
+  if (routeOverlayPhase === phase) return;
+  routeOverlayPhase = phase;
+  notifyRouteOverlayListeners();
+};
+
+const clearRouteOverlayTimers = () => {
+  window.clearTimeout(routeOverlayMaxTimer);
+  window.clearTimeout(routeOverlayLeaveTimer);
+  window.clearTimeout(routeOverlayHideTimer);
+  routeOverlayMaxTimer = undefined;
+  routeOverlayLeaveTimer = undefined;
+  routeOverlayHideTimer = undefined;
+};
+
+const clearRouteOverlayDismissTimers = () => {
+  window.clearTimeout(routeOverlayLeaveTimer);
+  window.clearTimeout(routeOverlayHideTimer);
+  routeOverlayLeaveTimer = undefined;
+  routeOverlayHideTimer = undefined;
+};
+
+const dismissRouteOverlay = () => {
+  if (routeOverlayPhase === 'hidden' || routeOverlayPhase === 'leaving') return;
+
+  setRouteOverlayPhase('leaving');
+  window.clearTimeout(routeOverlayHideTimer);
+  routeOverlayHideTimer = window.setTimeout(() => {
+    setRouteOverlayPhase('hidden');
+  }, ROUTE_OVERLAY_DISMISS_DURATION);
+};
+
+const scheduleRouteOverlayDismiss = () => {
+  window.clearTimeout(routeOverlayLeaveTimer);
+
+  const elapsed = performance.now() - routeOverlayStartedAt;
+  const remaining = Math.max(0, ROUTE_OVERLAY_MIN_DURATION - elapsed);
+
+  routeOverlayLeaveTimer = window.setTimeout(() => {
+    if (activeRouteLoadTokens.size === 0) {
+      dismissRouteOverlay();
+    }
+  }, remaining);
+};
+
+const beginRouteOverlay = () => {
+  const token = Symbol('route-load');
+  activeRouteLoadTokens.add(token);
+
+  if (routeOverlayPhase !== 'visible') {
+    clearRouteOverlayTimers();
+    routeOverlayStartedAt = performance.now();
+    setRouteOverlayPhase('visible');
+    routeOverlayMaxTimer = window.setTimeout(() => {
+      dismissRouteOverlay();
+    }, ROUTE_OVERLAY_MAX_DURATION);
+  } else {
+    clearRouteOverlayDismissTimers();
+  }
+
+  return token;
+};
+
+const finishRouteOverlay = (token: symbol) => {
+  if (!activeRouteLoadTokens.delete(token)) return;
+
+  if (activeRouteLoadTokens.size === 0) {
+    scheduleRouteOverlayDismiss();
+  }
+};
+
+export const RouteTransitionOverlayHost = () => {
+  const [phase, setPhase] = useState(routeOverlayPhase);
+
+  useLayoutEffect(() => {
+    const listener = () => setPhase(routeOverlayPhase);
+    routeOverlayListeners.add(listener);
+    return () => {
+      routeOverlayListeners.delete(listener);
+    };
+  }, []);
+
+  if (phase === 'hidden') return null;
+
+  return <RouteLoadingOverlay leaving={phase === 'leaving'} />;
+};
+
+type LazyRouteImporter = () => Promise<{
+  default: React.ComponentType<any>;
+}>;
+
+const loadedRouteCache = new WeakMap<
+  LazyRouteImporter,
+  React.ComponentType<any>
+>();
+const loadingRouteCache = new WeakMap<
+  LazyRouteImporter,
+  Promise<React.ComponentType<any>>
+>();
+
 type LazyRouteConfig = Omit<RouteObject, 'Component' | 'children'> & {
-  Component?: () => Promise<{ default: React.ComponentType<any> }>;
+  Component?: LazyRouteImporter;
   children?: LazyRouteConfig[];
 };
 
-const withLazyRoute = (
-  importer: () => Promise<{ default: React.ComponentType<any> }>,
-  fallback: React.ReactNode = defaultRouteFallback,
-  animate = true,
-) => {
-  const LazyComponent = lazy(importer);
-  const Wrapped: React.FC<any> = (props) => (
-    <Suspense fallback={fallback}>
-      <div
-        className={
-          animate ? 'route-enter size-full min-h-0' : 'size-full min-h-0'
+const loadRouteComponent = (importer: LazyRouteImporter) => {
+  const loaded = loadedRouteCache.get(importer);
+  if (loaded) return Promise.resolve(loaded);
+
+  const existing = loadingRouteCache.get(importer);
+  if (existing) return existing;
+
+  const promise = importer().then((module) => {
+    loadedRouteCache.set(importer, module.default);
+    loadingRouteCache.delete(importer);
+    return module.default;
+  });
+  loadingRouteCache.set(importer, promise);
+  return promise;
+};
+
+const RouteLoadBoundary = ({
+  animate,
+  importer,
+  routeProps,
+}: {
+  animate: boolean;
+  importer: LazyRouteImporter;
+  routeProps: Record<string, unknown>;
+}) => {
+  const [RouteComponent, setRouteComponent] =
+    useState<React.ComponentType<any> | null>(() => {
+      return loadedRouteCache.get(importer) ?? null;
+    });
+  const [routeError, setRouteError] = useState<unknown>(null);
+
+  useEffect(() => {
+    if (loadedRouteCache.get(importer)) return;
+
+    let active = true;
+    let overlayToken: symbol | null = beginRouteOverlay();
+    const timers = new Set<number>();
+
+    const scheduleTimer = (callback: () => void, delay: number) => {
+      const timer = window.setTimeout(() => {
+        timers.delete(timer);
+        callback();
+      }, delay);
+      timers.add(timer);
+      return timer;
+    };
+
+    loadRouteComponent(importer)
+      .then((Component) => {
+        if (!active) return;
+
+        setRouteComponent(() => Component);
+        window.requestAnimationFrame(() => {
+          scheduleTimer(() => {
+            if (!active || !overlayToken) return;
+            finishRouteOverlay(overlayToken);
+            overlayToken = null;
+          }, ROUTE_OVERLAY_REVEAL_DELAY);
+        });
+      })
+      .catch((error) => {
+        if (!active) return;
+        setRouteError(error);
+        if (overlayToken) {
+          finishRouteOverlay(overlayToken);
+          overlayToken = null;
         }
-      >
-        <LazyComponent {...props} />
-      </div>
-    </Suspense>
+      });
+
+    return () => {
+      active = false;
+      timers.forEach((timer) => window.clearTimeout(timer));
+      timers.clear();
+      if (overlayToken) {
+        finishRouteOverlay(overlayToken);
+        overlayToken = null;
+      }
+    };
+  }, [importer]);
+
+  if (routeError) throw routeError;
+
+  return (
+    <>
+      {RouteComponent && (
+        <div
+          className={
+            animate ? 'route-enter size-full min-h-0' : 'size-full min-h-0'
+          }
+        >
+          <RouteComponent {...routeProps} />
+        </div>
+      )}
+    </>
   );
-  Wrapped.displayName = `LazyRoute(${
-    (LazyComponent as unknown as React.ComponentType<any>).displayName ||
-    LazyComponent.name ||
-    'Component'
-  })`;
+};
+
+const withLazyRoute = (importer: LazyRouteImporter, animate = true) => {
+  const Wrapped: React.FC<any> = (props) => (
+    <RouteLoadBoundary
+      animate={animate}
+      importer={importer}
+      routeProps={props}
+    />
+  );
+  Wrapped.displayName = 'LazyRoute';
   return process.env.NODE_ENV === 'development' ? Wrapped : memo(Wrapped);
 };
 
@@ -397,11 +603,7 @@ const wrapRoutes = (routes: LazyRouteConfig[]): RouteObject[] =>
     const { Component, children, ...rest } = item;
     const next: RouteObject = { ...rest, errorElement: <FallbackComponent /> };
     if (Component) {
-      next.Component = withLazyRoute(
-        Component,
-        defaultRouteFallback,
-        !children,
-      );
+      next.Component = withLazyRoute(Component, !children);
     }
     if (children) {
       next.children = wrapRoutes(children);
