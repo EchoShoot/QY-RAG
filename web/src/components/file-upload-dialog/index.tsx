@@ -88,7 +88,7 @@ function UploadForm({
   const form = useForm<UploadFormSchemaType>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      parseOnCreation: false,
+      parseOnCreation: true,
       fileList: [],
       tableColumnMode: 'auto',
       tableColumnRoles: {},
