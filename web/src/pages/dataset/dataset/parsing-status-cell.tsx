@@ -17,7 +17,7 @@ import { IDocumentInfo } from '@/interfaces/database/document';
 import { CircleX } from 'lucide-react';
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { DocumentType, RunningStatus } from './constant';
+import { DocumentType, RunningStatus, RunningStatusOld } from './constant';
 import { ParsingCard } from './parsing-card';
 import { ReparseDialog } from './reparse-dialog';
 import { UseChangeDocumentParserShowType } from './use-change-document-parser';
@@ -27,9 +27,7 @@ const IconMap = {
   [RunningStatus.UNSTART]: (
     <IconFontFill name="play" className="text-accent-primary size-[1em]" />
   ),
-  [RunningStatus.RUNNING]: (
-    <CircleX color="rgba(var(--state-error))" className="size-[1em]" />
-  ),
+  [RunningStatus.RUNNING]: <CircleX className="size-[1em] text-state-error" />,
   [RunningStatus.CANCEL]: (
     <IconFontFill name="reparse" className="text-accent-primary" />
   ),
@@ -42,6 +40,30 @@ const IconMap = {
   [RunningStatus.SCHEDULE]: (
     <IconFontFill name="reparse" className="text-accent-primary" />
   ),
+  [RunningStatusOld.UNSTART]: (
+    <IconFontFill name="play" className="text-accent-primary size-[1em]" />
+  ),
+  [RunningStatusOld.RUNNING]: (
+    <CircleX className="size-[1em] text-state-error" />
+  ),
+  [RunningStatusOld.CANCEL]: (
+    <IconFontFill name="reparse" className="text-accent-primary" />
+  ),
+  [RunningStatusOld.DONE]: (
+    <IconFontFill name="reparse" className="text-accent-primary" />
+  ),
+  [RunningStatusOld.FAIL]: (
+    <IconFontFill name="reparse" className="text-accent-primary" />
+  ),
+  [RunningStatusOld.SCHEDULE]: (
+    <IconFontFill name="reparse" className="text-accent-primary" />
+  ),
+  0: <IconFontFill name="play" className="text-accent-primary size-[1em]" />,
+  1: <CircleX className="size-[1em] text-state-error" />,
+  2: <IconFontFill name="reparse" className="text-accent-primary" />,
+  3: <IconFontFill name="reparse" className="text-accent-primary" />,
+  4: <IconFontFill name="reparse" className="text-accent-primary" />,
+  5: <IconFontFill name="reparse" className="text-accent-primary" />,
 };
 
 const ParseStatusStateMap = {
@@ -51,6 +73,18 @@ const ParseStatusStateMap = {
   [RunningStatus.DONE]: 'success',
   [RunningStatus.FAIL]: 'fail',
   [RunningStatus.SCHEDULE]: 'running',
+  [RunningStatusOld.UNSTART]: 'unstart',
+  [RunningStatusOld.RUNNING]: 'running',
+  [RunningStatusOld.CANCEL]: 'cancel',
+  [RunningStatusOld.DONE]: 'success',
+  [RunningStatusOld.FAIL]: 'fail',
+  [RunningStatusOld.SCHEDULE]: 'running',
+  0: 'unstart',
+  1: 'running',
+  2: 'cancel',
+  3: 'success',
+  4: 'fail',
+  5: 'running',
 } as const;
 
 export function ParseDropdownButton({

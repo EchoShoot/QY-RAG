@@ -2,19 +2,21 @@ import { Button } from '@/components/ui/button';
 import { IDocumentInfo } from '@/interfaces/database/document';
 import { useTranslation } from 'react-i18next';
 import reactStringReplace from 'react-string-replace';
-import { RunningStatus, RunningStatusMap } from './constant';
+import { RunningStatus, RunningStatusMap, RunningStatusOld } from './constant';
 
 interface IProps {
   record: IDocumentInfo;
   handleShowLog?: (record: IDocumentInfo) => void;
 }
 
-function Dot({ run }: { run: RunningStatus }) {
-  const runningStatus = RunningStatusMap[run];
+function Dot({ run }: { run: RunningStatus | RunningStatusOld | number }) {
+  const runningStatus = RunningStatusMap[String(run)];
   return (
     <span
-      className={'size-2.5 inline-block rounded-full'}
-      style={{ backgroundColor: runningStatus.color }}
+      className={'size-1 inline-block rounded'}
+      style={{
+        backgroundColor: runningStatus?.color || 'var(--text-disabled)',
+      }}
     ></span>
   );
 }

@@ -1,9 +1,12 @@
-import { RunningStatus } from '@/constants/knowledge';
+import { RunningStatus, RunningStatusOld } from '@/constants/knowledge';
 
-export const RunningStatusMap = {
+export const RunningStatusMap: Record<
+  string,
+  { label: string; color: string }
+> = {
   [RunningStatus.UNSTART]: {
     label: 'UNSTART',
-    color: 'rgba(var(--accent-primary))',
+    color: 'rgb(var(--accent-primary))',
   },
   [RunningStatus.RUNNING]: {
     label: 'Parsing',
@@ -11,13 +14,38 @@ export const RunningStatusMap = {
   },
   [RunningStatus.CANCEL]: {
     label: 'CANCEL',
-    color: 'rgba(var(--state-warning))',
+    color: 'rgb(250, 173, 20)',
   },
   [RunningStatus.DONE]: {
     label: 'SUCCESS',
-    color: 'rgba(var(--state-success))',
+    color: 'rgb(59, 160, 92)',
   },
-  [RunningStatus.FAIL]: { label: 'FAIL', color: 'rgba(var(--state-error))' },
+  [RunningStatus.FAIL]: { label: 'FAIL', color: 'rgb(216, 73, 75)' },
+  [RunningStatus.SCHEDULE]: {
+    label: 'SCHEDULE',
+    color: 'rgb(var(--accent-primary))',
+  },
+  [RunningStatusOld.UNSTART]: {
+    label: 'UNSTART',
+    color: 'rgb(var(--accent-primary))',
+  },
+  [RunningStatusOld.RUNNING]: {
+    label: 'Parsing',
+    color: 'var(--team-member)',
+  },
+  [RunningStatusOld.CANCEL]: {
+    label: 'CANCEL',
+    color: 'rgb(250, 173, 20)',
+  },
+  [RunningStatusOld.DONE]: {
+    label: 'SUCCESS',
+    color: 'rgb(59, 160, 92)',
+  },
+  [RunningStatusOld.FAIL]: { label: 'FAIL', color: 'rgb(216, 73, 75)' },
+  [RunningStatusOld.SCHEDULE]: {
+    label: 'SCHEDULE',
+    color: 'rgb(var(--accent-primary))',
+  },
 };
 
 export * from '@/constants/knowledge';

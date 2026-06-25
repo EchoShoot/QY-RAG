@@ -21,6 +21,9 @@ npm run lint       # ESLint
 npm run test       # Jest tests
 ```
 
+### Local Verification Environment
+This workspace is under WSL. If WSL does not have `node`/`npm`, and Windows-bundled Node or pnpm cannot resolve the WSL `node_modules`/pnpm symlink layout, do not keep fighting the toolchain. Tell the user which verification command is needed and ask them to run it locally. The user has explicitly offered to help with this.
+
 ## Development Conventions
 
 ### CSS and Layout Debugging
